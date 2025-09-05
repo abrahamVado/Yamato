@@ -13,5 +13,9 @@ Route::prefix('v1')->group(function () {
 
     Route::middleware('auth:sanctum')->group(function () {
         Route::get('/me', [MeController::class, 'show']);
+        Route::apiResource('teams', TeamController::class);
+
     });
 });
+
+

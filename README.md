@@ -2,46 +2,28 @@
 
 This package contains a ready-to-use multi-tenant configuration for Laravel 12+ using **Spatie Laravel Permission** with **teams/tenants support**.
 ```mermaid
-flowchart TB
-  subgraph Client[Client/SPA]
-    UI[SPA Pages]
-  end
 
-  subgraph Edge[Edge / Web]
-    Nginx
-    PHPFPM
-  end
+sequenceDiagram
+  participant SPA as SPA
+  participant API as Laravel API
+  participant DB as DB
+  participant Mail as Mailer
 
-  subgraph App[Laravel App]
-    Controllers
-    Middleware
-    Policies
-    Services
-    Jobs
-    Events
-  end
+  Note over SPA,API: Register
+  SPA->>API: POST /api/auth/register {name,email,pw}
+  API->>DB: create user (status=unverified)
+  API->>Mail: send verification link (token)
+  API-->>SPA: {pendingVerification:true}
 
-  subgraph Packages[Packages]
-    Spatie[spatie/laravel-permission]
-  end
+  Note over SPA,API: Verify Email
+  SPA->>API: POST /api/auth/email/verify {token,email}
+  API->>DB: mark user email_verified_at=now
+  API-->>SPA: {}
 
-  subgraph Data[Storage]
-    DB[(PostgreSQL/MySQL)]
-    Cache[(Redis)]
-    Queue[(Redis/SQS)]
-  end
-
-  subgraph Mail[Mail]
-    Mailer[Mail Driver]
-  end
-
-  UI -->|HTTP JSON + X-Tenant| Nginx --> PHPFPM --> Middleware --> Controllers
-  Middleware --> Services --> DB
-  Services --> Events --> Jobs --> Queue
-  Jobs --> Mailer
-  Packages --- App
-  Controllers --> Policies
-  Services --> Cache
+  Note over SPA,API: Login
+  SPA->>API: POST /api/auth/login {email,pw}
+  API->>DB: check credentials + tenant scope
+  API-->>SPA: {token,user}
 ```
 
 ## 📂 Included Files
@@ -153,5 +135,47 @@ $user->assignRole('admin'); // applies to resolved tenant
 - Choose **global middleware** if your entire app is tenant-scoped.
 
 ---
+```mermaid
 
+flowchart TB
+  subgraph Client[Client/SPA]
+    UI[SPA Pages]
+  end
+
+  subgraph Edge[Edge / Web]
+    Nginx
+    PHPFPM
+  end
+
+  subgraph App[Laravel App]
+    Controllers
+    Middleware
+    Policies
+    Services
+    Jobs
+    Events
+  end
+
+  subgraph Packages[Packages]
+    Spatie[spatie/laravel-permission]
+  end
+
+  subgraph Data[Storage]
+    DB[(PostgreSQL/MySQL)]
+    Cache[(Redis)]
+    Queue[(Redis/SQS)]
+  end
+
+  subgraph Mail[Mail]
+    Mailer[Mail Driver]
+  end
+
+  UI -->|HTTP JSON + X-Tenant| Nginx --> PHPFPM --> Middleware --> Controllers
+  Middleware --> Services --> DB
+  Services --> Events --> Jobs --> Queue
+  Jobs --> Mailer
+  Packages --- App
+  Controllers --> Policies
+  Services --> Cache
+```
 Happy coding 🚀

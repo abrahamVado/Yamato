@@ -1,6 +1,48 @@
 # Laravel Multi-Tenant Setup (Spatie Permissions + Tenant Middleware)
 
 This package contains a ready-to-use multi-tenant configuration for Laravel 12+ using **Spatie Laravel Permission** with **teams/tenants support**.
+```mermaid
+flowchart TB
+  subgraph Client[Client/SPA]
+    UI[SPA Pages]
+  end
+
+  subgraph Edge[Edge / Web]
+    Nginx
+    PHPFPM
+  end
+
+  subgraph App[Laravel App]
+    Controllers
+    Middleware
+    Policies
+    Services
+    Jobs
+    Events
+  end
+
+  subgraph Packages[Packages]
+    Spatie[spatie/laravel-permission]
+  end
+
+  subgraph Data[Storage]
+    DB[(PostgreSQL/MySQL)]
+    Cache[(Redis)]
+    Queue[(Redis/SQS)]
+  end
+
+  subgraph Mail[Mail]
+    Mailer[Mail Driver]
+  end
+
+  UI -->|HTTP JSON + X-Tenant| Nginx --> PHPFPM --> Middleware --> Controllers
+  Middleware --> Services --> DB
+  Services --> Events --> Jobs --> Queue
+  Jobs --> Mailer
+  Packages --- App
+  Controllers --> Policies
+  Services --> Cache
+```
 
 ## 📂 Included Files
 

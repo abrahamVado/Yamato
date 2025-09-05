@@ -2,6 +2,25 @@
 
 This README tracks the **steps to build the public-facing frontend flows** for Yamato.
 
+### Component Communication
+
+```mermaid
+sequenceDiagram
+  participant Page
+  participant Bus
+  participant Effect
+  participant API
+  participant State
+
+  Page->>Bus: auth.login.request {email,pw}
+  Bus->>Effect: Deliver event
+  Effect->>API: POST /api/auth/login
+  API-->>Effect: {user,token}
+  Effect->>Bus: auth.login.success
+  Bus->>State: Update auth
+  State->>Page: Rerender with user info
+```
+
 ---
 
 ## 📖 Overview
@@ -158,25 +177,6 @@ flowchart TD
   H --> I[Effects Layer Calls API]
   I --> J[Update Global State]
   J --> K[Re-render UI]
-```
-
-### Component Communication
-
-```mermaid
-sequenceDiagram
-  participant Page
-  participant Bus
-  participant Effect
-  participant API
-  participant State
-
-  Page->>Bus: auth.login.request {email,pw}
-  Bus->>Effect: Deliver event
-  Effect->>API: POST /api/auth/login
-  API-->>Effect: {user,token}
-  Effect->>Bus: auth.login.success
-  Bus->>State: Update auth
-  State->>Page: Rerender with user info
 ```
 
 ---

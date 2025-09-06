@@ -1,0 +1,28 @@
+@use "sass:map";
+
+@function bp-val($key) {
+  @return map.get($breakpoints, $key);
+}
+
+@mixin up($key) {
+  @media (min-width: bp-val($key)) { @content; }
+}
+
+@mixin down($key) {
+  @media (max-width: bp-val($key)) { @content; }
+}
+
+@mixin clamp-type($min, $max, $vw-min: 320, $vw-max: 1280) {
+  font-size: clamp(#{$min}, calc(#{$min} + (#{$max} - #{$min}) * ((100vw - #{$vw-min}px) / (#{$vw-max} - #{$vw-min}))), #{$max});
+}
+
+@mixin card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+@function space($n) {
+  @return map.get($space, $n);
+}

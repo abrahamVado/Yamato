@@ -1,0 +1,5 @@
+.yamato .cannon {
+  @include card;
+  padding: space(4);
+  color: var(--text);
+}

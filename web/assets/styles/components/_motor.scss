@@ -1,0 +1,5 @@
+.yamato .motor {
+  @include card;
+  padding: space(4);
+  background: var(--panel);
+}

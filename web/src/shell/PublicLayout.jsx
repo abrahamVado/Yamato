@@ -3,7 +3,6 @@ import ToastHost from '../components/ToastHost'
 import NetBanner from '../components/NetBanner'
 import { ENV } from '../config/env'
 import { useTenantStore } from '../state/tenant'
-import YamatoLogo from '../../assets/images/yamato-logo.png' // <-- your logo
 
 export default function PublicLayout() {
   const { name } = useTenantStore()

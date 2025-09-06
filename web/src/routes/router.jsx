@@ -1,7 +1,7 @@
 import { createBrowserRouter, Navigate } from 'react-router-dom'
 import PublicLayout from '../shell/PublicLayout'
 import AppLayout from '../shell/AppLayout'
-import Landing from '../pages/public/Landing'
+import Landing from '../pages/public/AppPublicMulti'
 import Login from '../pages/public/Login'
 import Register from '../pages/public/Register'
 import VerifyEmail from '../pages/public/VerifyEmail'

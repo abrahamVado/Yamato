@@ -1,14 +1,15 @@
-@import "tokens";
-@import "mixins";
-@import "reset";
-@import "components/cannon";
-@import "components/motor";
-@import "components/pipes";
-
-.yamato {
-  background: var(--bg);
-  color: var(--text);
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-}
+/* Yamato SCSS entry (Sass Modules, no @import) */
+@use "./tokens";
+@use "./reset";
+@use "./base/typography";
+@use "./base/utilities";
+@use "./layout/grid" as grid;
+@use "./components/header";
+@use "./components/footer";
+@use "./components/hero";
+@use "./components/buttons";
+@use "./components/cards";
+@use "./components/cannon";
+@use "./components/motor";
+@use "./components/pipes";
+@use "./themes/nocturne";

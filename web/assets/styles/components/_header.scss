@@ -1,0 +1,6 @@
+@use "../mixins" as m;
+
+.yamato {
+  .site-header { @include m.header-base; } // ← replaces @extend .header
+  .site-nav { display: flex; gap: 12px; }
+}

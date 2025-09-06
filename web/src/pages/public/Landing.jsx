@@ -17,6 +17,12 @@ const Logo = () => (
   </div>
 );
 
+const LogoBig = () => (
+  <div style={{display:"grid", placeItems:"center", width:512, height:256, border:"1px dashed var(--line)", borderRadius:12}}>
+    <img src={YamatoLogo} alt="Yamato Logo" style={{maxWidth:"100%", maxHeight:"100%"}} />
+  </div>
+);
+
 export default function AppPublic(){
   const flags = useFlags();
   const [nocturne, setNocturne] = useState(false);
@@ -65,7 +71,7 @@ export default function AppPublic(){
             <p style={{margin:0, color:"var(--muted)"}}>Secure, multi‑tenant SaaS boilerplate with batteries included.</p>
           </div>
           <div style={{display:"grid", placeItems:"center", gap:12}}>
-            <Logo/>
+            <LogoBig/>
             <div style={{display:"flex", gap:12, marginTop:8, flexWrap:"wrap", justifyContent:"center"}}>
               {flags.registerEnabled && <a className="btn solid" href="/register">Create tenant</a>}
               {flags.loginEnabled && <a className="btn" href="/login">Login</a>}

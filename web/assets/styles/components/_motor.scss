@@ -1,5 +1,7 @@
+@use "../mixins" as m;
+
 .yamato .motor {
-  @include card;
-  padding: space(4);
-  background: var(--panel);
+  @include m.card;
+  padding: 12px;
+  &__rpm { color: var(--muted); }
 }

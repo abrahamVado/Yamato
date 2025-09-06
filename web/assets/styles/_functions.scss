@@ -1,0 +1,7 @@
+@use "sass:map";
+@use "./tokens" as t;
+
+@function bp($key)   { @return map.get(t.$breakpoints, $key); }
+@function space($n)  { @return map.get(t.$space, $n); }
+@function radius($k) { @return map.get(t.$radii, $k); }
+@function z($k)      { @return map.get(t.$z, $k); }

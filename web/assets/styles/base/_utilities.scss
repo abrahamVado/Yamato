@@ -1,0 +1,15 @@
+/* web/assets/styles/base/_utilities.scss */
+@use "../mixins" as m;
+
+:where(.yamato) {
+  .container { @include m.container(); }
+
+  .btn         { @include m.button(false); }
+  .btn--solid  { @include m.button(true); }
+  .btn--ghost  { @include m.button(false); }
+
+  .card   { @include m.card; padding: 16px; }
+  .header { @include m.header-base; }  /* replaces extend */
+
+  .hero { padding: 40px 16px; display: grid; gap: 24px; }
+}

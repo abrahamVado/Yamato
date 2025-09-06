@@ -1,0 +1,5 @@
+@use "../mixins" as m;
+
+.yamato .btn { @include m.button(false); }
+.yamato .btn.solid, .yamato .btn--solid { @include m.button(true); }
+.yamato .btn.ghost, .yamato .btn--ghost { @include m.button(false); background: transparent; }

@@ -1,0 +1,3 @@
+@use "../mixins" as m;
+
+.yamato .card { @include m.card; padding: 16px; }

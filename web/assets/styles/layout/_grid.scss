@@ -1,0 +1,8 @@
+:where(.yamato) {
+  .grid { display: grid; gap: 16px; }
+  .grid--responsive { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+  .split { display: grid; gap: 24px; align-items: center; }
+  @media (min-width: 768px) {
+    .split--two { grid-template-columns: 1.1fr 1fr; }
+  }
+}

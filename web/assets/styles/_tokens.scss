@@ -1,3 +1,5 @@
+@use "sass:map";
+
 // Breakpoints (mobile-first)
 $breakpoints: (
   xs:  0,
@@ -7,7 +9,7 @@ $breakpoints: (
   xl:  1280px
 );
 
-// Base scale
+// Spacing scale
 $space: (
   0: 0,
   1: .25rem,
@@ -31,11 +33,12 @@ $radii: (
 $z: (
   base: 0,
   raised: 10,
+  header: 50,
   overlay: 100,
   modal: 1000
 );
 
-// Light theme (default)
+// Default theme tokens (Yamato baseline)
 :root {
   --bg: #0e1013;
   --panel: #12161b;
@@ -49,18 +52,6 @@ $z: (
   --warn: #f6ad55;
   --danger: #f56565;
 
-  --radius: #{map-get($radii, md)};
+  --radius: #{map.get($radii, md)};
   --shadow: 0 10px 24px rgba(0,0,0,.25);
-}
-
-// Nocturne variant
-.yamato.nocturne,
-[data-theme="nocturne"] .yamato {
-  --bg: #0a0c0f;
-  --panel: #0f1318;
-  --card: #12171f;
-  --line: #1e2633;
-  --text: #f1f5f9;
-  --muted: #aab4c0;
-  --brand: #ff5757;
 }

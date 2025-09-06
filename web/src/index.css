@@ -1,68 +1,37 @@
-:root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+:root { --fg:#111827; --bg:#ffffff; --muted:#6b7280; --brand:#3b82f6; --line:#e5e7eb; --panel:#f9fafb; }
+* { box-sizing: border-box; }
+html,body,#root { height: 100%; }
+body { margin:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial; color:var(--fg); background:var(--bg); }
+a { color: var(--brand); text-decoration: none; }
+.container { max-width: 1024px; margin: 0 auto; padding: 16px; }
+.hero { padding: 48px 0; }
+.btn { display:inline-flex; align-items:center; gap:8px; padding:10px 14px; border:1px solid var(--line); border-radius:10px; background:#fff; }
+input, select, button { padding:10px 12px; border:1px solid var(--line); border-radius:10px; }
+label { font-size: 14px; color: var(--muted); }
+form .row { margin: 8px 0; display:flex; flex-direction:column; gap:6px; }
+.table { width:100%; border-collapse: collapse; }
+.table th, .table td { border-bottom:1px solid var(--line); text-align:left; padding:10px 8px; }
+.card { background:#fff; border:1px solid var(--line); border-radius:12px; padding:16px; box-shadow:0 6px 22px rgba(0,0,0,0.04); }
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+/* App layout */
+.app-shell { display:grid; grid-template-columns: 260px 1fr; min-height:100vh; }
+.sidebar { padding: 16px; border-right:1px solid var(--line); background: var(--panel); }
+.sidebar .logo { font-weight:800; }
+.sidebar nav a { display:block; padding:8px 10px; margin:6px 0; border-radius:8px; color:#111; }
+.sidebar nav a.active, .sidebar nav a:hover { background:#fff; border:1px solid var(--line); }
+.app-main { padding: 16px; }
+.app-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:16px; }
+.kpis { display:grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap:12px; }
+.kpis .card { padding:14px; }
 
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
+/* Toasts */
+.toast-host { position: fixed; right: 16px; bottom: 16px; display: grid; gap: 10px; z-index: 9999; }
+.toast { min-width: 240px; max-width: 360px; padding: 10px 12px; border-radius: 10px; border: 1px solid var(--line); background: #fff; box-shadow: 0 8px 24px rgba(0,0,0,.08); color: #111; }
+.toast.success { border-color: #d1fae5; background: #ecfdf5; }
+.toast.error { border-color: #fee2e2; background: #fef2f2; }
+.toast.info { border-color: var(--line); background: #fff; }
+.toast strong { display:block; margin-bottom:4px; }
+.toast .msg { color:#444; font-size:14px; }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
-}
-
-body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
-}
-
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
-}
-
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
-
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
-}
+/* Offline banner */
+.offline-banner { position: fixed; top:0; left:0; right:0; z-index:9998; background:#111827; color:#fff; text-align:center; padding:8px 12px; font-size:14px; }

@@ -1,0 +1,46 @@
+@use "sass:map";
+
+$breakpoints: ( xs:0, sm:480px, md:768px, lg:1024px, xl:1280px );
+
+$space: (
+  0: 0,
+  1: .25rem,
+  2: .5rem,
+  3: .75rem,
+  4: 1rem,
+  5: 1.5rem,
+  6: 2rem,
+  7: 3rem,
+  8: 4rem
+);
+
+$radii: ( sm:.25rem, md:.5rem, lg:1rem, xl:1.5rem, pill:999px );
+$z: ( base:0, raised:10, header:50, overlay:100, modal:1000 );
+
+:root {
+  --bg: #0e1013;
+  --panel: #12161b;
+  --card: #171b22;
+  --line: #273142;
+  --text: #e7edf4;
+  --muted: #9aa7b4;
+  --brand: #6c5ce7;
+
+  --ok: #31c48d;
+  --warn: #f6ad55;
+  --danger: #f56565;
+
+  --radius: #{map.get($radii, md)};
+  --shadow: 0 10px 24px rgba(0,0,0,.25);
+}
+
+.yamato.nocturne,
+[data-theme="nocturne"] .yamato {
+  --bg: #0a0c0f;
+  --panel: #0f1318;
+  --card: #12171f;
+  --line: #1e2633;
+  --text: #f1f5f9;
+  --muted: #aab4c0;
+  --brand: #7c6dff;
+}

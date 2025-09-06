@@ -1,0 +1,116 @@
+@use "./tokens";
+@use "./mixins" as m;
+
+.yamato.bootsland {
+  --grad: linear-gradient(135deg, color-mix(in oklab, var(--brand) 90%, black), color-mix(in oklab, var(--brand) 60%, #6a5acd));
+
+  .bl-header { @include m.header-base;
+    &__row { @include m.container(); display:flex; align-items:center; justify-content:space-between; padding: 10px 0; }
+  }
+  .bl-brand { display:flex; align-items:center; gap:12px; font-weight:700; }
+
+  .bl-nav { position: relative;
+    &__toggle { display:none; }
+    &__links  { display:flex; gap:10px; align-items:center; }
+    @media (max-width: 880px) {
+      &__toggle { display:inline-flex; align-items:center; justify-content:center; height:36px; width:36px; border:1px solid var(--line); border-radius:8px; }
+      &__links { display:none; position:absolute; right:0; top:44px; background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:8px; flex-direction:column; min-width:220px; }
+      &.is-open .bl-nav__links { display:flex; }
+    }
+  }
+
+  .bl-hero { @include m.container(); display:grid; gap:24px; align-items:center; padding: 40px 16px;
+    @media (min-width: 900px){ grid-template-columns: 1.1fr 1fr; }
+    &__copy h1 { font-size: clamp(32px, 6vw, 64px); line-height:1.08; margin: 6px 0; }
+    &__image { width: 100%; border-radius: var(--radius); box-shadow: var(--shadow); border:1px solid var(--line); }
+  }
+
+  .badge { display:inline-grid; place-items:center; height:28px; padding:0 10px; border:1px solid var(--line); border-radius:999px; color:var(--muted); }
+
+  .bl-cta { display:flex; gap:12px; flex-wrap:wrap; }
+  .bl-kpis { display:flex; gap:16px; margin-top:10px; color: var(--muted);
+    b { font-size: clamp(18px, 5vw, 28px); color: var(--text); display:block; }
+    small { display:block; }
+  }
+
+  .bl-brands { border-block: 1px solid var(--line); background: color-mix(in oklab, var(--bg) 94%, transparent); padding: 14px 0;
+    .brands { display:grid; grid-template-columns: repeat(5, 1fr); gap: 16px; align-items:center; opacity:.85;
+      @media (max-width: 700px){ grid-template-columns: repeat(3, 1fr); }
+      img { filter: grayscale(1) contrast(.9); height: 26px; justify-self:center; }
+    }
+  }
+
+  .section-head { text-align:center; margin-bottom: 10px; }
+
+  .bl-features { padding: 32px 16px;
+    .feature { display:grid; gap:8px; }
+    .feature__icon { font-size: 28px; }
+  }
+
+  .bl-showcase { padding: 32px 16px; display:grid; gap:24px; align-items:center;
+    @media (min-width: 900px){ grid-template-columns: 1fr 1.1fr; }
+    .bl-show__image img { width: 100%; border-radius: var(--radius); border:1px solid var(--line); box-shadow: var(--shadow); }
+    .bl-checks { margin: 8px 0 16px; display:grid; gap:8px; }
+  }
+
+  .bl-pricing { padding: 32px 16px;
+    .plan { text-align:left; }
+    .plan__price { font-size: clamp(22px, 5vw, 36px); margin: 6px 0 8px; }
+    .plan__list { display:grid; gap:6px; margin: 8px 0 12px; padding-left: 18px; }
+    .plan--featured { outline: 2px solid var(--brand); }
+  }
+
+  .bl-faq { padding: 32px 16px;
+    details { border:1px solid var(--line); border-radius: var(--radius); padding: 10px 12px; background: var(--card); }
+    details + details { margin-top: 10px; }
+    summary { cursor: pointer; }
+  }
+
+  .bl-cta-band { padding: 40px 0; background: var(--grad); border-block: 1px solid var(--line);
+    .container { @include m.container(); text-align:center; }
+    h2 { margin: 0 0 6px; }
+  }
+
+  .bl-footer { @include m.container(); display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap; padding: 18px 0; }
+}
+
+/* ── Waves (section separators) ─────────────────────────────── */
+.yamato.bootsland {
+  .wave { display:block; width:100%; height:96px; line-height:0; color: var(--panel); }
+  .wave svg { display:block; width:100%; height:100%; }
+  .wave--flipY { transform: scaleY(-1); }
+  .wave--section { margin-top: -1px; } /* hide seam */
+
+  /* Make the brands band match the wave color we use there */
+  .bl-brands { background: var(--panel); }
+}
+/* Waves (section separators) */
+.yamato.bootsland {
+  .wave { display:block; width:100%; height:96px; line-height:0; color: var(--panel); }
+  .wave svg { display:block; width:100%; height:100%; }
+  .wave--flipY { transform: scaleY(-1); }
+  .wave--section { margin-top: -1px; } /* hide seam */
+  .bl-brands { background: var(--panel); } /* match wave color used before brands */
+}
+/* ── Waves (section separators) ─────────────────────────────── */
+.yamato.bootsland {
+  /* base */
+  .wave { display:block; width:100%; height:96px; line-height:0; color: var(--panel); }
+  .wave svg { display:block; width:100%; height:100%; }
+  .wave--flipY { transform: scaleY(-1); }
+  .wave--section { margin-top: -1px; } /* hide seam */
+
+  /* quick color utilities (so you don’t need inline styles) */
+  .wave--bg     { color: var(--bg); }
+  .wave--panel  { color: var(--panel); }
+  .wave--brand  { color: var(--brand); }
+
+  /* DDD: drifting animation (subtle) */
+  @keyframes wave-drift { from { transform: translateX(0); } to { transform: translateX(-2%); } }
+  .wave--drift svg { animation: wave-drift 16s linear infinite; }
+  .wave--slow  svg { animation-duration: 28s; opacity: .75; }
+  .wave--fast  svg { animation-duration: 10s; opacity: .6;  }
+
+  /* brand band should match the panel wave we use above it */
+  .bl-brands { background: var(--panel); }
+}

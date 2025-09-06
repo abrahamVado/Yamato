@@ -1,13 +1,9 @@
 import React from 'react'
-import ReactDOM from 'react-dom/client'
-import App from './App'
-import './index.css'
-import { bootstrap } from './app-bootstrap'
+import { createRoot } from 'react-dom/client'
+import App from './App.jsx'
 
-bootstrap()
+// Global styles
+import '@/styles/yamato.scss'
+import '@/styles/bootsland.scss'
 
-ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
-)
+createRoot(document.getElementById('root')).render(<App />)

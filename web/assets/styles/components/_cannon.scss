@@ -1,9 +1,0 @@
-@use "../mixins" as m;
-
-.yamato .cannon {
-  @include m.card;
-  padding: 12px;
-  display: grid; gap: 8px;
-  &__title { font-weight: 700; }
-  &__tube  { height: 8px; background: var(--line); border-radius: 99px; }
-}

@@ -1,0 +1,9 @@
+@use "../mixins" as m;
+:where(.yamato){
+  .container { @include m.container(); }
+  .btn { @include m.button(false); }
+  .btn.solid { @include m.button(true); }
+  .btn.ghost { @include m.button(false); background: transparent; }
+  .card { @include m.card; padding:16px; }
+  .header { @include m.header-base; }
+}

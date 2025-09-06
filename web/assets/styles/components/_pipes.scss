@@ -1,7 +1,0 @@
-@use "../mixins" as m;
-
-.yamato .pipes {
-  @include m.card;
-  padding: 12px;
-  &__line { height: 4px; background: var(--line); border-radius: 99px; }
-}

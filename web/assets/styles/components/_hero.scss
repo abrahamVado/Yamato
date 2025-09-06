@@ -1,7 +1,0 @@
-@use "../mixins" as m;
-
-.yamato .hero-banner { @include m.container(); text-align: center; }
-.yamato .hero-badge {
-  display: inline-grid; place-items: center; height: 28px; padding: 0 10px;
-  border: 1px solid var(--line); border-radius: 999px; color: var(--muted);
-}

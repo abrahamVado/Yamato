@@ -1,24 +1,24 @@
 {
-  "name": "yamato-web",
-  "version": "0.2.0",
+  "name": "yamato-bootsland-web",
+  "version": "0.1.0",
   "private": true,
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview --open"
   },
   "dependencies": {
-    "ky": "^1.10.0",
-    "mitt": "^3.0.1",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "react-router-dom": "^7.8.2",
-    "zustand": "^5.0.8"
+    "react": "18.3.1",
+    "react-dom": "18.3.1"
   },
   "devDependencies": {
-    "@vitejs/plugin-react": "^5.0.2",
-    "sass-embedded": "^1.79.4",
-    "vite": "^7.1.4"
+    "@vitejs/plugin-react": "4.7.0",
+    "sass": "1.77.6",
+    "sass-embedded": "1.92.1",
+    "vite": "7.1.4"
+  },
+  "engines": {
+    "node": ">=20.19.0 || >=22.12.0"
   }
 }

@@ -1,16 +1,22 @@
-# Yamato Web — Full App
+# Yamato Bootsland-style Landing (Vite + React + SCSS Modules)
 
-Public flows + private app (dashboard, users, user edit, config, teams, modules). Multi-tenant aware; event bus for cross-component comms; flags for public pages.
+## Prereqs
+- Node **>= 20.19.0** (or >= 22.12.0)
+- pnpm or npm
 
-## Quick start
+## Install & run
 ```bash
-unzip yamato_web_full.zip -d .
 cd web
-npm i
-cp .env.example .env
-npm run dev
+pnpm i        # or: npm i
+pnpm run dev  # or: npm run dev
 ```
-Open http://localhost:5173
 
-## Auth note
-Login is stubbed: submitting the form sets `authenticated` status locally. Wire real endpoints later (Phase 3).
+Open http://localhost:5173/
+
+## Where things live
+- `src/pages/public/AppPublicBootsland.jsx` — the landing page
+- `src/styles/` — tokens, mixins, base styles, and `bootsland.scss`
+- `public/` — placeholder images (replace with real assets)
+
+## Dark mode
+The layout toggles `.yamato.nocturne` via the button in the header.

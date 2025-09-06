@@ -1,5 +1,6 @@
-import { RouterProvider } from 'react-router-dom'
-import { router } from './routes/router'
-import '@/styles/yamato.scss'
+import React from 'react'
+import AppPublicBootsland from '@/pages/public/AppPublicBootsland.jsx'
 
-export default function App() { return <RouterProvider router={router} /> }
+export default function App(){
+  return <AppPublicBootsland/>
+}

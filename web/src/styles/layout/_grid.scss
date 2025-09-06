@@ -1,0 +1,4 @@
+:where(.yamato){
+  .grid{ display:grid; gap:16px; }
+  .grid--responsive{ grid-template-columns: repeat(auto-fit, minmax(220px,1fr)); }
+}

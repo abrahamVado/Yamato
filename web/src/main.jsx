@@ -6,4 +6,16 @@ import App from './App.jsx'
 import '@/styles/yamato.scss'
 import '@/styles/bootsland.scss'
 
-createRoot(document.getElementById('root')).render(<App />)
+// Providers
+import { ThemeProvider } from '@/providers/ThemeProvider.jsx'
+import { I18nProvider } from '@/providers/I18nProvider.jsx'
+
+createRoot(document.getElementById('root')).render(
+  <React.StrictMode>
+    <ThemeProvider>
+      <I18nProvider defaultLang="en">
+        <App />
+      </I18nProvider>
+    </ThemeProvider>
+  </React.StrictMode>
+)

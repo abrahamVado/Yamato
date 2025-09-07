@@ -1,0 +1,139 @@
+// neon-buttons.scss
+// ——— Theme + sizing tokens ———
+$colors: (
+  purple: #6a4df5,
+  teal:   #75d3df,
+  green:  #22c96f,
+  pink:   #ff577c
+);
+
+$font-stack: system-ui, -apple-system, Segoe UI, Roboto, "Inter", Arial, sans-serif;
+
+.neon-btn {
+  // size tokens via CSS variables (tuned per size modifiers)
+  --h: 52px;        // height
+  --lift: 8px;      // 3D step height
+  --pad-x: 1.2rem;  // horizontal padding
+  --radius: 14px;   // base radius
+  --icon: 20px;     // icon size
+
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .6rem;
+  height: var(--h);
+  padding: 0 var(--pad-x);
+  border: 0;
+  border-radius: var(--radius);
+  cursor: pointer;
+  font: 800 0.95rem/1 $font-stack;
+  letter-spacing: .02em;
+  text-transform: uppercase;
+  color: #fff;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  transition: transform .12s ease, box-shadow .12s ease, filter .12s ease;
+
+  // inner icon/label
+  .neon-btn__icon { width: var(--icon); height: var(--icon); display: inline-grid; place-items: center; }
+  .neon-btn__label { font-weight: 800; }
+
+  // decorative: glossy top and inner rim
+  .neon-btn__shine,
+  .neon-btn__rim { pointer-events: none; position: absolute; inset: 0; border-radius: inherit; }
+
+  // pressed/hover states (generic)
+  &:hover { transform: translateY(-1px); filter: brightness(1.03); }
+  &:active,
+  &[aria-pressed="true"] {
+    transform: translateY(calc(var(--lift) - (var(--lift) * .75)));
+  }
+  &:disabled { opacity: .6; cursor: not-allowed; }
+
+  // ——— size modifiers ———
+  &--sm { --h: 38px; --lift: 6px; --pad-x: 1rem; --radius: 12px; --icon: 18px; font-size: .9rem; }
+  &--md { /* defaults */ }
+  &--lg { --h: 64px; --lift: 10px; --pad-x: 1.6rem; --radius: 18px; --icon: 22px; font-size: 1.05rem; }
+
+  // ——— shape modifiers ———
+  &--pill { --radius: 999px; }
+  &--circle { --radius: 999px; width: var(--h); padding: 0; }
+
+  // “3D base”: a solid step below the button
+  // We use box-shadow for the hard step + a pseudo layer for a soft shadow.
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    z-index: -1;
+    transform: translateY(var(--lift));
+    // color set per theme
+    background: var(--step-bg, #000);
+    box-shadow:
+      0 calc(var(--lift) * .8) calc(var(--lift) * 1.8) rgba(0, 0, 0, .35);
+  }
+
+  // inner rim (subtle bevel) + glossy top
+  .neon-btn__rim {
+    inset: 4px;
+    background:
+      linear-gradient(to bottom,
+        rgba(255,255,255,.20),
+        rgba(255,255,255,0) 40%,
+        rgba(0,0,0,.10) 60%,
+        rgba(0,0,0,.18));
+  }
+  .neon-btn__shine {
+    background:
+      radial-gradient(120% 100% at 50% -10%,
+        rgba(255,255,255,.28) 0%,
+        rgba(255,255,255,0) 55%);
+  }
+
+  // Click/press illusion: shorten the step (by reducing shadow)
+  &:active::after,
+  &[aria-pressed="true"]::after {
+    transform: translateY(calc(var(--lift) * .25));
+    box-shadow:
+      0 calc(var(--lift) * .35) calc(var(--lift) * .9) rgba(0, 0, 0, .35);
+  }
+}
+
+// ——— Color themes ———
+@function step-color($base) {
+  @return mix(#000, $base, 35%); // darker base for the “step”
+}
+
+@mixin neon-theme($name, $base) {
+  .neon-btn--#{$name} {
+    // main face gradient + strong step shadow
+    background: linear-gradient(to bottom, lighten($base, 10%), darken($base, 4%));
+    box-shadow:
+      0 var(--lift) 0 step-color($base),
+      0 calc(var(--lift) * 2.2) calc(var(--lift) * 2.6) rgba(step-color($base), .45);
+
+    // tweak glossy/rim tint per color
+    .neon-btn__rim { box-shadow: inset 0 1px 0 rgba(255,255,255,.25), inset 0 -2px 0 rgba(0,0,0,.18); }
+    .neon-btn__shine { mix-blend-mode: screen; }
+
+    // 3D step color (pseudo element)
+    --step-bg: linear-gradient(to bottom, lighten(step-color($base), 3%), darken(step-color($base), 6%));
+
+    &:focus-visible {
+      outline: none;
+      box-shadow:
+        0 var(--lift) 0 step-color($base),
+        0 calc(var(--lift) * 2.2) calc(var(--lift) * 2.6) rgba(step-color($base), .45),
+        0 0 0 4px rgba(lighten($base, 28%), .55);
+    }
+  }
+}
+
+@each $name, $val in $colors {
+  @include neon-theme($name, $val);
+}
+
+// Optional: make text+icon align nicer when both present
+.neon-btn.has-icon .neon-btn__icon { margin-right: .2rem; }

@@ -6,8 +6,8 @@ import { ThemeToggle } from "@/providers/ThemeProvider.jsx";
 import { useI18n, LangSelect } from "@/providers/I18nProvider.jsx";
 import { scrollToEl, easeOutCubic } from "@/utils/scroll.js";
 import ProgressFloat from "@/components/ProgressFloat.jsx";
-import { NeonButton, IconCheck, IconBell, IconCart, IconVR } 
-  from "@/components/NeonButton.jsx";
+import Button3D from "@/components/Button3D.jsx";
+import { FloppyDiskIcon, ArrowRightIcon, SpinnerBallIcon } from "@phosphor-icons/react";
 
 
 
@@ -84,7 +84,44 @@ export default function AppPublicBootsland() {
         </div>
       </header>
 
-      <main>
+    <div style={{background:"#0f2a66", minHeight:"100vh", padding:"40px", display:"grid", gap:"28px"}}>
+
+      <h2>3D Buttons (React)</h2>
+
+      <div style={{ display: "flex", gap: 16, flexWrap: "wrap" }}>
+<div className="button-flex-scope" style={{ "--gap": ".34em" }}>
+
+
+  <Button3D
+    label="Cargando"
+    variant="sky"
+    loading
+    size="sm"
+    spinnerWeight="bold"
+    style={{ "--icon-mult": 1.50, "--spin-speed": "1.5s" }}
+    disabled
+  />
+
+
+      <Button3D label="Deshabilitado" variant="gray" disabled />
+      <Button3D
+        label="Guardar"
+        variant="emerald"
+        leftIcon={<FloppyDiskIcon size={22} weight="bold" />}
+        style={{ "--icon-mult": 1.40 }}
+      />
+    <Button3D
+      label="Continuar"
+      rightIcon={<ArrowRightIcon size={22} weight="bold" />}
+      style={{ "--icon-mult": 1.40 }}
+      size="lg"
+      variant="purple"
+    />
+</div>
+      </div>
+
+    </div>
+      <main>  
         {/* Section 1: HERO */}
         <section id="home" className="container bl-hero snap-section">
           <div className="bl-hero__copy">
@@ -207,31 +244,6 @@ export default function AppPublicBootsland() {
         </section>
 
 
-    <div style={{background:"#0f2a66", minHeight:"100vh", padding:"40px", display:"grid", gap:"28px"}}>
-      {/* Rectangular */}
-      <div style={{display:"grid", gridTemplateColumns:"repeat(2, 260px)", gap:"28px"}}>
-        <NeonButton color="purple" variant="rect">Button</NeonButton>
-        <NeonButton color="teal" variant="rect">Button</NeonButton>
-        <NeonButton color="green" variant="rect" icon={<IconCart/>}>Button</NeonButton>
-        <NeonButton color="pink" variant="rect" icon={<IconVR/>}>Button</NeonButton>
-      </div>
-
-      {/* Pills */}
-      <div style={{display:"grid", gridTemplateColumns:"repeat(2, 260px)", gap:"28px"}}>
-        <NeonButton color="purple" variant="pill">Button</NeonButton>
-        <NeonButton color="purple" variant="pill" size="sm">Button</NeonButton>
-        <NeonButton color="green" variant="pill" icon={<IconCheck/>}>Button</NeonButton>
-        <NeonButton color="green" variant="pill" size="lg" icon={<IconCheck/>}>Button</NeonButton>
-      </div>
-
-      {/* Circular icon-only */}
-      <div style={{display:"flex", gap:"22px"}}>
-        <NeonButton color="purple" variant="circle" icon={<IconCheck/>} aria-label="Confirm" />
-        <NeonButton color="teal"   variant="circle" icon={<IconBell/>}  aria-label="Notifications" />
-        <NeonButton color="green"  variant="circle" icon={<IconCart/>}  aria-label="Cart" />
-        <NeonButton color="pink"   variant="circle" icon={<IconVR/>}    aria-label="VR" />
-      </div>
-    </div>
 
 
 

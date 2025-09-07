@@ -1,4 +1,104 @@
-:where(.yamato){
-  .grid{ display:grid; gap:16px; }
-  .grid--responsive{ grid-template-columns: repeat(auto-fit, minmax(220px,1fr)); }
+/* Yamato Grid System */
+:where(.yamato) {
+  /* ---------- Base tokens (override per page/section if you want) ---------- */
+  --grid-gap: 1rem;
+  --grid-min: 260px;          /* minimum card width for responsive grids */
+  --grid-max-width: 1200px;   /* container max width */
+
+  /* ------------------------------- Core grid ------------------------------- */
+  .grid {
+    display: grid;
+    gap: var(--gap, var(--grid-gap)); /* per-instance override: style="--gap: 24px" */
+  }
+
+  /* Responsive card grid: auto-fit columns, never smaller than --grid-min */
+  .grid--responsive {
+    grid-template-columns: repeat(auto-fit, minmax(min(var(--grid-min), 100%), 1fr));
+  }
+
+  /* Fixed column counts (handy for toolbars/footers/etc.) */
+  .grid--cols-2 { grid-template-columns: repeat(2, 1fr); }
+  .grid--cols-3 { grid-template-columns: repeat(3, 1fr); }
+  .grid--cols-4 { grid-template-columns: repeat(4, 1fr); }
+
+  /* Alignment helpers */
+  .grid--center  { place-items: center; }
+  .grid--middle  { align-items: center; }
+  .grid--stretch { align-items: stretch; }
+  .grid--start   { align-items: start; }
+  .grid--end     { align-items: end; }
+
+  /* Container wrapper */
+  .grid--container {
+    max-width: var(--grid-max-width);
+    margin-inline: auto;
+    padding-inline: var(--container-pad, 1rem);
+  }
+
+  /* Gap size utilities */
+  .gap-0   { gap: 0; }
+  .gap-xs  { gap: .5rem; }
+  .gap-sm  { gap: .75rem; }
+  .gap-md  { gap: 1rem; }
+  .gap-lg  { gap: 1.5rem; }
+  .gap-xl  { gap: 2rem; }
+
+  /* Item span utilities (for explicit grids) */
+  .span-2 { grid-column: span 2; }
+  .span-3 { grid-column: span 3; }
+  .rowspan-2 { grid-row: span 2; }
+  .rowspan-3 { grid-row: span 3; }
+
+  /* ------------------------------- Masonry ------------------------------- */
+  /* Pure-CSS masonry via multicolumn. Use for irregular-height cards. */
+  .masonry {
+    column-gap: var(--gap, var(--grid-gap));
+    columns: var(--masonry-cols, 1);
+  }
+  /* Responsive column counts; adjust as needed */
+  @media (min-width: 480px)  { .masonry { --masonry-cols: 2; } }
+  @media (min-width: 768px)  { .masonry { --masonry-cols: 3; } }
+  @media (min-width: 1024px) { .masonry { --masonry-cols: 4; } }
+
+  /* Each masonry item must avoid breaking */
+  .masonry > * {
+    break-inside: avoid;
+    margin-bottom: var(--gap, var(--grid-gap));
+  }
+
+  /* ---------------------------- Responsive tweaks ------------------------- */
+  @media (max-width: 480px) {
+    /* Slightly smaller min card width on tiny screens */
+    .grid--responsive { --grid-min: 220px; }
+  }
+
+  /* Optional: dark mode tuning (example) */
+  @media (prefers-color-scheme: dark) {
+    .grid--container {
+      /* demo token — remove if you don’t need it */
+      --container-pad: 1rem;
+    }
+  }
 }
+
+/* --------------------------- Example usage notes ---------------------------
+<div class="yamato">
+  <section class="grid grid--container grid--responsive gap-lg" style="--grid-min: 280px;">
+    <article class="card">...</article>
+    <article class="card">...</article>
+    ...
+  </section>
+
+  <section class="grid grid--container grid--cols-3 gap-md grid--middle">
+    <div>...</div><div>...</div><div>...</div>
+  </section>
+
+  <section class="grid--container">
+    <div class="masonry" style="--gap: 20px; --masonry-cols: 3;">
+      <article class="card">variable height</article>
+      <article class="card">variable height</article>
+      ...
+    </div>
+  </section>
+</div>
+--------------------------------------------------------------------------- */

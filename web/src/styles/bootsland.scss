@@ -1,138 +1,11 @@
 @use "./tokens";
 @use "./mixins" as m;
 
-.yamato.bootsland {
-  --grad: linear-gradient(135deg, color-mix(in oklab, var(--brand) 90%, black), color-mix(in oklab, var(--brand) 60%, #6a5acd));
-
-  .bl-header { @include m.header-base;
-    &__row { @include m.container(); display:flex; align-items:center; justify-content:space-between; padding: 10px 0; }
-  }
-  .bl-brand { display:flex; align-items:center; gap:12px; font-weight:700; }
-
-  .bl-nav { position: relative;
-    &__toggle { display:none; }
-    &__links  { display:flex; gap:10px; align-items:center; }
-    @media (max-width: 880px) {
-      &__toggle { display:inline-flex; align-items:center; justify-content:center; height:36px; width:36px; border:1px solid var(--line); border-radius:8px; }
-      &__links { display:none; position:absolute; right:0; top:44px; background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:8px; flex-direction:column; min-width:220px; }
-      &.is-open .bl-nav__links { display:flex; }
-    }
-  }
-
-  .bl-hero { @include m.container(); display:grid; gap:24px; align-items:center; padding: 40px 16px;
-    @media (min-width: 900px){ grid-template-columns: 1.1fr 1fr; }
-    &__copy h1 { font-size: clamp(32px, 6vw, 64px); line-height:1.08; margin: 6px 0; }
-    &__image { width: 100%; border-radius: var(--radius); box-shadow: var(--shadow); border:1px solid var(--line); }
-  }
-
-  .badge { display:inline-grid; place-items:center; height:28px; padding:0 10px; border:1px solid var(--line); border-radius:999px; color:var(--muted); }
-
-  .bl-cta { display:flex; gap:12px; flex-wrap:wrap; }
-  .bl-kpis { display:flex; gap:16px; margin-top:10px; color: var(--muted);
-    b { font-size: clamp(18px, 5vw, 28px); color: var(--text); display:block; }
-    small { display:block; }
-  }
-
-  .bl-brands { border-block: 1px solid var(--line); background: color-mix(in oklab, var(--bg) 94%, transparent); padding: 14px 0;
-    .brands { display:grid; grid-template-columns: repeat(5, 1fr); gap: 16px; align-items:center; opacity:.85;
-      @media (max-width: 700px){ grid-template-columns: repeat(3, 1fr); }
-      img { filter: grayscale(1) contrast(.9); height: 26px; justify-self:center; }
-    }
-  }
-
-  .section-head { text-align:center; margin-bottom: 10px; }
-
-  .bl-features { padding: 32px 16px;
-    .feature { display:grid; gap:8px; }
-    .feature__icon { font-size: 28px; }
-  }
-
-  .bl-showcase { padding: 32px 16px; display:grid; gap:24px; align-items:center;
-    @media (min-width: 900px){ grid-template-columns: 1fr 1.1fr; }
-    .bl-show__image img { width: 100%; border-radius: var(--radius); border:1px solid var(--line); box-shadow: var(--shadow); }
-    .bl-checks { margin: 8px 0 16px; display:grid; gap:8px; }
-  }
-
-  .bl-pricing { padding: 32px 16px;
-    .plan { text-align:left; }
-    .plan__price { font-size: clamp(22px, 5vw, 36px); margin: 6px 0 8px; }
-    .plan__list { display:grid; gap:6px; margin: 8px 0 12px; padding-left: 18px; }
-    .plan--featured { outline: 2px solid var(--brand); }
-  }
-
-  .bl-faq { padding: 32px 16px;
-    details { border:1px solid var(--line); border-radius: var(--radius); padding: 10px 12px; background: var(--card); }
-    details + details { margin-top: 10px; }
-    summary { cursor: pointer; }
-  }
-
-  .bl-cta-band { padding: 40px 0; background: var(--grad); border-block: 1px solid var(--line);
-    .container { @include m.container(); text-align:center; }
-    h2 { margin: 0 0 6px; }
-  }
-
-  .bl-footer { @include m.container(); display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap; padding: 18px 0; }
-}
-
-/* ── Waves (section separators) ─────────────────────────────── */
-.yamato.bootsland {
-  .wave { display:block; width:100%; height:96px; line-height:0; color: var(--panel); }
-  .wave svg { display:block; width:100%; height:100%; }
-  .wave--flipY { transform: scaleY(-1); }
-  .wave--section { margin-top: -1px; } /* hide seam */
-
-  /* Make the brands band match the wave color we use there */
-  .bl-brands { background: var(--panel); }
-}
-/* Waves (section separators) */
-.yamato.bootsland {
-  .wave { display:block; width:100%; height:96px; line-height:0; color: var(--panel); }
-  .wave svg { display:block; width:100%; height:100%; }
-  .wave--flipY { transform: scaleY(-1); }
-  .wave--section { margin-top: -1px; } /* hide seam */
-  .bl-brands { background: var(--panel); } /* match wave color used before brands */
-}
-/* ── Waves (section separators) ─────────────────────────────── */
-.yamato.bootsland {
-  /* base */
-  .wave { display:block; width:100%; height:96px; line-height:0; color: var(--panel); }
-  .wave svg { display:block; width:100%; height:100%; }
-  .wave--flipY { transform: scaleY(-1); }
-  .wave--section { margin-top: -1px; } /* hide seam */
-
-  /* quick color utilities (so you don’t need inline styles) */
-  .wave--bg     { color: var(--bg); }
-  .wave--panel  { color: var(--panel); }
-  .wave--brand  { color: var(--brand); }
-
-  /* DDD: drifting animation (subtle) */
-  @keyframes wave-drift { from { transform: translateX(0); } to { transform: translateX(-2%); } }
-  .wave--drift svg { animation: wave-drift 16s linear infinite; }
-  .wave--slow  svg { animation-duration: 28s; opacity: .75; }
-  .wave--fast  svg { animation-duration: 10s; opacity: .6;  }
-
-  /* brand band should match the panel wave we use above it */
-  .bl-brands { background: var(--panel); }
-}
-/* Smooth scroll globally */
-html { scroll-behavior: smooth; height: 100%; }
-body { min-height: 100%; margin: 0; }
-
-/* Scroll snap: the main wrapper becomes a snap container */
-.yamato.bootsland main {
-  scroll-snap-type: y proximity;
-}
-
-/* Each section fills viewport and participates in snapping */
-.snap-section {
-  min-height: 100svh;          /* accounts for mobile browser UI */
-  display: grid;
-  align-content: center;       /* center content vertically by default */
-  scroll-snap-align: start;
-}
-
-/* Light/Dark tokens using [data-theme] on <html> */
+/* ============================================================
+   ROOT TOKENS / THEMING
+   ============================================================ */
 :root {
+  /* UI base */
   --bg: #ffffff;
   --text: #0b0b0f;
   --muted: #6b7280;
@@ -140,65 +13,166 @@ body { min-height: 100%; margin: 0; }
   --card: #ffffff;
   --brand: #4f46e5;
   --brand-contrast: #ffffff;
+
+  /* Section colors (3 bands) */
+  --c-home:  #0b1220;
+  --c-build: #0f172a;
+  --c-join:  #0a3b5e;
+}
+:root[data-theme="light"] {
+  --bg: #f9fafb;
+  --text: #0b0b0f;
+  --muted: #6b7280;
+  --line: #e5e7eb;
+  --card: #ffffff;
+  --brand: #4f46e5;
+  --brand-contrast: #ffffff;
+
+  --c-home:  #e8eef7;
+  --c-build: #eef2f7;
+  --c-join:  #e6f2fb;
 }
 
-:root[data-theme="dark"] {
-  --bg: #0d0f14;
-  --text: #e6e7ee;
-  --muted: #9aa1ad;
-  --line: #232633;
-  --card: #111521;
-  --brand: #7c8cff;
-  --brand-contrast: #0a0b10;
-}
+html { scroll-behavior: smooth; height: 100%; }
+body, .yamato.bootsland { background: var(--bg); color: var(--text); }
+body { min-height: 100%; margin: 0; }
 
-body, .yamato.bootsland {
-  background: var(--bg);
-  color: var(--text);
-}
-
-/* Basic elements */
+/* ============================================================
+   GLOBAL LAYOUT / UTILITIES
+   ============================================================ */
 .container { max-width: 1100px; margin: 0 auto; padding: 32px 20px; }
+
 .badge { background: var(--line); padding: 6px 10px; border-radius: 999px; font-size: 12px; }
 .lead { font-size: 18px; color: var(--muted); }
 .muted { color: var(--muted); }
-.card { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 20px; }
-.btn { border: 1px solid var(--line); background: transparent; padding: 8px 14px; border-radius: 12px; text-decoration: none; color: var(--text); }
+.card  { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 20px; }
+.btn   { border: 1px solid var(--line); background: transparent; padding: 8px 14px; border-radius: 12px; text-decoration: none; color: var(--text); }
 .btn.solid { background: var(--brand); color: var(--brand-contrast); border-color: var(--brand); }
 .btn.ghost { background: transparent; }
-
-.bl-header { position: sticky; top: 0; backdrop-filter: saturate(120%) blur(8px); background: color-mix(in oklab, var(--bg) 80%, transparent); border-bottom: 1px solid var(--line); z-index: 10; }
-.bl-header__row { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
 
 .grid { display: grid; gap: 16px; }
 .grid--responsive { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
 
-.plan--featured { outline: 2px solid var(--brand); }
-
-.bl-nav__toggle { display: none; }
-@media (max-width: 900px) {
-  .bl-nav__toggle { display: inline-block; }
-  .bl-nav__links { display: none; }
-  .bl-nav.is-open .bl-nav__links {
-    display: grid; gap: 10px; position: absolute; right: 12px; top: 64px;
-    background: var(--card); border: 1px solid var(--line); padding: 12px; border-radius: 12px;
-  }
-}
-
-/* visually hidden helper */
 .visually-hidden {
   position:absolute; width:1px; height:1px; margin:-1px; padding:0; overflow:hidden;
   clip:rect(0 0 0 0); white-space:nowrap; border:0;
 }
-/* in bootsland.scss */
-.progress-track {
-  position: fixed;
-  top: calc(50% - 140px);      /* must match ProgressFloat trackHeight/2 */
-  right: 52px;                 /* align with ProgressFloat offset + half icon width */
-  width: 2px;
-  height: 280px;               /* must match trackHeight */
-  background: var(--line);
-  border-radius: 2px;
-  z-index: 999;
+
+/* ============================================================
+   APP SHELL
+   ============================================================ */
+.yamato.bootsland {
+
+  /* Gradient utility (used in CTA or accents) */
+  --grad: linear-gradient(
+    135deg,
+    color-mix(in oklab, var(--brand) 90%, black),
+    color-mix(in oklab, var(--brand) 60%, #6a5acd)
+  );
+
+  /* ---------- Header ---------- */
+  .bl-header {
+    @include m.header-base;
+    position: sticky; top: 0; z-index: 10;
+    backdrop-filter: saturate(120%) blur(8px);
+    background: color-mix(in oklab, var(--bg) 80%, transparent);
+    border-bottom: 1px solid var(--line);
+
+    &__row { @include m.container(); display:flex; align-items:center; justify-content:space-between; padding: 10px 0; }
+  }
+  .bl-brand { display:flex; align-items:center; gap:12px; font-weight:700; }
+
+  .bl-nav {
+    position: relative;
+
+    &__toggle { display:none; }
+    &__links  { display:flex; gap:10px; align-items:center; }
+
+    @media (max-width: 880px) {
+      &__toggle {
+        display:inline-flex; align-items:center; justify-content:center;
+        height:36px; width:36px; border:1px solid var(--line); border-radius:8px;
+      }
+      &__links {
+        display:none; position:absolute; right:0; top:44px;
+        background:var(--card); border:1px solid var(--line); border-radius:12px;
+        padding:8px; flex-direction:column; min-width:220px;
+      }
+      &.is-open .bl-nav__links { display:flex; }
+    }
+  }
+
+  /* ---------- Hero ---------- */
+  .bl-hero {
+    .container { @include m.container(); display:grid; gap:24px; align-items:center; padding: 40px 16px; }
+    @media (min-width: 900px){ .container { grid-template-columns: 1.1fr 1fr; } }
+
+    &__copy h1 { font-size: clamp(32px, 6vw, 64px); line-height:1.08; margin: 6px 0; }
+    &__image { width: 100%; border-radius: var(--radius); box-shadow: var(--shadow); border:1px solid var(--line); }
+  }
+
+  .bl-cta { display:flex; gap:12px; flex-wrap:wrap; }
+  .bl-kpis { display:flex; gap:16px; margin-top:10px; color: var(--muted);
+    b { font-size: clamp(18px, 5vw, 28px); color: var(--text); display:block; }
+    small { display:block; }
+  }
+
+  /* ---------- CTA Band (optional gradient) ---------- */
+  .bl-cta-band {
+    padding: 40px 0; background: var(--grad); border-block: 1px solid var(--line);
+    .container { @include m.container(); text-align:center; }
+    h2 { margin: 0 0 6px; }
+  }
+
+  /* ---------- Footer ---------- */
+  .bl-footer { @include m.container(); display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap; padding: 18px 0; }
+
+  /* ======================================================
+     WAVES (section separators) — SINGLE, CLEAN VERSION
+     ====================================================== */
+  .wave { display:block; width:100%; height:96px; line-height:0; color: var(--panel, var(--card)); }
+  .wave svg { display:block; width:100%; height:100%; }
+  .wave--flipY { transform: scaleY(-1); }
+  .wave--section { margin-top: -1px; } /* hide seam */
+
+  /* quick color utilities if you want to theme via class */
+  .wave--bg     { color: var(--bg); }
+  .wave--panel  { color: var(--card); }
+  .wave--brand  { color: var(--brand); }
+
+  /* optional gentle motion */
+  @keyframes wave-drift { from { transform: translateX(0); } to { transform: translateX(-2%); } }
+  .wave--drift svg { animation: wave-drift 16s linear infinite; }
+  .wave--slow  svg { animation-duration: 28s; opacity: .75; }
+  .wave--fast  svg { animation-duration: 10s; opacity: .6;  }
+
+  /* ======================================================
+     FULL-WIDTH SECTION BANDS + CAPS
+     ====================================================== */
+  main { scroll-snap-type: y proximity; }
+
+  .section {
+    position: relative;
+    width: 100%;
+    min-height: 100svh;    /* full viewport height, mobile-safe */
+    display: grid;
+    align-content: center; /* vertical centering by default */
+    padding: clamp(56px, 8vw, 96px) 0;
+    background: var(--section-bg, transparent);
+    scroll-snap-align: start;
+  }
+
+  .section > .container {
+    position: relative;
+    z-index: 1;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+  }
+
+  .section .cap {
+    position: absolute; left: 0; right: 0; pointer-events: none;
+  }
+  .section .cap--top    { top: -1px; }
+  .section .cap--bottom { bottom: -1px; }
 }
-:root[data-theme="dark"] .progress-track { background: #2d3346; }

@@ -44,3 +44,21 @@ $z: ( base:0, raised:10, header:50, overlay:100, modal:1000 );
   --muted: #aab4c0;
   --brand: #7c6dff;
 }
+:root {
+  --c-hero:      #0b1220;
+  --c-features:  #0f172a;
+  --c-showcase:  #0b2e3b;
+  --c-pricing:   #0e1b24;
+  --c-faq:       #0c111a;
+  --c-cta:       #0a3b5e;
+}
+
+/* Optional lighter scheme for light mode */
+:root[data-theme="light"] {
+  --c-hero:      #e8eef7;
+  --c-features:  #eef2f7;
+  --c-showcase:  #e9f3f5;
+  --c-pricing:   #edf1f5;
+  --c-faq:       #f3f5f8;
+  --c-cta:       #e6f2fb;
+}

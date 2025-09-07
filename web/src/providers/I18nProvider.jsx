@@ -17,7 +17,7 @@ const dict = {
     nav_pricing: "Pricing",
     nav_faq: "FAQ",
     nav_login: "Login",
-    nav_get_started: "Get started",
+    nav_get_started: "Sign up",
     features_h2: "Everything you need",
     features_p: "Stop wiring the basics — build your advantage.",
     f1: "Tenants & Billing",

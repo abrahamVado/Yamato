@@ -168,3 +168,75 @@
   /* Optional centering helper for rows of buttons */
   .btn-container { max-width: 60em; margin: 2em auto; text-align: center; }
 }
+/* Pill-style light/dark switch */
+.theme-toggle{
+  --w: 60px;
+  --h: 34px;
+  --pad: 4px;
+  --thumb: calc(var(--h) - 2*var(--pad));
+  --travel: calc(var(--w) - 2*var(--pad) - var(--thumb));
+  --track-light:#e5e7eb;
+  --track-dark:#0f172a;
+
+  position: relative;
+  inline-size: var(--w);
+  block-size: var(--h);
+  border: 0;
+  padding: 0;
+  border-radius: 9999px;
+  background: var(--track-light);
+  box-shadow: inset 0 1px 2px rgba(0,0,0,.15), 0 1px 2px rgba(0,0,0,.08);
+  display: inline-block;
+  vertical-align: middle;
+  cursor: pointer;
+  transition: background .18s ease, box-shadow .18s ease, transform .08s ease;
+}
+
+.theme-toggle.is-dark{ background: var(--track-dark); }
+
+.theme-toggle:focus-visible{
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(99,102,241,.45), inset 0 1px 2px rgba(0,0,0,.15);
+}
+
+/* icons inside the track */
+.theme-toggle__icon{
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 16px;
+  line-height: 1;
+  pointer-events: none;
+  opacity: .95;
+}
+.theme-toggle__icon--sun{ left: calc(var(--pad) + 6px); color: #f59e0b; }
+.theme-toggle__icon--moon{ right: calc(var(--pad) + 6px); color: #cbd5e1; }
+
+.theme-toggle.is-dark  .theme-toggle__icon--sun { opacity: .45; }
+.theme-toggle.is-light .theme-toggle__icon--moon{ opacity: .55; }
+
+/* thumb */
+.theme-toggle__thumb{
+  position: absolute;
+  inset-block-start: var(--pad);
+  inset-inline-start: var(--pad);
+  inline-size: var(--thumb);
+  block-size: var(--thumb);
+  border-radius: 50%;
+  background: #fff;
+  box-shadow:
+    0 2px 6px rgba(0,0,0,.35),
+    inset 0 2px 4px rgba(255,255,255,.75),
+    inset 0 -2px 4px rgba(0,0,0,.15);
+  transform: translateX(0);
+  transition: transform .18s ease;
+}
+.theme-toggle.is-dark .theme-toggle__thumb{ transform: translateX(var(--travel)); }
+
+/* a11y helper */
+.sr-only{
+  position:absolute!important;
+  width:1px;height:1px;
+  padding:0;margin:-1px;border:0;
+  clip:rect(0,0,0,0);clip-path:inset(50%);overflow:hidden;white-space:nowrap;
+}

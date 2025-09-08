@@ -8,6 +8,7 @@ import { scrollToEl, easeOutCubic } from "@/utils/scroll.js";
 
 import Button3D from "@/components/Button3D.jsx";
 import { ArrowRightIcon } from "@phosphor-icons/react";
+import BentoShowcase from "@/components/bento/";
 
 const Logo = ({ size = 120, onClick }) => (
   <a onClick={onClick} style={{ display: "grid", placeItems: "center", width: size, height: size / 2 }}>
@@ -94,75 +95,7 @@ export default function AppPublicBootsland() {
 
         <main>
           {/* ===================== Section 1: HOME (full width) ===================== */}
-          <section
-            id="home"
-            className="bl-hero snap-section section"
-            style={{ "--section-bg": COLORS.home }}
-          >
-            <div className="container">
-              <div className="bl-hero__copy">
-                <span className="badge">{t("badge")}</span>
-                <h1>{t("hero_h1") || "Ship production-ready SaaS, fast."}</h1>
-                <p className="lead">
-                  {t("hero_p") || "Tenants, auth, roles, and a modern React/Vite frontend — tuned for speed and DX."}
-                </p>
-                <div className="bl-cta" style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
-                  <Button3D label={t("start_free") || "Start free"} href="/register" variant="emerald" size="md" rightIcon={<ArrowRightIcon />} />
-                  <Button3D label={t("view_docs") || "View docs"}   href="/docs"     variant="slate"   size="md" />
-                </div>
-                <div className="bl-kpis" aria-label="Key metrics" style={{ display: "flex", gap: 24, marginTop: 12 }}>
-                  <div><b>5 min</b><small> {t("kpi_deploy") || "to first deploy"}</small></div>
-                  <div><b>∞</b><small> {t("kpi_tenants") || "tenants"}</small></div>
-                  <div><b>RBAC</b><small> {t("kpi_rbac") || "built-in"}</small></div>
-                </div>
-              </div>
-              <div className="bl-hero__art">
-                <img src={logo} alt="Yamato logo"/>
-              </div>
-            </div>
-
-            {/* Wave to BUILD */}
-            <div className="cap cap--bottom" aria-hidden>
-              <WaveDivider height={220} color={COLORS.build} />
-            </div>
-          </section>
-
-          {/* ===================== Section 2: BUILD / FEATURES (full width) ===================== */}
-          <section
-            id="build"
-            className="snap-section section"
-            style={{ "--section-bg": COLORS.build }}
-          >
-            <div className="cap cap--top" aria-hidden>
-              <WaveDivider height={160} color={COLORS.build} flip />
-            </div>
-
-            <div className="container">
-              <header className="section-head">
-                <h2>What we’re building</h2>
-                <p className="muted">A multi-tenant SaaS boilerplate you can deploy today and scale tomorrow.</p>
-              </header>
-
-              <div className="grid grid--responsive" style={{ gap: 16 }}>
-                <FeatureCard icon="🏷️" title="Tenants & Billing" body="Isolated tenants with hooks for Stripe/Paddle and usage-based metering." />
-                <FeatureCard icon="🔐" title="Auth & RBAC" body="Email/OAuth login, roles, permissions, and policy helpers." />
-                <FeatureCard icon="⚡" title="Fast Frontend" body="React + Vite + modern UI kit; accessible, responsive, themeable." />
-                <FeatureCard icon="🧪" title="DX & Testing" body="Batteries-included API skeletons, unit/integration test scaffolds." />
-                <FeatureCard icon="🧰" title="DevOps Ready" body="Docker, env templates, CI examples, and infra-ready file tree." />
-                <FeatureCard icon="🚀" title="Extensible" body="Module-friendly architecture; ship features as independent packages." />
-              </div>
-
-              <div style={{ marginTop: 24, display: "flex", gap: 12, flexWrap: "wrap" }}>
-                <Button3D label="Explore the code" href="/docs" variant="slate"   size="md" />
-                <Button3D label="Deploy a demo"     href="/register" variant="emerald" size="md" rightIcon={<ArrowRightIcon />} />
-              </div>
-            </div>
-
-            {/* Wave to JOIN */}
-            <div className="cap cap--bottom" aria-hidden>
-              <WaveDivider height={220} color={COLORS.join} />
-            </div>
-          </section>
+          <BentoShowcase id="home" style={{ "--section-bg": COLORS.home }} />
 
           {/* ===================== Section 3: MISSION / JOIN (full width) ===================== */}
           <section

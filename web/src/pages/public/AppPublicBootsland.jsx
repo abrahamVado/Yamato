@@ -8,12 +8,12 @@ import { scrollToEl, easeOutCubic } from "@/utils/scroll.js";
 
 import Button3D from "@/components/Button3D.jsx";
 import { ArrowRightIcon } from "@phosphor-icons/react";
-import BentoShowcase from "@/components/bento/";
+import BentoShowcase from "@/components/bento/BentoShowcase.jsx";
 
 const Logo = ({ size = 120, onClick }) => (
   <a onClick={onClick} style={{ display: "grid", placeItems: "center", width: size, height: size / 2 }}>
     <img src={logo} alt="Yamato logo" style={{ maxWidth: "100%", maxHeight: "100%" }} />
-  </a>
+  </a>  
 );
 
 const FeatureCard = ({ icon, title, body }) => (
@@ -94,6 +94,35 @@ export default function AppPublicBootsland() {
         </header>
 
         <main>
+
+          {/* ===================== Section 1: HOME (full width) ===================== */}
+          <section
+            id="home"
+            className="bl-hero snap-section section"
+            style={{ "--section-bg": COLORS.home }}
+          >
+            <div className="container">
+              <div className="bl-hero__copy">
+                <span className="badge">{t("badge")}</span>
+                <h1>{t("hero_h1") || "Ship production-ready SaaS, fast."}</h1>
+                <p className="lead">
+                  {t("hero_p") || "Tenants, auth, roles, and a modern React/Vite frontend — tuned for speed and DX."}
+                </p>
+                <div className="bl-cta" style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
+                  <Button3D label={t("start_free") || "Start free"} href="/register" variant="emerald" size="md" rightIcon={<ArrowRightIcon />} />
+                  <Button3D label={t("view_docs") || "View docs"}   href="/docs"     variant="slate"   size="md" />
+                </div>
+                <div className="bl-kpis" aria-label="Key metrics" style={{ display: "flex", gap: 24, marginTop: 12 }}>
+                  <div><b>5 min</b><small> {t("kpi_deploy") || "to first deploy"}</small></div>
+                  <div><b>∞</b><small> {t("kpi_tenants") || "tenants"}</small></div>
+                  <div><b>RBAC</b><small> {t("kpi_rbac") || "built-in"}</small></div>
+                </div>
+              </div>
+            </div>
+            <div className="cap cap--bottom" aria-hidden>
+              <WaveDivider height={160} color={COLORS.home} />
+            </div>
+          </section>
           {/* ===================== Section 1: HOME (full width) ===================== */}
           <BentoShowcase id="home" style={{ "--section-bg": COLORS.home }} />
 
@@ -111,7 +140,7 @@ export default function AppPublicBootsland() {
               <header className="section-head">
                 <h2>Why we built this</h2>
                 <p className="muted">
-                  We’re tired of re-wiring the same basics. This project focuses on the unglamorous foundation so you can build the unique value.
+                  We're tired of re-wiring the same basics. This project focuses on the unglamorous foundation so you can build the unique value.
                 </p>
               </header>
 

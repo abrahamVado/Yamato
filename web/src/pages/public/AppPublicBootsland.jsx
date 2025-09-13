@@ -124,19 +124,19 @@ export default function AppPublicBootsland() {
                 </div>
               </div>
             </div>
-            <div className="cap cap--bottom" aria-hidden>
-              <WaveDivider height={160} color={COLORS.home} />
-            </div>
           </section>
-
+        <div className="cap cap--bottom" aria-hidden>
+        <WavePurple height={170}/>
+      </div>          
+  <div className="cap cap--top" aria-hidden>
+    <WavePurple height={340} flip />
+  </div>
           <section
             id="join"
             className="snap-section section"
             style={{ "--section-bg": COLORS.join }}
           >
-  <div className="cap cap--top" aria-hidden>
-    <WavePurple height={140} flip />
-  </div>
+
 
             <div className="container">
               <header className="section-head">
@@ -286,10 +286,6 @@ export default function AppPublicBootsland() {
                 />
               </div>
             </div>
-  {/* Optional bottom wave */}
-  <div className="cap cap--bottom" aria-hidden>
-    <WavePurple height={120} />
-  </div>            
           </section>
 
         </main>
@@ -306,6 +302,12 @@ export default function AppPublicBootsland() {
           </div>
         </footer>
       </div>
+      <div className="cap cap--bottom" aria-hidden>
+        <WavePurple height={74}/>
+      </div>  
+      <div className="cap cap--top" aria-hidden>
+        <WavePurple height={340} flip />
+      </div>      
     </div>
   );
 }

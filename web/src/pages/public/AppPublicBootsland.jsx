@@ -8,7 +8,10 @@ import { scrollToEl, easeOutCubic } from "@/utils/scroll.js";
 
 import Button3D from "@/components/Button3D.jsx";
 import { ArrowRightIcon } from "@phosphor-icons/react";
-
+const BTC_ADDR   = import.meta.env.VITE_BTC_BINANCE_ADDR || "bc1q-your-binance-btc-address-here";
+const BTC_NET    = "BTC (SegWit)";
+const BTC_URI    = `bitcoin:${BTC_ADDR}`;
+const copyToClipboard = (t) => navigator.clipboard?.writeText(t).catch(() => {});
 
 const Logo = ({ size = 120, onClick }) => (
   <a onClick={onClick} style={{ display: "grid", placeItems: "center", width: size, height: size / 2 }}>
@@ -123,117 +126,165 @@ export default function AppPublicBootsland() {
               <WaveDivider height={160} color={COLORS.home} />
             </div>
           </section>
-          {/* ===================== Section 1: HOME (full width) ===================== */}
 
-{/* ===================== Section 3: MISSION / JOIN (full width) ===================== */}
-<section
-  id="join"
-  className="snap-section section"
-  style={{ "--section-bg": COLORS.join }}
->
-  <div className="cap cap--top" aria-hidden>
-    <WaveDivider height={160} color={COLORS.join} flip />
-  </div>
-
-  <div className="container">
-    <header className="section-head">
-      <h2>KPI-compliant SaaS, secure by default</h2>
-      <p className="muted">
-        We ship the unglamorous foundation—KPI definitions & tracking, security controls, and real reporting—so you can ship product, not plumbing.
-      </p>
-    </header>
-
-    <div className="grid" style={{ gap: 16 }}>
-      <article className="card" style={{ padding: 16 }}>
-        <h3>Built-in pillars</h3>
-
-        {/* 2×2 compact grid of benefits (keeps height tight on 300px cards) */}
-        <ul
-          role="list"
-          style={{
-            marginTop: 8,
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
-            gap: 12,
-            padding: 0,
-            listStyle: "none",
-          }}
-        >
-          <li className="mini" style={{ display: "grid", gap: 4 }}>
-            <div style={{ fontWeight: 700 }}>📊 KPI-first foundation</div>
-            <div style={{ opacity: 0.9 }}>
-              Define and enforce user/tenant KPIs with thresholds, alerts, and complete auditability.
+          <section
+            id="join"
+            className="snap-section section"
+            style={{ "--section-bg": COLORS.join }}
+          >
+            <div className="cap cap--top" aria-hidden>
+              <WaveDivider height={160} color={COLORS.join} flip />
             </div>
-          </li>
 
-          <li className="mini" style={{ display: "grid", gap: 4 }}>
-            <div style={{ fontWeight: 700 }}>🔒 Security by default</div>
-            <div style={{ opacity: 0.9 }}>
-              Least-privilege RBAC, audit logs, secrets hygiene, 2FA hooks, and encryption guidance.
+            <div className="container">
+              <header className="section-head">
+                <h2>KPI-compliant SaaS, secure by default</h2>
+                <p className="muted">
+                  We handle the foundation—KPI catalogs & tracking, security controls, and a real reporting pipeline—so you can focus on the value only you can build.
+                </p>
+              </header>
+
+              <div className="grid" style={{ gap: 16 }}>
+                {/* Pillars */}
+                <article className="card" style={{ padding: 16 }}>
+                  <h3>What’s built-in</h3>
+                  <ul
+                    role="list"
+                    style={{
+                      marginTop: 8,
+                      display: "grid",
+                      gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
+                      gap: 12,
+                      padding: 0,
+                      listStyle: "none",
+                    }}
+                  >
+                    <li className="mini" style={{ display: "grid", gap: 4 }}>
+                      <div style={{ fontWeight: 700 }}>📊 KPI-first</div>
+                      <div style={{ opacity: 0.9 }}>
+                        Define & enforce user/tenant KPIs with thresholds, alerts, and full audit history.
+                      </div>
+                    </li>
+                    <li className="mini" style={{ display: "grid", gap: 4 }}>
+                      <div style={{ fontWeight: 700 }}>🔒 Security by default</div>
+                      <div style={{ opacity: 0.9 }}>
+                        Least-privilege RBAC, audit logs, secrets hygiene, 2FA hooks, and encryption guidance.
+                      </div>
+                    </li>
+                    <li className="mini" style={{ display: "grid", gap: 4 }}>
+                      <div style={{ fontWeight: 700 }}>📈 Reporting that answers</div>
+                      <div style={{ opacity: 0.9 }}>
+                        Semantic metrics layer, scheduled reports, CSV/Parquet exports, and drill-downs.
+                      </div>
+                    </li>
+                    <li className="mini" style={{ display: "grid", gap: 4 }}>
+                      <div style={{ fontWeight: 700 }}>🚀 Ready-to-run SaaS</div>
+                      <div style={{ opacity: 0.9 }}>
+                        Multi-tenant scaffolding, billing hooks, email/i18n templates, and clean APIs from day one.
+                      </div>
+                    </li>
+                  </ul>
+
+                  <p className="muted" style={{ marginTop: 10, fontSize: 12 }}>
+                    Guides for SOC2/GDPR readiness included; certifications depend on your deployment.
+                  </p>
+                </article>
+
+                {/* Donations: BTC (Binance) only */}
+                <article className="card" style={{ padding: 16 }}>
+                  <h3>Support development (BTC only)</h3>
+                  <p style={{ marginTop: 6 }}>
+                    We route all donations exclusively to our <strong>Binance Bitcoin</strong> wallet to keep accounting simple and transparent.
+                  </p>
+
+                  <div
+                    style={{
+                      marginTop: 10,
+                      display: "grid",
+                      gap: 8,
+                      alignItems: "start",
+                      gridTemplateColumns: "1fr",
+                    }}
+                  >
+                    <div style={{ display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap" }}>
+                      <span
+                        className="badge"
+                        style={{
+                          fontSize: 12,
+                          padding: "4px 8px",
+                          borderRadius: 999,
+                          background: "var(--purple-soft, #f1efff)",
+                          border: "1px solid var(--line, #ececf6)",
+                        }}
+                      >
+                        Network: {BTC_NET}
+                      </span>
+                      <span
+                        className="badge"
+                        style={{
+                          fontSize: 12,
+                          padding: "4px 8px",
+                          borderRadius: 999,
+                          background: "var(--purple-soft, #f1efff)",
+                          border: "1px solid var(--line, #ececf6)",
+                        }}
+                      >
+                        Exchange: Binance
+                      </span>
+                    </div>
+
+                    <div style={{ display: "grid", gap: 6 }}>
+                      <label style={{ fontSize: 12, opacity: 0.85 }}>BTC address</label>
+                      <code
+                        style={{
+                          padding: "8px 10px",
+                          borderRadius: 8,
+                          border: "1px solid var(--line, #ececf6)",
+                          background: "var(--panel, #fff)",
+                          overflowWrap: "anywhere",
+                        }}
+                      >
+                        {BTC_ADDR}
+                      </code>
+                      <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+                        <Button3D size="sm" variant="emerald" label="Copy BTC address" onClick={() => copyToClipboard(BTC_ADDR)} />
+                        <Button3D size="sm" variant="slate"   label="Open in wallet"   href={BTC_URI} />
+                        <Button3D size="sm" variant="azure"   label="How funds are used" href="/sponsor" />
+                      </div>
+                    </div>
+
+                    <ul style={{ marginTop: 6, paddingLeft: 18 }}>
+                      <li style={{ fontSize: 12, opacity: 0.85 }}>
+                        <strong>BTC network only.</strong> Do not send via Lightning, BEP20, TRC20, or other networks.
+                      </li>
+                      <li style={{ fontSize: 12, opacity: 0.85 }}>
+                        <strong>No memo/tag required</strong> for BTC (SegWit) deposits.
+                      </li>
+                      <li style={{ fontSize: 12, opacity: 0.85 }}>
+                        Monthly transparency: we publish incoming totals and how funds are allocated.
+                      </li>
+                    </ul>
+                  </div>
+                </article>
+              </div>
+
+              <div style={{ marginTop: 24, display: "flex", gap: 12, flexWrap: "wrap" }}>
+                <Button3D
+                  label="Start with the KPI pack"
+                  href="/register"
+                  variant="emerald"
+                  size="md"
+                  rightIcon={<ArrowRightIcon />}
+                />
+                <Button3D
+                  label="Security & reporting docs"
+                  href="/docs"
+                  variant="slate"
+                  size="md"
+                />
+              </div>
             </div>
-          </li>
-
-          <li className="mini" style={{ display: "grid", gap: 4 }}>
-            <div style={{ fontWeight: 700 }}>📈 Reporting that answers</div>
-            <div style={{ opacity: 0.9 }}>
-              Semantic metrics layer, scheduled reports, CSV/Parquet exports, and drill-downs.
-            </div>
-          </li>
-
-          <li className="mini" style={{ display: "grid", gap: 4 }}>
-            <div style={{ fontWeight: 700 }}>🚀 Ready-to-run SaaS</div>
-            <div style={{ opacity: 0.9 }}>
-              Multi-tenant scaffolding, billing hooks, email/i18n templates, and clean APIs from day one.
-            </div>
-          </li>
-        </ul>
-
-        {/* Optional tiny disclaimer line */}
-        <p className="muted" style={{ marginTop: 10, fontSize: 12 }}>
-          Guides for SOC2/GDPR readiness included; certifications depend on your deployment.
-        </p>
-      </article>
-
-      <article className="card" style={{ padding: 16 }}>
-        <h3>Become a <em>socio</em> (member)</h3>
-        <p>
-          Support the project, help steer the compliance & reporting roadmap, and vote on major changes.
-          Crypto donations are welcome:
-        </p>
-        <ul style={{ marginTop: 8 }}>
-          {wallets.map((w) => (
-            <li key={w.chain} style={{ display: "flex", alignItems: "center", gap: 8 }}>
-              <code style={{ whiteSpace: "nowrap" }}>{w.chain}:</code>
-              <code style={{ overflowWrap: "anywhere" }}>{w.addr}</code>
-              <Button3D size="sm" variant="slate" label="Copy" onClick={() => copy(w.addr)} />
-            </li>
-          ))}
-        </ul>
-        <div style={{ marginTop: 12, display: "flex", gap: 12, flexWrap: "wrap" }}>
-          <Button3D label="Join discussions" href="/community" variant="azure" size="sm" />
-          <Button3D label="Sponsor on GitHub" href="/sponsor" variant="emerald" size="sm" />
-        </div>
-      </article>
-    </div>
-
-    <div style={{ marginTop: 24, display: "flex", gap: 12, flexWrap: "wrap" }}>
-      <Button3D
-        label="Start with the KPI pack"
-        href="/register"
-        variant="emerald"
-        size="md"
-        rightIcon={<ArrowRightIcon />}
-      />
-      <Button3D
-        label="Security & reporting docs"
-        href="/docs"
-        variant="slate"
-        size="md"
-      />
-    </div>
-  </div>
-</section>
-
+          </section>
 
         </main>
 

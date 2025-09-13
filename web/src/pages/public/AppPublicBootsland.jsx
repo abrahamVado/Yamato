@@ -8,7 +8,7 @@ import { scrollToEl, easeOutCubic } from "@/utils/scroll.js";
 
 import Button3D from "@/components/Button3D.jsx";
 import { ArrowRightIcon } from "@phosphor-icons/react";
-import BentoShowcase from "@/components/bento/BentoShowcase.jsx";
+
 
 const Logo = ({ size = 120, onClick }) => (
   <a onClick={onClick} style={{ display: "grid", placeItems: "center", width: size, height: size / 2 }}>
@@ -124,7 +124,7 @@ export default function AppPublicBootsland() {
             </div>
           </section>
           {/* ===================== Section 1: HOME (full width) ===================== */}
-          <BentoShowcase id="home" style={{ "--section-bg": COLORS.home }} />
+
 
           {/* ===================== Section 3: MISSION / JOIN (full width) ===================== */}
           <section

@@ -125,12 +125,12 @@ export default function AppPublicBootsland() {
               </div>
             </div>
           </section>
-        <div className="cap cap--bottom" aria-hidden>
-        <WavePurple height={170}/>
-      </div>          
-  <div className="cap cap--top" aria-hidden>
-    <WavePurple height={340} flip />
-  </div>
+          <div className="cap cap--bottom" aria-hidden>
+            <WavePurple height={170}/>
+          </div>          
+          <div className="cap cap--top" aria-hidden>
+            <WavePurple height={340} flip />
+          </div>
           <section
             id="join"
             className="snap-section section"
@@ -292,6 +292,8 @@ export default function AppPublicBootsland() {
 
         {/* Footer */}
         <footer className="site-footer">
+      <div className="cap cap--bottom" aria-hidden>
+        <WavePurple height={444}/>
           <div className="container bl-footer">
             <small>© {new Date().getFullYear()} {t("brand")} {t("footer_rights")}</small>
             <nav aria-label="Footer" style={{ display: "flex", gap: 8 }}>
@@ -299,15 +301,10 @@ export default function AppPublicBootsland() {
               <Button3D label="Terms"   href="#" variant="slate" size="sm" />
               <Button3D label="Status"  href="#" variant="slate" size="sm" />
             </nav>
-          </div>
+          </div>        
+      </div>            
         </footer>
       </div>
-      <div className="cap cap--bottom" aria-hidden>
-        <WavePurple height={74}/>
-      </div>  
-      <div className="cap cap--top" aria-hidden>
-        <WavePurple height={340} flip />
-      </div>      
     </div>
   );
 }

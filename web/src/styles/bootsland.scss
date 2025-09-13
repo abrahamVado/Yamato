@@ -277,3 +277,18 @@ ul[role="list"].pillars {
     }
   }
 }
+/* more aggressive wave behavior + parallax drift */
+.wave-aggro { width: 100%; line-height: 0; }
+.wave-aggro svg { display: block; width: 100%; height: 100%; }
+.wave-aggro .layer {
+  animation-name: wave-shift;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
+
+/* optional subtle vertical bob on the front layer only */
+.wave-aggro .layer:last-child {
+  animation-name: wave-shift, wave-bob;
+  animation-duration: 12s, 6s;
+  animation-timing-function: linear, ease-in-out;
+}

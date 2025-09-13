@@ -125,60 +125,116 @@ export default function AppPublicBootsland() {
           </section>
           {/* ===================== Section 1: HOME (full width) ===================== */}
 
+{/* ===================== Section 3: MISSION / JOIN (full width) ===================== */}
+<section
+  id="join"
+  className="snap-section section"
+  style={{ "--section-bg": COLORS.join }}
+>
+  <div className="cap cap--top" aria-hidden>
+    <WaveDivider height={160} color={COLORS.join} flip />
+  </div>
 
-          {/* ===================== Section 3: MISSION / JOIN (full width) ===================== */}
-          <section
-            id="join"
-            className="snap-section section"
-            style={{ "--section-bg": COLORS.join }}
-          >
-            <div className="cap cap--top" aria-hidden>
-              <WaveDivider height={160} color={COLORS.join} flip />
+  <div className="container">
+    <header className="section-head">
+      <h2>KPI-compliant SaaS, secure by default</h2>
+      <p className="muted">
+        We ship the unglamorous foundation—KPI definitions & tracking, security controls, and real reporting—so you can ship product, not plumbing.
+      </p>
+    </header>
+
+    <div className="grid" style={{ gap: 16 }}>
+      <article className="card" style={{ padding: 16 }}>
+        <h3>Built-in pillars</h3>
+
+        {/* 2×2 compact grid of benefits (keeps height tight on 300px cards) */}
+        <ul
+          role="list"
+          style={{
+            marginTop: 8,
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
+            gap: 12,
+            padding: 0,
+            listStyle: "none",
+          }}
+        >
+          <li className="mini" style={{ display: "grid", gap: 4 }}>
+            <div style={{ fontWeight: 700 }}>📊 KPI-first foundation</div>
+            <div style={{ opacity: 0.9 }}>
+              Define and enforce user/tenant KPIs with thresholds, alerts, and complete auditability.
             </div>
+          </li>
 
-            <div className="container">
-              <header className="section-head">
-                <h2>Why we built this</h2>
-                <p className="muted">
-                  We're tired of re-wiring the same basics. This project focuses on the unglamorous foundation so you can build the unique value.
-                </p>
-              </header>
-
-              <div className="grid" style={{ gap: 16 }}>
-                <article className="card" style={{ padding: 16 }}>
-                  <h3>Our promise</h3>
-                  <p>
-                    Practical defaults, clean APIs, and transparency. We document decisions and accept contributions that improve the whole stack.
-                  </p>
-                </article>
-
-                <article className="card" style={{ padding: 16 }}>
-                  <h3>Become a <em>socio</em> (member)</h3>
-                  <p>
-                    Support the project, get a say in the roadmap, and vote on major changes. Crypto donations are welcome:
-                  </p>
-                  <ul style={{ marginTop: 8 }}>
-                    {wallets.map((w) => (
-                      <li key={w.chain} style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                        <code style={{ whiteSpace: "nowrap" }}>{w.chain}:</code>
-                        <code style={{ overflowWrap: "anywhere" }}>{w.addr}</code>
-                        <Button3D size="sm" variant="slate" label="Copy" onClick={() => copy(w.addr)} />
-                      </li>
-                    ))}
-                  </ul>
-                  <div style={{ marginTop: 12, display: "flex", gap: 12, flexWrap: "wrap" }}>
-                    <Button3D label="Join discussions" href="/community" variant="azure" size="sm" />
-                    <Button3D label="Sponsor on GitHub" href="/sponsor"   variant="emerald" size="sm" />
-                  </div>
-                </article>
-              </div>
-
-              <div style={{ marginTop: 24, display: "flex", gap: 12, flexWrap: "wrap" }}>
-                <Button3D label="Get started" href="/register" variant="emerald" size="md" rightIcon={<ArrowRightIcon />} />
-                <Button3D label="Read the docs" href="/docs"   variant="slate"   size="md" />
-              </div>
+          <li className="mini" style={{ display: "grid", gap: 4 }}>
+            <div style={{ fontWeight: 700 }}>🔒 Security by default</div>
+            <div style={{ opacity: 0.9 }}>
+              Least-privilege RBAC, audit logs, secrets hygiene, 2FA hooks, and encryption guidance.
             </div>
-          </section>
+          </li>
+
+          <li className="mini" style={{ display: "grid", gap: 4 }}>
+            <div style={{ fontWeight: 700 }}>📈 Reporting that answers</div>
+            <div style={{ opacity: 0.9 }}>
+              Semantic metrics layer, scheduled reports, CSV/Parquet exports, and drill-downs.
+            </div>
+          </li>
+
+          <li className="mini" style={{ display: "grid", gap: 4 }}>
+            <div style={{ fontWeight: 700 }}>🚀 Ready-to-run SaaS</div>
+            <div style={{ opacity: 0.9 }}>
+              Multi-tenant scaffolding, billing hooks, email/i18n templates, and clean APIs from day one.
+            </div>
+          </li>
+        </ul>
+
+        {/* Optional tiny disclaimer line */}
+        <p className="muted" style={{ marginTop: 10, fontSize: 12 }}>
+          Guides for SOC2/GDPR readiness included; certifications depend on your deployment.
+        </p>
+      </article>
+
+      <article className="card" style={{ padding: 16 }}>
+        <h3>Become a <em>socio</em> (member)</h3>
+        <p>
+          Support the project, help steer the compliance & reporting roadmap, and vote on major changes.
+          Crypto donations are welcome:
+        </p>
+        <ul style={{ marginTop: 8 }}>
+          {wallets.map((w) => (
+            <li key={w.chain} style={{ display: "flex", alignItems: "center", gap: 8 }}>
+              <code style={{ whiteSpace: "nowrap" }}>{w.chain}:</code>
+              <code style={{ overflowWrap: "anywhere" }}>{w.addr}</code>
+              <Button3D size="sm" variant="slate" label="Copy" onClick={() => copy(w.addr)} />
+            </li>
+          ))}
+        </ul>
+        <div style={{ marginTop: 12, display: "flex", gap: 12, flexWrap: "wrap" }}>
+          <Button3D label="Join discussions" href="/community" variant="azure" size="sm" />
+          <Button3D label="Sponsor on GitHub" href="/sponsor" variant="emerald" size="sm" />
+        </div>
+      </article>
+    </div>
+
+    <div style={{ marginTop: 24, display: "flex", gap: 12, flexWrap: "wrap" }}>
+      <Button3D
+        label="Start with the KPI pack"
+        href="/register"
+        variant="emerald"
+        size="md"
+        rightIcon={<ArrowRightIcon />}
+      />
+      <Button3D
+        label="Security & reporting docs"
+        href="/docs"
+        variant="slate"
+        size="md"
+      />
+    </div>
+  </div>
+</section>
+
+
         </main>
 
         {/* Footer */}

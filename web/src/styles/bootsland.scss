@@ -11,26 +11,58 @@
   --muted: #6b7280;
   --line: #e5e7eb;
   --card: #ffffff;
+  --panel: var(--card);
   --brand: #4f46e5;
   --brand-contrast: #ffffff;
+
+  /* Extras used across sections/components */
+  --radius: 16px;
+  --shadow: 0 10px 40px rgba(30, 20, 80, 0.08);
+  --purple-soft: color-mix(in oklab, var(--brand) 12%, #ffffff);
 
   /* Section colors (3 bands) */
   --c-home:  #0b1220;
   --c-build: #0f172a;
   --c-join:  #0a3b5e;
+
+  color-scheme: light;
 }
+
 :root[data-theme="light"] {
   --bg: #f9fafb;
   --text: #0b0b0f;
   --muted: #6b7280;
   --line: #e5e7eb;
   --card: #ffffff;
+  --panel: var(--card);
   --brand: #4f46e5;
   --brand-contrast: #ffffff;
 
   --c-home:  #e8eef7;
   --c-build: #eef2f7;
   --c-join:  #e6f2fb;
+
+  color-scheme: light;
+}
+
+/* Optional dark theme */
+:root[data-theme="dark"] {
+  --bg: #0b1220;
+  --text: #e7e7ee;
+  --muted: #9aa3b2;
+  --line: #1f2937;
+  --card: #0f172a;
+  --panel: var(--card);
+  --brand: #7b61ff;
+  --brand-contrast: #0b0b0f;
+
+  --c-home:  #0b1220;
+  --c-build: #0e162a;
+  --c-join:  #0a3b5e;
+
+  --purple-soft: color-mix(in oklab, var(--brand) 22%, #0b1220);
+
+  color-scheme: dark;
 }
 
 html { scroll-behavior: smooth; height: 100%; }
@@ -43,15 +75,55 @@ body { min-height: 100%; margin: 0; }
 .container { max-width: 1100px; margin: 0 auto; padding: 32px 20px; }
 
 .badge { background: var(--line); padding: 6px 10px; border-radius: 999px; font-size: 12px; }
+.badge.brand { background: var(--purple-soft); border: 1px solid var(--line); }
 .lead { font-size: 18px; color: var(--muted); }
 .muted { color: var(--muted); }
-.card  { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 20px; }
-.btn   { border: 1px solid var(--line); background: transparent; padding: 8px 14px; border-radius: 12px; text-decoration: none; color: var(--text); }
+
+.card  {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 20px;
+  box-shadow: var(--shadow);
+}
+
+.btn   {
+  border: 1px solid var(--line);
+  background: transparent;
+  padding: 8px 14px;
+  border-radius: 12px;
+  text-decoration: none;
+  color: var(--text);
+  transition: transform .08s ease, box-shadow .2s ease-in-out, background .2s ease, border-color .2s ease;
+  &:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(0,0,0,.08); }
+  &:active { transform: translateY(0); }
+}
 .btn.solid { background: var(--brand); color: var(--brand-contrast); border-color: var(--brand); }
 .btn.ghost { background: transparent; }
 
 .grid { display: grid; gap: 16px; }
 .grid--responsive { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+
+/* Lists used as “pillars” mini-cards */
+ul[role="list"].pillars {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px;
+  padding: 0; list-style: none; margin: 8px 0 0;
+}
+.pillar {
+  display: grid; gap: 4px; padding: 10px 12px;
+  border: 1px dashed color-mix(in oklab, var(--line) 80%, transparent);
+  border-radius: 12px;
+}
+
+/* Typography helpers */
+.eyebrow { font-weight: 600; letter-spacing: .02em; font-size: 12px; color: var(--muted); text-transform: uppercase; }
+.section-head h2 { font-size: clamp(26px, 5.6vw, 40px); line-height: 1.12; margin: 0 0 6px; }
+.section-head p  { margin: 0; }
+
+/* A11y */
+:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
 
 .visually-hidden {
   position:absolute; width:1px; height:1px; margin:-1px; padding:0; overflow:hidden;
@@ -92,11 +164,12 @@ body { min-height: 100%; margin: 0; }
       &__toggle {
         display:inline-flex; align-items:center; justify-content:center;
         height:36px; width:36px; border:1px solid var(--line); border-radius:8px;
+        background: var(--panel);
       }
       &__links {
         display:none; position:absolute; right:0; top:44px;
         background:var(--card); border:1px solid var(--line); border-radius:12px;
-        padding:8px; flex-direction:column; min-width:220px;
+        padding:8px; flex-direction:column; min-width:220px; box-shadow: var(--shadow);
       }
       &.is-open .bl-nav__links { display:flex; }
     }
@@ -121,30 +194,34 @@ body { min-height: 100%; margin: 0; }
   .bl-cta-band {
     padding: 40px 0; background: var(--grad); border-block: 1px solid var(--line);
     .container { @include m.container(); text-align:center; }
-    h2 { margin: 0 0 6px; }
+    h2 { margin: 0 0 6px; color: var(--brand-contrast); }
   }
 
   /* ---------- Footer ---------- */
   .bl-footer { @include m.container(); display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap; padding: 18px 0; }
 
   /* ======================================================
-     WAVES (section separators) — SINGLE, CLEAN VERSION
+     WAVES (section separators)
      ====================================================== */
   .wave { display:block; width:100%; height:96px; line-height:0; color: var(--panel, var(--card)); }
   .wave svg { display:block; width:100%; height:100%; }
   .wave--flipY { transform: scaleY(-1); }
   .wave--section { margin-top: -1px; } /* hide seam */
 
-  /* quick color utilities if you want to theme via class */
   .wave--bg     { color: var(--bg); }
   .wave--panel  { color: var(--card); }
   .wave--brand  { color: var(--brand); }
 
-  /* optional gentle motion */
   @keyframes wave-drift { from { transform: translateX(0); } to { transform: translateX(-2%); } }
   .wave--drift svg { animation: wave-drift 16s linear infinite; }
   .wave--slow  svg { animation-duration: 28s; opacity: .75; }
   .wave--fast  svg { animation-duration: 10s; opacity: .6;  }
+
+  /* Respect reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    .wave--drift svg, .wave--slow svg, .wave--fast svg { animation: none; }
+    .btn { transition: none; }
+  }
 
   /* ======================================================
      FULL-WIDTH SECTION BANDS + CAPS
@@ -152,20 +229,15 @@ body { min-height: 100%; margin: 0; }
   main { scroll-snap-type: y proximity; }
 
   .section {
-    position: relative;
-    width: 100%;
-    min-height: 100svh;    /* full viewport height, mobile-safe */
-    display: grid;
-    align-content: center; /* vertical centering by default */
-    padding: clamp(56px, 8vw, 96px) 0;
-    background: var(--section-bg, transparent);
-    scroll-snap-align: start;
+    min-block-size: min(88svh, 900px);
+    padding-block: clamp(32px, 5vw, 72px);
+    place-content: start;
   }
 
   .section > .container {
     position: relative;
     z-index: 1;
-    max-width: 1200px;
+    max-width: 1100px; /* unify with .container */
     margin: 0 auto;
     padding: 0 1rem;
   }
@@ -175,4 +247,33 @@ body { min-height: 100%; margin: 0; }
   }
   .section .cap--top    { top: -1px; }
   .section .cap--bottom { bottom: -1px; }
+
+  /* ======================================================
+     DONATIONS (BTC / Binance only) — optional helper class
+     ====================================================== */
+  .donate-btc {
+    display: grid; gap: 10px;
+
+    .row {
+      display: flex; gap: 8px; align-items: center; flex-wrap: wrap;
+    }
+
+    .field-label {
+      font-size: 12px; opacity: .85;
+    }
+
+    code {
+      padding: 8px 10px;
+      border-radius: 8px;
+      border: 1px solid var(--line);
+      background: var(--panel);
+      overflow-wrap: anywhere;
+      user-select: all;
+    }
+
+    ul.notes {
+      margin: 6px 0 0; padding-left: 18px;
+      li { font-size: 12px; opacity: .85; }
+    }
+  }
 }

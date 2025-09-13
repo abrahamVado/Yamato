@@ -5,6 +5,8 @@ import logo from "@assets/images/yamato-logo-blank.png";
 import { ThemeToggle } from "@/providers/ThemeToggle.jsx";
 import { useI18n, LangSelect } from "@/providers/I18nProvider.jsx";
 import { scrollToEl, easeOutCubic } from "@/utils/scroll.js";
+import WavePurple from "@/components/WavePurple";
+
 
 import Button3D from "@/components/Button3D.jsx";
 import { ArrowRightIcon } from "@phosphor-icons/react";
@@ -132,9 +134,9 @@ export default function AppPublicBootsland() {
             className="snap-section section"
             style={{ "--section-bg": COLORS.join }}
           >
-            <div className="cap cap--top" aria-hidden>
-              <WaveDivider height={160} color={COLORS.join} flip />
-            </div>
+  <div className="cap cap--top" aria-hidden>
+    <WavePurple height={140} flip />
+  </div>
 
             <div className="container">
               <header className="section-head">
@@ -284,6 +286,10 @@ export default function AppPublicBootsland() {
                 />
               </div>
             </div>
+  {/* Optional bottom wave */}
+  <div className="cap cap--bottom" aria-hidden>
+    <WavePurple height={120} />
+  </div>            
           </section>
 
         </main>

@@ -1,0 +1,15 @@
+/*
+  Print styles for Yamato.  These rules only apply when printing pages.
+  Add page sizing, hide interactive elements and simplify layout for paper.
+*/
+
+@media print {
+  body {
+    background: #fff;
+    color: #000;
+    font-size: 12pt;
+  }
+  .public-navbar, .public-footer, .app-topbar, .app-sidebar {
+    display: none;
+  }
+}

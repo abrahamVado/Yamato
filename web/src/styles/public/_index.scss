@@ -1,0 +1,18 @@
+// Public area style aggregator.  Pulls in base, component and page
+// partials.  This file is imported by public.scss to assemble the
+// marketing site bundle.
+
+@use './base/globals';
+@use './base/layout';
+@use './base/header';
+@use './base/footer';
+
+@use './components/hero';
+@use './components/buttons';
+@use './components/cards';
+@use './components/forms';
+@use './components/badges';
+
+@use './pages/home';
+@use './pages/about';
+@use './pages/pricing';

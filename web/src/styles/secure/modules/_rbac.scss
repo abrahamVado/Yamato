@@ -1,0 +1,33 @@
+/*
+  Secure role-based access control matrix
+
+  Defines a table-like layout for roles and permissions.  The sticky
+  first column ensures that role names remain visible when scrolling
+  horizontally through many permissions.
+*/
+
+.rbac-table {
+  width: 100%;
+  border-collapse: collapse;
+  overflow-x: auto;
+}
+
+.rbac-table th,
+.rbac-table td {
+  padding: 0.5rem;
+  border-bottom: 1px solid #e5e7eb;
+  text-align: left;
+  font-size: 0.75rem;
+}
+
+.rbac-table th:first-child,
+.rbac-table td:first-child {
+  position: sticky;
+  left: 0;
+  background-color: #f9fafb;
+  z-index: 1;
+}
+
+.rbac-table thead {
+  background-color: #f3f4f6;
+}

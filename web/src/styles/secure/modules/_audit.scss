@@ -1,0 +1,49 @@
+/*
+  Secure audit log styles
+
+  Styles for audit log tables and severity indicators.  Colors map
+  severity levels (info, warning, error) to appropriate hues.
+*/
+
+.audit-log-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.audit-log-table th,
+.audit-log-table td {
+  padding: 0.5rem;
+  border-bottom: 1px solid #e5e7eb;
+  font-size: 0.75rem;
+}
+
+.audit-log-table thead {
+  background-color: #f9fafb;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: #6b7280;
+}
+
+.audit-severity {
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.audit-severity--info {
+  background-color: #e0f2fe;
+  color: #0369a1;
+}
+
+.audit-severity--warning {
+  background-color: #fef9c3;
+  color: #92400e;
+}
+
+.audit-severity--error {
+  background-color: #fee2e2;
+  color: #b91c1c;
+}

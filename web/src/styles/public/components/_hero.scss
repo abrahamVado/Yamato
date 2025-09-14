@@ -1,0 +1,25 @@
+/*
+  Hero component styles.  Centers content and provides generous spacing.
+*/
+
+.hero {
+  background: linear-gradient(to bottom right, var(--color-primary), var(--color-secondary));
+  color: #fff;
+  padding: 4rem 1rem;
+  text-align: center;
+}
+
+.hero-title {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.hero-subtitle {
+  font-size: 1.25rem;
+  margin-bottom: 2rem;
+  opacity: 0.85;
+}
+
+.hero-cta {
+  margin-top: 1rem;
+}

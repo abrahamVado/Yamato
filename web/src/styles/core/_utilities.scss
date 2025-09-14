@@ -1,0 +1,31 @@
+/*
+  Utility classes for spacing, display and positioning.  Use these
+  helpers sparingly to avoid cluttering your markup with many classes.
+*/
+
+// Margin utilities
+.m-0 { margin: 0 !important; }
+.m-auto { margin: auto !important; }
+.mt-1 { margin-top: 0.25rem !important; }
+.mb-1 { margin-bottom: 0.25rem !important; }
+.mt-2 { margin-top: 0.5rem !important; }
+.mb-2 { margin-bottom: 0.5rem !important; }
+
+// Padding utilities
+.p-1 { padding: 0.25rem !important; }
+.p-2 { padding: 0.5rem !important; }
+.p-3 { padding: 1rem !important; }
+
+// Display utilities
+.flex { display: flex !important; }
+.inline-flex { display: inline-flex !important; }
+.block { display: block !important; }
+.hidden { display: none !important; }
+
+// Position utilities
+.relative { position: relative !important; }
+.absolute { position: absolute !important; }
+
+// Overflow utilities
+.overflow-hidden { overflow: hidden !important; }
+.overflow-auto { overflow: auto !important; }

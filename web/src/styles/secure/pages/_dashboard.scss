@@ -1,0 +1,13 @@
+/*
+  Secure dashboard page overrides
+
+  Adjusts margins and spacing for the dashboard page.  Additional
+  widget-specific styles belong in their respective modules.
+*/
+
+.dashboard-main {
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}

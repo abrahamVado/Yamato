@@ -1,0 +1,40 @@
+/*
+  Secure area form controls
+
+  Basic styling for inputs, selects and textareas in the authenticated
+  application.  Adjust colors, border radius and focus styles to
+  align with your brand guidelines.
+*/
+
+.app-shell input,
+.app-shell select,
+.app-shell textarea {
+  display: block;
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+  line-height: 1.25;
+  color: #374151;
+  background-color: #ffffff;
+}
+
+.app-shell input:focus,
+.app-shell select:focus,
+.app-shell textarea:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 1px #2563eb;
+}
+
+.app-shell label {
+  display: block;
+  margin-bottom: 0.25rem;
+  font-weight: 500;
+  color: #374151;
+}
+
+.app-shell .form-group {
+  margin-bottom: 1rem;
+}

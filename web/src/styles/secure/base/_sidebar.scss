@@ -1,0 +1,31 @@
+/*
+  Styles for the sidebar navigation.  Uses simple flex column layout
+  and highlights links on hover.  You can implement active states
+  depending on your router.
+*/
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.sidebar-link {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  color: var(--color-text);
+  text-decoration: none;
+  border-radius: 4px;
+  transition: background-color 0.15s ease;
+}
+
+.sidebar-link:hover {
+  background-color: var(--color-muted);
+}
+
+.sidebar-icon {
+  flex-shrink: 0;
+  color: var(--color-primary);
+}

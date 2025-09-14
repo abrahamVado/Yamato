@@ -1,0 +1,10 @@
+// Entry point for authenticated application bundle.  Imports core
+// primitives, theme definitions and the aggregated index of secure styles.
+
+@use '../core/reset';
+@use '../core/typography';
+@use '../core/utilities';
+@use '../core/accessibility';
+@use '../themes/light';
+@use '../themes/dark';
+@use './_index';

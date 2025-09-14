@@ -1,0 +1,33 @@
+/*
+  Typography styles for headings, paragraphs and other text elements.
+  These rules use CSS variables for font families which are defined
+  globally by next/font or your stylesheet.  Adjust the scale and
+  weights to suit your brand.
+*/
+
+body {
+  font-family: var(--font-sans, system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif);
+  line-height: 1.5;
+  color: #1f2937;
+  background-color: #ffffff;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-sans, sans-serif);
+  font-weight: 700;
+  line-height: 1.2;
+  color: #0f172a;
+  margin-bottom: 0.5em;
+}
+
+h1 { font-size: 2.25rem; }
+h2 { font-size: 1.875rem; }
+h3 { font-size: 1.5rem; }
+h4 { font-size: 1.25rem; }
+h5 { font-size: 1.125rem; }
+h6 { font-size: 1rem; }
+
+p {
+  margin-bottom: 1rem;
+  max-width: 65ch;
+}

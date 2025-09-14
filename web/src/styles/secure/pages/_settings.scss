@@ -1,0 +1,23 @@
+/*
+  Secure settings page styles
+
+  Defines a two‐column layout for settings categories and forms.  The
+  left sidebar lists sections and the right pane displays the selected
+  form.  Responsive behavior collapses the sidebar on small screens.
+*/
+
+.settings-page {
+  display: flex;
+  min-height: 100%;
+}
+
+.settings-sidebar {
+  width: 20%;
+  border-right: 1px solid #e5e7eb;
+  padding: 1rem;
+}
+
+.settings-content {
+  flex: 1;
+  padding: 1rem;
+}

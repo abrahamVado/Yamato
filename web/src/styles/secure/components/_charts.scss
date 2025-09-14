@@ -1,0 +1,25 @@
+/*
+  Secure area chart container styles
+
+  Provides basic spacing and typography for chart titles and wrappers.
+  Integrate with your charting library of choice (e.g. Recharts,
+  Chart.js) to add responsive visuals.
+*/
+
+.chart-container {
+  background-color: #ffffff;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.chart-title {
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #111827;
+}
+
+.chart-content {
+  min-height: 200px;
+}

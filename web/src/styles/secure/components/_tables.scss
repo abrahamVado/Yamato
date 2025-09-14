@@ -1,0 +1,30 @@
+/*
+  Secure area table styles
+
+  Applies consistent padding, typography and zebra striping to tables
+  used within the authenticated application.  Accessibility helpers
+  ensure that table headers and rows are clearly distinguished.
+*/
+
+.app-shell .data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+}
+
+.app-shell .data-table th,
+.app-shell .data-table td {
+  padding: 0.75rem 0.5rem;
+  text-align: left;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.app-shell .data-table thead th {
+  background-color: #f3f4f6;
+  font-weight: 600;
+  color: #374151;
+}
+
+.app-shell .data-table tbody tr:nth-child(even) {
+  background-color: #f9fafb;
+}

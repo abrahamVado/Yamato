@@ -1,0 +1,13 @@
+/*
+  Badge styles used to display status or counts on marketing pages.
+*/
+
+.badge {
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.75rem;
+  border-radius: 9999px;
+  background-color: var(--color-primary);
+  color: #fff;
+  font-weight: 600;
+}

@@ -1,0 +1,23 @@
+.wave {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  svg { display: block; width: 100%; height: 100%; }
+  .layer {
+    animation-name: wave-drift;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+  }
+}
+
+/* Subtle horizontal drift to create parallax */
+@keyframes wave-drift {
+  0%   { transform: translateX(0); }
+  50%  { transform: translateX(-2%); }
+  100% { transform: translateX(0); }
+}
+
+/* Utility class to handle negative margin for separators */
+.wave--section {
+  margin-top: -1px;
+}

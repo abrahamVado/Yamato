@@ -1,5 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
+import './index.css';
+
 
 // Your scaffold already has these:
 import RootLayout from './app/layout'

@@ -18,3 +18,12 @@ body {
   padding-right: 1rem;
   max-width: 960px;
 }
+
+/* src/styles/global.css */
+.boxed {
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 4rem 1.5rem;
+  box-sizing: border-box;
+}

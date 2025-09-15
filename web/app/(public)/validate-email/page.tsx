@@ -1,0 +1,1 @@
+/* Validate email page code */

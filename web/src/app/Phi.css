@@ -1,0 +1,87 @@
+:root{
+  --phi-fr: 1.618fr;         /* φ as a grid fraction */
+  --ink: #F9FAFC;
+  --ink-muted: #E5EEF7;
+}
+
+/* Base φ grid */
+.phi-grid{
+  position: relative;
+  display: grid;
+  min-height: clamp(560px, 90vh, 840px);
+  border-radius: 16px;
+  overflow: hidden;
+  padding: clamp(18px, 3.5vw, 36px);
+  color: var(--ink);
+  gap: clamp(12px, 2vw, 18px);
+  isolation: isolate;
+}
+
+/* Orientations (rotate dominance to follow the spiral) */
+.phi--left   { grid-template-columns: var(--phi-fr) 1fr; align-items: center; }
+.phi--right  { grid-template-columns: 1fr var(--phi-fr); align-items: center; }
+.phi--top    { grid-template-rows: var(--phi-fr) 1fr; }
+.phi--bottom { grid-template-rows: 1fr var(--phi-fr); }
+
+.phi-main{
+  display: grid;
+  align-content: center;
+  gap: clamp(10px, 1.5vw, 16px);
+  text-align: left;
+}
+.phi-main h1, .phi-main h2{
+  font-family: Montserrat, Inter, system-ui, sans-serif;
+  font-weight: 700; line-height: 1.08;
+  font-size: clamp(28px, 5vw, 56px);
+  margin: 0;
+}
+.phi-main .lead{ opacity:.92; max-width: 60ch; }
+.cta-row{ display:flex; gap:12px; flex-wrap:wrap }
+
+.kpis{ display:flex; gap:24px; flex-wrap:wrap; }
+.kpis b{ font-weight:700 }
+.kpis small{ display:block; opacity:.85 }
+
+/* Secondary areas */
+.phi-tiles{ display:grid; grid-template-rows: 1fr 1fr; gap: clamp(10px, 1.2vw, 14px); }
+.phi-tiles-row{ display:grid; grid-template-columns: repeat(3,1fr); gap: clamp(10px, 1.2vw, 14px); }
+
+/* Cards & Tiles */
+.phi-card, .phi-tile{
+  display:grid; place-items:center; text-align:center;
+  padding: clamp(14px, 2.2vw, 22px);
+  border-radius: 14px;
+  background: rgba(255,255,255,.08);
+  -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+  font-weight: 600;
+  text-decoration: none;
+  color: var(--ink);
+  box-shadow: 0 10px 30px rgba(0,0,0,.15);
+}
+.phi-tile--warm  { background: #F97316; color:#fff }
+.phi-tile--amber { background: #F59E0B; color:#fff }
+
+.badge{
+  display:inline-block; font-size:.8rem; letter-spacing:.08em;
+  text-transform:uppercase; opacity:.9;
+  background: rgba(255,255,255,.14); padding:.35rem .6rem; border-radius:999px;
+}
+
+/* Decorative spiral (quarter arc), rotated per section */
+.phi-spiral{
+  position:absolute; width: 65%; height: 65%; right: 6%; bottom: 6%;
+  z-index: 1; pointer-events:none;
+}
+.rotate90  { transform: rotate(90deg);  }
+.rotate180 { transform: rotate(180deg); }
+.rotate270 { transform: rotate(270deg); }
+
+/* Responsiveness */
+@media (max-width: 1024px){
+  .phi--left, .phi--right{ grid-template-columns: 1fr; }
+  .phi--top, .phi--bottom{ grid-template-rows: auto; }
+  .phi-tiles, .phi-tiles-row{ grid-template-columns: 1fr 1fr; grid-template-rows: auto; }
+}
+@media (max-width: 640px){
+  .phi-tiles, .phi-tiles-row{ grid-template-columns: 1fr; }
+}

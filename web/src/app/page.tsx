@@ -56,20 +56,13 @@ const ALL_FEATURES: FeatureItem[] = [
   { icon: <Cpu />,         title: "DX tuned",               desc: "shadcn/ui, Tailwind, and a clean module layout so you ship faster." },
 
   // --- enhancements folded into same grid ---
-  { icon: <Webhook />,          title: "Webhooks & events",        desc: "Signed outgoing webhooks with retries, DLQ, and event explorer.", status: "Planned" },
-  { icon: <CircleDollarSign />, title: "Usage-based billing",      desc: "Meters, quotas, and proration hooks. Plug into Stripe or Paddle.", status: "In progress" },
-  { icon: <Flag />,             title: "Feature flags & experiments", desc: "Per-tenant/user flags with gradual rollouts and A/B testing.", status: "Optional" },
   { icon: <Shield />,           title: "PII vault & redaction",    desc: "Field-level encryption, tokenization, and secure views for sensitive data." },
   { icon: <Globe />,            title: "i18n & locale routing",    desc: "Localized routes, ICU formats, number/date pluralization, RTL support." },
-  { icon: <Database />,         title: "Data residency & multi-region", desc: "Tenant pinning, per-region storage, and failover playbooks." },
   { icon: <Boxes />,            title: "Background jobs & queue",  desc: "Queue adapter (Redis/SQS) + job dashboard for retries and scheduling." },
   { icon: <Terminal />,         title: "Developer CLI",            desc: "Scaffold modules, run code-mods, seed tenants, and sync environments." },
   { icon: <FileText />,         title: "Audit exports & SIEM",     desc: "Tamper-evident audit log with CSV/Parquet export and SIEM sinks." },
-  { icon: <GitBranch />,        title: "Contracts & E2E",          desc: "Pact contracts + Playwright suite with visual regression gates." },
-  { icon: <Bot />,              title: "Admin copilot",            desc: "Natural-language admin actions with role-aware guardrails.", status: "Optional" },
-  { icon: <Settings />,         title: "Theming & white-label",    desc: "Per-tenant themes, custom domains, and branded email templates." },
   { icon: <Cloud />,            title: "File storage & media",     desc: "Signed uploads, image transforms, and lifecycle policies per tenant." },
-  { icon: <FlaskConical />,     title: "Staging data sandbox",     desc: "Deterministic masking and snapshot restores for safe QA." },
+
 ]
 
 /* ----------------------------------- Page ----------------------------------- */
@@ -138,7 +131,7 @@ export default function HomePage() {
             ></div>
           </div>
 
-          <div className="container max-w-[1100px] py-14 md:py-20 lg:py-28">
+          <div className="container max-w-[1100px] py-7 md:py-10 lg:py-14">
             <div className="mx-auto flex max-w-[900px] flex-col items-center gap-5 text-center">
               <Badge variant="secondary" className="rounded-full px-3 py-1">
                 <Sparkles className="mr-1 h-3.5 w-3.5" aria-hidden="true" />
@@ -155,9 +148,9 @@ export default function HomePage() {
                 Yamato Enterprise is a multi-tenant Next.js + shadcn/ui starter with RBAC, audit trails, and a retractable
                 sidebar UX. Build secure dashboards your customers love—without wiring the basics.
               </p>
-
-                {/* Mockup / artwork */}
-                <div className="relative mt-0 flex justify-center md:mt-0">              
+              {/* Mockup / artwork + legend */}
+              <div className="relative mt-0 flex justify-center md:mt-0">
+                <figure className="inline-flex flex-col items-center gap-3">
                   <Image
                     src="/yamato_logo.svg"
                     width={520}
@@ -166,7 +159,9 @@ export default function HomePage() {
                     priority
                     className="relative block"
                   />
-                </div>
+                </figure>
+              </div>
+
 
               {/* KPIs */}
               <div className="w-full max-w-[820px] pt-6">
@@ -211,34 +206,59 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* BOTTOM CTA */}
+        {/* BOTTOM CTA (image 1/3, copy 2/3) */}
         <section className="relative border-t">
           <div className="container max-w-[1100px] py-12 md:py-16">
-            <div className="grid items-center gap-6 rounded-2xl border bg-card p-6 shadow-sm md:grid-cols-[1fr_auto] md:p-10">
-              <div>
-                <h3 className="text-xl font-semibold tracking-tight md:text-2xl">
+            <div className="grid grid-cols-1 md:grid-cols-12 items-center md:gap-6 gap-8">
+              {/* IMAGE: 4/12 (≈1/3) on md+ */}
+              <div className="md:col-span-4 order-1 md:order-none">
+                <div className="relative flex md:justify-center justify-center">
+                  <Image
+                    src="/ready.svg"
+                    width={180}
+                    height={120}
+                    alt="Yamato Enterprise preview"
+                    priority
+                    className="w-[160px] md:w-[180px] drop-shadow-sm select-none pointer-events-none"
+                  />
+                </div>
+
+              </div>
+
+              {/* COPY: 8/12 (≈2/3) on md+ */}
+              <div className="md:col-span-8">
+                <h3 className="text-xl md:text-2xl font-semibold tracking-tight">
                   Ready to launch your next SaaS?
                 </h3>
-                <p className="mt-1 text-muted-foreground">
+                  <Badge variant="secondary" className="rounded-full px-3 py-1">
+                    <Sparkles className="mr-1 h-3.5 w-3.5" aria-hidden="true" />
+                    Let <span className="font-medium px-1"> Yamato </span> handle the basic and boring parts.
+                  </Badge>
+                <p className="mt-2 text-muted-foreground">
                   Start from a secure, multi-tenant foundation with a polished UI and sane defaults.
                 </p>
-              </div>
-              <div className="flex flex-wrap items-center gap-3">
-                <Button size="lg" asChild>
-                  <Link href="/dashboard">
-                    Try the demo
-                    <Rocket className="ml-2 h-4 w-4" aria-hidden="true" />
-                  </Link>
-                </Button>
-                <Button size="lg" variant="outline" asChild>
-                  <Link href="https://github.com/salimi-my/shadcn-ui-sidebar" target="_blank" rel="noopener noreferrer">
-                    GitHub
-                  </Link>
-                </Button>
+
+                <div className="mt-5 flex flex-wrap items-center gap-3">
+                  <Button size="lg" asChild>
+                    <Link href="/dashboard">
+                      Try the demo <Rocket className="ml-2 h-4 w-4" aria-hidden="true" />
+                    </Link>
+                  </Button>
+                  <Button size="lg" variant="outline" asChild>
+                    <Link
+                      href="https://github.com/salimi-my/shadcn-ui-sidebar"
+                      target="_blank" rel="noopener noreferrer"
+                    >
+                      GitHub
+                    </Link>
+                  </Button>
+                </div>
               </div>
             </div>
           </div>
         </section>
+
+
       </main>
     </div>
   )

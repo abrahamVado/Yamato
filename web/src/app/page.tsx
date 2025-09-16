@@ -98,7 +98,7 @@ export default function HomePage() {
             {/* Mockup images */}
             <div className="mt-10 md:mt-14 relative flex justify-center">
               <Image
-                src="/logosmichis.svg"
+                src="/yamato_logo.svg"
                 width={600}
                 height={400}
                 alt="Yamato Enterprise dashboard demo (light)"

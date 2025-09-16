@@ -1,29 +1,110 @@
+// app/page.tsx
 import Link from "next/link"
 import Image from "next/image"
-import { PanelsTopLeft, Rocket, ShieldCheck, Users, Layers, Cpu, Lock, Server, Sparkles, ArrowRight, Github } from "lucide-react"
+import {
+  PanelsTopLeft,
+  Rocket,
+  ShieldCheck,
+  Users,
+  Layers,
+  Cpu,
+  Lock,
+  Server,
+  Sparkles,
+  ArrowRight,
+  Github,
+  Timer,
+  Building2,
+  KeyRound,
+  // enhancement icons
+  Globe,
+  Webhook,
+  Bot,
+  Cloud,
+  Settings,
+  Terminal,
+  FileText,
+  Shield,
+  CircleDollarSign,
+  BarChart3,
+  Flag,
+  Boxes,
+  Database,
+  GitBranch,
+  FlaskConical,
+} from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { ModeToggle } from "@/components/mode-toggle"
 
+/* ----------------------- Feature data (core + enhancements) ----------------------- */
+type FeatureItem = {
+  icon: React.ReactNode
+  title: string
+  desc: string
+  status?: "Planned" | "In progress" | "Optional"
+}
+
+const ALL_FEATURES: FeatureItem[] = [
+  // --- core features ---
+  { icon: <Layers />,      title: "Multi-tenant & billing", desc: "Isolation first. Stripe-ready hooks and per-tenant config out of the box." },
+  { icon: <ShieldCheck />, title: "RBAC & audit",           desc: "Granular roles, permissions, and audit trails for compliance-friendly teams." },
+  { icon: <Users />,       title: "Teams & invites",        desc: "Org-level access, SSO-ready patterns, and member management." },
+  { icon: <Lock />,        title: "Secure by default",      desc: "Best-practice headers, session hardening, and input sanitization." },
+  { icon: <Server />,      title: "API & jobs",             desc: "Typed endpoints and background-jobs pattern for long-running tasks." },
+  { icon: <Cpu />,         title: "DX tuned",               desc: "shadcn/ui, Tailwind, and a clean module layout so you ship faster." },
+
+  // --- enhancements folded into same grid ---
+  { icon: <Webhook />,          title: "Webhooks & events",        desc: "Signed outgoing webhooks with retries, DLQ, and event explorer.", status: "Planned" },
+  { icon: <CircleDollarSign />, title: "Usage-based billing",      desc: "Meters, quotas, and proration hooks. Plug into Stripe or Paddle.", status: "In progress" },
+  { icon: <Flag />,             title: "Feature flags & experiments", desc: "Per-tenant/user flags with gradual rollouts and A/B testing.", status: "Optional" },
+  { icon: <Shield />,           title: "PII vault & redaction",    desc: "Field-level encryption, tokenization, and secure views for sensitive data." },
+  { icon: <Globe />,            title: "i18n & locale routing",    desc: "Localized routes, ICU formats, number/date pluralization, RTL support." },
+  { icon: <Database />,         title: "Data residency & multi-region", desc: "Tenant pinning, per-region storage, and failover playbooks." },
+  { icon: <Boxes />,            title: "Background jobs & queue",  desc: "Queue adapter (Redis/SQS) + job dashboard for retries and scheduling." },
+  { icon: <Terminal />,         title: "Developer CLI",            desc: "Scaffold modules, run code-mods, seed tenants, and sync environments." },
+  { icon: <FileText />,         title: "Audit exports & SIEM",     desc: "Tamper-evident audit log with CSV/Parquet export and SIEM sinks." },
+  { icon: <GitBranch />,        title: "Contracts & E2E",          desc: "Pact contracts + Playwright suite with visual regression gates." },
+  { icon: <Bot />,              title: "Admin copilot",            desc: "Natural-language admin actions with role-aware guardrails.", status: "Optional" },
+  { icon: <Settings />,         title: "Theming & white-label",    desc: "Per-tenant themes, custom domains, and branded email templates." },
+  { icon: <Cloud />,            title: "File storage & media",     desc: "Signed uploads, image transforms, and lifecycle policies per tenant." },
+  { icon: <FlaskConical />,     title: "Staging data sandbox",     desc: "Deterministic masking and snapshot restores for safe QA." },
+]
+
+/* ----------------------------------- Page ----------------------------------- */
 export default function HomePage() {
   return (
-    <div className="flex flex-col min-h-screen bg-background">
+    <div className="flex min-h-screen flex-col bg-background">
       {/* Header */}
-      <header className="z-[50] sticky top-0 w-full border-b bg-background/80 backdrop-blur-md supports-[backdrop-filter]:bg-background/60">
-        <div className="container h-14 flex items-center">
-          <Link href="/" className="flex items-center hover:opacity-90 transition-opacity">
-            <PanelsTopLeft className="w-6 h-6 mr-3" />
+      <header className="sticky top-0 z-50 w-full border-b bg-background/80 backdrop-blur-md supports-[backdrop-filter]:bg-background/60">
+        <div className="container flex h-14 items-center">
+          <Link href="/" className="flex items-center transition-opacity hover:opacity-90">
+            <PanelsTopLeft className="mr-3 h-6 w-6" aria-hidden="true" />
             <span className="font-bold tracking-tight">Yamato Enterprise</span>
-            <span className="sr-only">Yamato Enterprise</span>
+            <span className="sr-only">Go to Yamato Enterprise home</span>
           </Link>
+
           <nav className="ml-auto flex items-center gap-2">
-            <Button variant="outline" size="icon" className="rounded-full w-8 h-8" asChild>
+            <Button variant="ghost" className="hidden sm:flex" size="sm" asChild>
+              <Link href="#features">Features</Link>
+            </Button>
+            <Button variant="ghost" className="hidden sm:flex" size="sm" asChild>
+              <Link href="#demo">Demo</Link>
+            </Button>
+            <Button variant="outline" size="icon" className="h-8 w-8 rounded-full" asChild>
               <Link href="https://github.com/salimi-my/shadcn-ui-sidebar" target="_blank" rel="noopener noreferrer">
-                <Github className="h-[1.1rem] w-[1.1rem]" />
+                <Github className="h-[1.1rem] w-[1.1rem]" aria-hidden="true" />
+                <span className="sr-only">Open GitHub</span>
               </Link>
             </Button>
             <ModeToggle />
+            <Button className="hidden sm:inline-flex" size="sm" asChild>
+              <Link href="/dashboard">
+                Live demo
+                <ArrowRight className="ml-1.5 h-4 w-4" aria-hidden="true" />
+              </Link>
+            </Button>
           </nav>
         </div>
       </header>
@@ -31,202 +112,205 @@ export default function HomePage() {
       {/* Main */}
       <main className="flex-1">
         {/* HERO */}
-        <section
-          className="relative border-b"
-          aria-label="Hero"
-        >
-          <div
-            className="absolute inset-0 -z-10"
-            aria-hidden="true"
-          >
-            {/* Subtle radial/gradient bg */}
-            <div className="h-full w-full bg-gradient-to-b from-primary/10 via-transparent to-transparent" />
-            <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(600px_300px_at_50%_-10%,hsl(var(--primary)/.20),transparent)]" />
+        <section aria-label="Hero" className="relative border-b">
+          {/* Ambient background */}
+          <div className="absolute inset-0 -z-10">
+            <div className="h-full w-full bg-gradient-to-b from-primary/10 via-transparent to-transparent"></div>
+            <div
+              className="pointer-events-none absolute inset-0 opacity-80"
+              aria-hidden="true"
+              style={{
+                background:
+                  "radial-gradient(600px 300px at 50% -10%, hsl(var(--primary)/0.20), transparent), radial-gradient(800px 400px at 100% 0%, hsl(var(--primary)/0.12), transparent)",
+                maskImage:
+                  "radial-gradient(ellipse at center, black 60%, transparent 100%)",
+              }}
+            ></div>
+            <div
+              aria-hidden="true"
+              className="pointer-events-none absolute inset-0 opacity-[0.04]"
+              style={{
+                backgroundImage:
+                  "linear-gradient(to right, currentColor 1px, transparent 1px), linear-gradient(to bottom, currentColor 1px, transparent 1px)",
+                backgroundSize: "24px 24px",
+                color: "hsl(var(--foreground))",
+              }}
+            ></div>
           </div>
 
-          <div className="container py-14 md:py-20 lg:py-28 max-w-[1100px]">
-            <div className="mx-auto flex flex-col items-center text-center gap-5">
+          <div className="container max-w-[1100px] py-14 md:py-20 lg:py-28">
+            <div className="mx-auto flex max-w-[900px] flex-col items-center gap-5 text-center">
               <Badge variant="secondary" className="rounded-full px-3 py-1">
-                Open-source + Enterprise ready
+                <Sparkles className="mr-1 h-3.5 w-3.5" aria-hidden="true" />
+                Open-source + Enterprise-ready
               </Badge>
 
-              <h1 className="text-3xl md:text-5xl font-bold tracking-tight leading-tight">
-                Ship production-ready SaaS, <span className="text-primary">fast</span>.
+              <h1 className="text-balance text-3xl md:text-5xl font-bold leading-tight tracking-tight">
+                Ship production-ready SaaS,{" "}
+                <span className="bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
+                  reliable, secure, and audit-ready
+                </span>.
               </h1>
-
-              <p className="text-muted-foreground max-w-[760px] text-balance">
-                Yamato Enterprise is a multi-tenant Next.js + shadcn/ui starter with RBAC, audit trails,
-                and a retractable sidebar UX. Build secure dashboards your customers love—without wiring the basics.
+              <p className="text-balance max-w-[780px] text-muted-foreground">
+                Yamato Enterprise is a multi-tenant Next.js + shadcn/ui starter with RBAC, audit trails, and a retractable
+                sidebar UX. Build secure dashboards your customers love—without wiring the basics.
               </p>
 
-              <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
-                <Button size="lg" asChild>
-                  <Link href="/dashboard">
-                    Live demo <ArrowRight className="ml-2 h-4 w-4" />
-                  </Link>
-                </Button>
-                <Button size="lg" variant="outline" asChild>
-                  <Link href="https://ui.shadcn.com/" target="_blank" rel="noopener noreferrer">
-                    Learn shadcn/ui
-                  </Link>
-                </Button>
-              </div>
+                {/* Mockup / artwork */}
+                <div className="relative mt-0 flex justify-center md:mt-0">              
+                  <Image
+                    src="/yamato_logo.svg"
+                    width={520}
+                    height={380}
+                    alt="Yamato Enterprise dashboard preview"
+                    priority
+                    className="relative block"
+                  />
+                </div>
 
               {/* KPIs */}
-              <div className="grid grid-cols-3 gap-4 pt-6 w-full max-w-[720px]">
-                <Card className="border-muted">
-                  <CardContent className="p-4 text-center">
-                    <div className="text-2xl font-bold">~15 min</div>
-                    <div className="text-xs text-muted-foreground">to first deploy</div>
-                  </CardContent>
-                </Card>
-                <Card className="border-muted">
-                  <CardContent className="p-4 text-center">
-                    <div className="text-2xl font-bold">100+ </div>
-                    <div className="text-xs text-muted-foreground">tenants per cluster</div>
-                  </CardContent>
-                </Card>
-                <Card className="border-muted">
-                  <CardContent className="p-4 text-center">
-                    <div className="text-2xl font-bold">RBAC</div>
-                    <div className="text-xs text-muted-foreground">roles & permissions built-in</div>
-                  </CardContent>
-                </Card>
+              <div className="w-full max-w-[820px] pt-6">
+                <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+                  <Stat icon={<Timer className="h-4 w-4" />} value="~15 min" label="to first deploy" />
+                  <Stat icon={<Building2 className="h-4 w-4" />} value="100+" label="tenants per cluster" />
+                  <Stat icon={<KeyRound className="h-4 w-4" />} value="RBAC" label="roles & permissions built-in" />
+                  <Stat icon={<BarChart3 className="h-4 w-4" />} value="Observability" label="Metrics, tracing, and Reports" />
+                  <Stat
+                        icon={<Github className="h-4 w-4" />}
+                        value="Open source"
+                        label="MIT-licensed core"
+                      />
+                      {/* NEW: Security */}
+                      <Stat
+                        icon={<ShieldCheck className="h-4 w-4" />}
+                        value="Security"
+                        label="CSP, 2FA-ready"
+                      />
+                </div>
               </div>
-            </div>
-
-            {/* Mockup images */}
-            <div className="mt-10 md:mt-14 relative flex justify-center">
-              <Image
-                src="/yamato_logo.svg"
-                width={600}
-                height={400}
-                alt="Yamato Enterprise dashboard demo (light)"
-                priority
-                className="shadow-sm"
-              />
             </div>
           </div>
         </section>
 
-        {/* FEATURES */}
-        <section className="container py-16 md:py-24 max-w-[1100px]" aria-label="Features">
-          <div className="mx-auto text-center max-w-[780px]">
-            <h2 className="text-2xl md:text-4xl font-bold tracking-tight">Everything you need</h2>
-            <p className="text-muted-foreground mt-3">
-              Stop wiring the foundation—focus on your moat. Yamato Enterprise ships batteries-included for
-              modern multi-tenant SaaS.
+        {/* FEATURES (core + enhancements) */}
+        <section id="features" className="container max-w-[1100px] py-16 md:py-24" aria-label="Features">
+          <div className="mx-auto max-w-[780px] text-center">
+            <h2 className="text-2xl font-bold tracking-tight md:text-4xl">Everything you need</h2>
+            <p className="mt-3 text-muted-foreground">
+              Stop wiring the foundation—focus on your moat. Yamato Enterprise ships batteries-included for modern
+              multi-tenant SaaS.
             </p>
           </div>
 
           <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            <Feature icon={<Layers />} title="Multi-tenant & billing">
-              Isolation first. Stripe-ready hooks and per-tenant config out of the box.
-            </Feature>
-            <Feature icon={<ShieldCheck />} title="RBAC & audit">
-              Granular roles, permissions, and audit trails for compliance-friendly teams.
-            </Feature>
-            <Feature icon={<Users />} title="Teams & invites">
-              Org-level access, SSO-ready patterns, and member management.
-            </Feature>
-            <Feature icon={<Lock />} title="Secure by default">
-              Best-practice headers, session hardening, and input sanitization.
-            </Feature>
-            <Feature icon={<Server />} title="API & jobs">
-              Typed endpoints and background jobs pattern for long-running tasks.
-            </Feature>
-            <Feature icon={<Cpu />} title="DX tuned">
-              shadcn/ui, Tailwind, and a clean module layout so you ship faster.
-            </Feature>
-          </div>
-
-          <div className="mt-10 flex items-center justify-center gap-3">
-            <Button asChild>
-              <Link href="/dashboard">
-                Try the demo <Rocket className="ml-2 h-4 w-4" />
-              </Link>
-            </Button>
-            <Button variant="ghost" asChild>
-              <Link href="https://github.com/salimi-my/shadcn-ui-sidebar" target="_blank" rel="noopener noreferrer">
-                Star on GitHub
-              </Link>
-            </Button>
+            {ALL_FEATURES.map((f) => (
+              <Feature key={f.title} icon={f.icon} title={f.title} status={f.status}>
+                {f.desc}
+              </Feature>
+            ))}
           </div>
         </section>
 
-        {/* SOCIAL PROOF */}
-        <section className="border-t bg-muted/30">
-          <div className="container py-10 md:py-12">
-            <p className="text-center text-sm text-muted-foreground mb-6">
-              Trusted patterns used by teams shipping real SaaS
-            </p>
-            <div className="flex flex-wrap items-center justify-center gap-8 opacity-80">
-              {/* Replace these with real monochrome logos when ready */}
-              <LogoPill>Acme</LogoPill>
-              <LogoPill>Northwind</LogoPill>
-              <LogoPill>Kite</LogoPill>
-              <LogoPill>Nova</LogoPill>
-              <LogoPill>Flux</LogoPill>
+        {/* BOTTOM CTA */}
+        <section className="relative border-t">
+          <div className="container max-w-[1100px] py-12 md:py-16">
+            <div className="grid items-center gap-6 rounded-2xl border bg-card p-6 shadow-sm md:grid-cols-[1fr_auto] md:p-10">
+              <div>
+                <h3 className="text-xl font-semibold tracking-tight md:text-2xl">
+                  Ready to launch your next SaaS?
+                </h3>
+                <p className="mt-1 text-muted-foreground">
+                  Start from a secure, multi-tenant foundation with a polished UI and sane defaults.
+                </p>
+              </div>
+              <div className="flex flex-wrap items-center gap-3">
+                <Button size="lg" asChild>
+                  <Link href="/dashboard">
+                    Try the demo
+                    <Rocket className="ml-2 h-4 w-4" aria-hidden="true" />
+                  </Link>
+                </Button>
+                <Button size="lg" variant="outline" asChild>
+                  <Link href="https://github.com/salimi-my/shadcn-ui-sidebar" target="_blank" rel="noopener noreferrer">
+                    GitHub
+                  </Link>
+                </Button>
+              </div>
             </div>
           </div>
         </section>
       </main>
-
-      {/* Footer */}
-      <footer className="py-8 md:py-10 border-t">
-        <div className="container flex flex-col items-center justify-center gap-3 text-center">
-          <p className="text-sm text-muted-foreground">
-            Built with Next.js + shadcn/ui. Sidebar patterns adapted for Yamato Enterprise.
-          </p>
-          <div className="flex items-center gap-3">
-            <Button variant="outline" size="sm" asChild>
-              <Link href="https://ui.shadcn.com" target="_blank" rel="noopener noreferrer">
-                Learn shadcn/ui <Sparkles className="ml-2 h-3.5 w-3.5" />
-              </Link>
-            </Button>
-            <Button size="sm" asChild>
-              <Link href="/dashboard">
-                Launch demo <ArrowRight className="ml-2 h-3.5 w-3.5" />
-              </Link>
-            </Button>
-          </div>
-        </div>
-      </footer>
     </div>
   )
 }
 
-/* ---------- Helpers ---------- */
-function Feature({
+/* -------------------------------- Components -------------------------------- */
+
+function Stat({
   icon,
-  title,
-  children,
+  value,
+  label,
 }: {
   icon: React.ReactNode
-  title: string
-  children: React.ReactNode
+  value: string
+  label: string
 }) {
   return (
-    <Card className="border-muted h-full">
-      <CardHeader className="space-y-1 pb-3">
-        <div className="flex items-center gap-3">
-          <div className="rounded-lg border w-9 h-9 grid place-items-center bg-background">
-            <span className="text-primary">{icon}</span>
-          </div>
-          <CardTitle className="text-base">{title}</CardTitle>
+    <Card className="group relative h-full overflow-hidden border-muted transition-colors hover:border-primary/30">
+      <CardContent className="flex items-center justify-between gap-3 p-4">
+        <div className="grid gap-1">
+          <div className="text-lg font-semibold leading-none">{value}</div>
+          <div className="text-xs text-muted-foreground">{label}</div>
         </div>
-      </CardHeader>
-      <CardContent className="text-sm text-muted-foreground">
-        {children}
+        <div className="rounded-md border bg-background p-2 text-primary shadow-sm" aria-hidden="true">
+          {icon}
+        </div>
       </CardContent>
+      <div
+        className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+        aria-hidden="true"
+        style={{
+          background:
+            "linear-gradient(120deg, transparent 0%, hsl(var(--primary)/0.06) 50%, transparent 100%)",
+          maskImage: "linear-gradient(transparent, black 20%, black 80%, transparent)",
+        }}
+      ></div>
     </Card>
   )
 }
 
-function LogoPill({ children }: { children: React.ReactNode }) {
+function Feature({
+  icon,
+  title,
+  children,
+  status,
+}: {
+  icon: React.ReactNode
+  title: string
+  children: React.ReactNode
+  status?: "Planned" | "In progress" | "Optional"
+}) {
   return (
-    <div className="px-4 py-2 rounded-full border bg-background text-muted-foreground text-sm">
-      {children}
-    </div>
+    <Card className="h-full border-muted transition-colors hover:border-primary/30">
+      <CardHeader className="space-y-1 pb-3">
+        <div className="flex items-center gap-3">
+          <div
+            className="grid h-9 w-9 place-items-center rounded-lg border bg-background text-primary shadow-sm"
+            aria-hidden="true"
+          >
+            {icon}
+          </div>
+          <div className="flex items-center gap-2">
+            <CardTitle className="text-base">{title}</CardTitle>
+            {status ? (
+              <Badge variant="outline" className="h-5 px-2 text-[11px]">
+                {status}
+              </Badge>
+            ) : null}
+          </div>
+        </div>
+      </CardHeader>
+      <CardContent className="text-sm text-muted-foreground">{children}</CardContent>
+    </Card>
   )
 }

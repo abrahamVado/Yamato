@@ -36,14 +36,6 @@ export function PublicHeader() {
       <div className="mx-auto flex max-w-7xl items-center justify-between">
         {/* Left: logo/brand */}
         <Link href="/" className="flex items-center gap-2 text-xl font-bold tracking-tight text-primary">
-          <Image
-            src="/yamato_logo.svg"
-            alt={t("brand")}
-            width={28}
-            height={28}
-            className="h-7 w-7"
-            priority={false}
-          />
           <span>{t("brand")}</span>
         </Link>
 

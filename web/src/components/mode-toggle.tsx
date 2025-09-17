@@ -1,37 +1,35 @@
-"use client";
-
-import * as React from "react";
-import { useTheme } from "next-themes";
-import { MoonIcon, SunIcon } from "@radix-ui/react-icons";
-
-import { Button } from "@/components/ui/button";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-  TooltipProvider
-} from "@/components/ui/tooltip";
+"use client"
+import * as React from "react"
+import { useTheme } from "next-themes"
+import { MoonIcon, SunIcon } from "@radix-ui/react-icons"
+import { Button } from "@/components/ui/button"
+import { Tooltip, TooltipContent, TooltipTrigger, TooltipProvider } from "@/components/ui/tooltip"
 
 export function ModeToggle() {
-  const { setTheme, theme } = useTheme();
+  const { theme, resolvedTheme, setTheme } = useTheme()
+  const current = (theme === "system" ? resolvedTheme : theme) ?? "light"
+  const next = current === "dark" ? "light" : "dark"
 
   return (
     <TooltipProvider disableHoverableContent>
       <Tooltip delayDuration={100}>
         <TooltipTrigger asChild>
           <Button
-            className="rounded-full w-8 h-8 bg-background mr-2"
             variant="outline"
             size="icon"
-            onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+            onClick={() => setTheme(next)}
+            className="relative mr-2 h-8 w-8 rounded-full bg-background text-icon"
+            aria-label="Switch theme"     // static
+            title="Switch theme"          // static (prevents mismatch)
           >
-            <SunIcon className="w-[1.2rem] h-[1.2rem] rotate-90 scale-0 transition-transform ease-in-out duration-500 dark:rotate-0 dark:scale-100" />
-            <MoonIcon className="absolute w-[1.2rem] h-[1.2rem] rotate-0 scale-100 transition-transform ease-in-out duration-500 dark:-rotate-90 dark:scale-0" />
-            <span className="sr-only">Switch Theme</span>
+            <SunIcon  className="h-[1.2rem] w-[1.2rem] text-icon-sun rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+            <MoonIcon className="absolute h-[1.2rem] w-[1.2rem] text-icon-moon rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+            <span className="sr-only">Switch theme</span>
           </Button>
         </TooltipTrigger>
-        <TooltipContent side="bottom">Switch Theme</TooltipContent>
+        {/* dynamic text lives in client-only tooltip content */}
+        <TooltipContent side="bottom">Switch theme ({current} → {next})</TooltipContent>
       </Tooltip>
     </TooltipProvider>
-  );
+  )
 }

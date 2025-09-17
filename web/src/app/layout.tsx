@@ -15,7 +15,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" suppressHydrationWarning>
       <body className="min-h-screen bg-background text-foreground antialiased">
-        <ThemeProvider>
+        <ThemeProvider
+          attribute="class"            // <-- critical for Tailwind dark mode
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange    // smoother icon/color transitions
+        >
           <I18nProvider defaultLocale="en">
             <PublicHeader />
             {children}

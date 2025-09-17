@@ -145,17 +145,20 @@ export default function HomePage() {
                 {t("hero.subtitle")}
               </p>
 
-              {/* Mockup / artwork + legend */}
+              {/* Mockup / artwork + legend (Option A: fill + aspect wrapper) */}
               <div className="relative mt-0 flex justify-center md:mt-0">
                 <figure className="inline-flex flex-col items-center gap-3">
-                  <Image
-                    src="/yamato_logo.svg"
-                    width={520}
-                    height={380}
-                    alt={t("hero.image_alt")}
-                    priority
-                    className="relative block"
-                  />
+                  <div className="relative w-[min(90vw,520px)] max-w-full aspect-[26/19]">
+                    <Image
+                      src="/yamato_logo.svg"
+                      alt={t("hero.image_alt")}
+                      priority
+                      fetchPriority="high"
+                      fill
+                      sizes="(max-width: 900px) 90vw, 520px"
+                      className="object-contain"
+                    />
+                  </div>
                 </figure>
               </div>
 
@@ -193,17 +196,19 @@ export default function HomePage() {
         <section className="relative border-t">
           <div className="container max-w-[1100px] py-12 md:py-16">
             <div className="grid grid-cols-1 md:grid-cols-12 items-center md:gap-6 gap-8">
-              {/* IMAGE: 4/12 (≈1/3) on md+ */}
+              {/* IMAGE: 4/12 (≈1/3) on md+ — Option A wrapper */}
               <div className="md:col-span-4 order-1 md:order-none">
                 <div className="relative flex md:justify-center justify-center">
-                  <Image
-                    src="/ready.svg"
-                    width={180}
-                    height={120}
-                    alt={t("cta.image_alt")}
-                    priority
-                    className="w-[160px] md:w-[180px] drop-shadow-sm select-none pointer-events-none"
-                  />
+                  <div className="relative w-[clamp(160px,20vw,180px)] aspect-[3/2]">
+                    <Image
+                      src="/ready.svg"
+                      alt={t("cta.image_alt")}
+                      priority
+                      fill
+                      sizes="(max-width: 768px) 160px, 180px"
+                      className="object-contain drop-shadow-sm select-none pointer-events-none"
+                    />
+                  </div>
                 </div>
               </div>
 

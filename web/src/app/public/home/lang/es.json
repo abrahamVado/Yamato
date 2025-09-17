@@ -1,0 +1,107 @@
+{
+  "brand": "Yamato",
+  "nav": {
+    "modules": "Módulos",
+    "docs": "Docs",
+    "register": "Registrarse",
+    "login": "Acceder"
+  },
+  "badge": {
+    "os_enterprise": "Código abierto + Listo para empresa"
+  },
+  "hero": {
+    "title": "Lanza un SaaS listo para producción, confiable, seguro y apto para auditoría.",
+    "subtitle": "Yamato Enterprise es un starter multi-tenant con Next.js + shadcn/ui, RBAC, trazas de auditoría y sidebar retráctil. Crea paneles seguros que tus clientes amen—sin cablear lo básico.",
+    "image_alt": "Vista previa del panel Yamato Enterprise"
+  },
+  "kpis": {
+    "deploy_time": {
+      "value": "~15 min",
+      "label": "hasta el primer deploy"
+    },
+    "tenants": {
+      "value": "100+",
+      "label": "tenants por clúster"
+    },
+    "rbac": {
+      "value": "RBAC",
+      "label": "roles y permisos integrados"
+    },
+    "observability": {
+      "value": "Observabilidad",
+      "label": "Métricas, trazas y reportes"
+    },
+    "oss": {
+      "value": "Código abierto",
+      "label": "Núcleo con licencia MIT"
+    },
+    "security": {
+      "value": "Seguridad",
+      "label": "CSP, listo para 2FA"
+    }
+  },
+  "features": {
+    "heading": "Todo lo que necesitas",
+    "subheading": "Deja de cablear la base—enfócate en tu ventaja. Yamato Enterprise trae baterías incluidas para SaaS multi-tenant moderno.",
+    "items": [
+      {
+        "title": "Multi-tenant y facturación",
+        "desc": "Aislamiento primero. Hooks listos para Stripe y configuración por tenant."
+      },
+      {
+        "title": "RBAC y auditoría",
+        "desc": "Roles, permisos y trazas de auditoría granulares para equipos con cumplimiento."
+      },
+      {
+        "title": "Equipos e invitaciones",
+        "desc": "Acceso a nivel organización, patrones listos para SSO y gestión de miembros."
+      },
+      {
+        "title": "Seguro por defecto",
+        "desc": "Encabezados recomendados, sesiones endurecidas y sanitización de entradas."
+      },
+      {
+        "title": "API y jobs",
+        "desc": "Endpoints tipados y patrón de jobs en segundo plano para tareas largas."
+      },
+      {
+        "title": "DX afinada",
+        "desc": "shadcn/ui, Tailwind y layout modular limpio para enviar más rápido."
+      },
+      {
+        "title": "Bóveda PII y redacción",
+        "desc": "Cifrado a nivel de campo, tokenización y vistas seguras para datos sensibles."
+      },
+      {
+        "title": "i18n y ruteo por locale",
+        "desc": "Rutas localizadas, formatos ICU, plurales y soporte RTL."
+      },
+      {
+        "title": "Jobs en background y cola",
+        "desc": "Adaptador de colas (Redis/SQS) + tablero para reintentos y programación."
+      },
+      {
+        "title": "CLI para desarrolladores",
+        "desc": "Genera módulos, ejecuta code-mods, seed de tenants y sincroniza entornos."
+      },
+      {
+        "title": "Exportes de auditoría y SIEM",
+        "desc": "Log a prueba de manipulación con exporte CSV/Parquet y sinks para SIEM."
+      },
+      {
+        "title": "Almacenamiento y medios",
+        "desc": "Cargas firmadas, transformación de imágenes y políticas de ciclo de vida por tenant."
+      }
+    ]
+  },
+  "cta": {
+    "heading": "¿Listo para lanzar tu próximo SaaS?",
+    "badge": "Deja que {brand} se encargue de lo básico y aburrido.",
+    "copy": "Empieza desde una base multi-tenant segura con UI pulida y defaults sensatos.",
+    "buttons": {
+      "try_demo": "Probar demo",
+      "github": "GitHub"
+    },
+    "image_alt": "Vista previa de Yamato Enterprise"
+  }
+}

@@ -10,8 +10,9 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
 } from "@/components/ui/dropdown-menu"
+import { useI18n } from "@/app/providers/I18nProvider"
 
-// Configure the languages you support
+// Supported locales (must match the JSON files your provider can load)
 const LOCALES = [
   { code: "en", label: "English", flag: "/lang/us.svg" },
   { code: "es", label: "Español", flag: "/lang/mx.svg" },
@@ -22,61 +23,30 @@ const LOCALES = [
 
 type LocaleCode = (typeof LOCALES)[number]["code"]
 
-// Cookie helpers (simple, client-side)
-const COOKIE_NAME = "yamato_lang"
-function setLangCookie(value: string) {
-  // 180 days
-  document.cookie = `${COOKIE_NAME}=${encodeURIComponent(value)}; Path=/; Max-Age=${60 * 60 * 24 * 180}; SameSite=Lax`
-}
-function getLangCookie(): string | null {
-  if (typeof document === "undefined") return null
-  const m = document.cookie.match(new RegExp(`(?:^|; )${COOKIE_NAME}=([^;]*)`))
-  return m ? decodeURIComponent(m[1]) : null
-}
-
-// Replace first path segment if it matches a locale
+// Optional: update URL if you use locale-prefixed routes like /en/... /es/...
 function replaceLocaleInPath(path: string, next: LocaleCode): string {
   const segs = path.split("/")
-  // Example: "", "en", "products"...
   if (LOCALES.some(l => l.code === segs[1])) {
     segs[1] = next
     return segs.join("/") || "/"
   }
-  // If you don't use locale prefixes, just return the same path
   return path
 }
 
 export function LanguageToggle() {
+  const { locale, setLocale } = useI18n()               // ← single source of truth
   const router = useRouter()
   const pathname = usePathname()
 
-  // Initial locale from cookie, or detect from path prefix, or fallback to "en"
-  const initialFromCookie = React.useMemo(() => getLangCookie(), [])
-  const initialFromPath = React.useMemo(() => {
-    const seg = pathname?.split("/")[1]
-    return LOCALES.find(l => l.code === seg)?.code
-  }, [pathname])
-
-  const fallback: LocaleCode = "en"
-  const initialCode = (initialFromCookie as LocaleCode) || (initialFromPath as LocaleCode) || fallback
-  const [current, setCurrent] = React.useState<LocaleCode>(initialCode)
-
-  React.useEffect(() => {
-    // Keep cookie aligned if it differs
-    const c = getLangCookie()
-    if (c !== current) setLangCookie(current)
-  }, [current])
-
-  const active = LOCALES.find(l => l.code === current) ?? LOCALES[0]
+  const active = LOCALES.find(l => l.code === locale) ?? LOCALES[0]
 
   const onSelect = (code: LocaleCode) => {
-    if (code === current) return
-    setCurrent(code)
-    setLangCookie(code)
-    // If you use /en/... prefixed routes, update the URL:
+    if (code === locale) return
+    // 1) update i18n (will load/merge dict and re-render)
+    setLocale(code)
+    // 2) (optional) if using route prefixes, keep URL in sync:
     const nextPath = replaceLocaleInPath(pathname, code)
-    router.push(nextPath)
-    // If you DON'T use prefixed routes, you can instead trigger your i18n switch here.
+    if (nextPath !== pathname) router.push(nextPath)
   }
 
   return (

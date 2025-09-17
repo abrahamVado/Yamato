@@ -1,9 +1,11 @@
 "use client"
-import { useSearchParams } from "next/navigation"
-// app/page.tsx
+
 import Link from "next/link"
 import Image from "next/image"
+import * as React from "react"
+import { useI18n } from "@/app/providers/I18nProvider"
 import { LanguageToggle } from "@/components/language-toggle"
+
 import {
   PanelsTopLeft,
   Rocket,
@@ -19,7 +21,6 @@ import {
   Timer,
   Building2,
   KeyRound,
-  // enhancement icons
   Globe,
   Webhook,
   Bot,
@@ -37,12 +38,13 @@ import {
   FlaskConical,
   Menu
 } from "lucide-react"
+
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { ModeToggle } from "@/components/mode-toggle"
 
-/* ----------------------- Feature data (core + enhancements) ----------------------- */
+/* ----------------------- Types ----------------------- */
 type FeatureItem = {
   icon: React.ReactNode
   title: string
@@ -50,48 +52,75 @@ type FeatureItem = {
   status?: "Planned" | "In progress" | "Optional"
 }
 
-const ALL_FEATURES: FeatureItem[] = [
-  // --- core features ---
-  { icon: <Layers />,      title: "Multi-tenant & billing", desc: "Isolation first. Stripe-ready hooks and per-tenant config out of the box." },
-  { icon: <ShieldCheck />, title: "RBAC & audit",           desc: "Granular roles, permissions, and audit trails for compliance-friendly teams." },
-  { icon: <Users />,       title: "Teams & invites",        desc: "Org-level access, SSO-ready patterns, and member management." },
-  { icon: <Lock />,        title: "Secure by default",      desc: "Best-practice headers, session hardening, and input sanitization." },
-  { icon: <Server />,      title: "API & jobs",             desc: "Typed endpoints and background-jobs pattern for long-running tasks." },
-  { icon: <Cpu />,         title: "DX tuned",               desc: "shadcn/ui, Tailwind, and a clean module layout so you ship faster." },
-
-  // --- enhancements folded into same grid ---
-  { icon: <Shield />,           title: "PII vault & redaction",    desc: "Field-level encryption, tokenization, and secure views for sensitive data." },
-  { icon: <Globe />,            title: "i18n & locale routing",    desc: "Localized routes, ICU formats, number/date pluralization, RTL support." },
-  { icon: <Boxes />,            title: "Background jobs & queue",  desc: "Queue adapter (Redis/SQS) + job dashboard for retries and scheduling." },
-  { icon: <Terminal />,         title: "Developer CLI",            desc: "Scaffold modules, run code-mods, seed tenants, and sync environments." },
-  { icon: <FileText />,         title: "Audit exports & SIEM",     desc: "Tamper-evident audit log with CSV/Parquet export and SIEM sinks." },
-  { icon: <Cloud />,            title: "File storage & media",     desc: "Signed uploads, image transforms, and lifecycle policies per tenant." },
-
-]
+type DictFeature = { title: string; desc: string }
 
 /* ----------------------------------- Page ----------------------------------- */
 export default function HomePage() {
+  const { t, dict } = useI18n()
+
+  // KPIs from dict
+  const KPIS = [
+    { icon: <Timer className="h-4 w-4" />,      value: t("kpis.deploy_time.value"),   label: t("kpis.deploy_time.label") },
+    { icon: <Building2 className="h-4 w-4" />,  value: t("kpis.tenants.value"),       label: t("kpis.tenants.label") },
+    { icon: <KeyRound className="h-4 w-4" />,   value: t("kpis.rbac.value"),          label: t("kpis.rbac.label") },
+    { icon: <BarChart3 className="h-4 w-4" />,  value: t("kpis.observability.value"), label: t("kpis.observability.label") },
+    { icon: <Github className="h-4 w-4" />,     value: t("kpis.oss.value"),           label: t("kpis.oss.label") },
+    { icon: <ShieldCheck className="h-4 w-4" />,value: t("kpis.security.value"),      label: t("kpis.security.label") }
+  ]
+
+  // Icons mapped to the order of features.items in the JSON
+  const featureIcons: React.ReactNode[] = [
+    <Layers key="layers" />,      // Multi-tenant & billing
+    <ShieldCheck key="shieldc" />,// RBAC & audit
+    <Users key="users" />,        // Teams & invites
+    <Lock key="lock" />,          // Secure by default
+    <Server key="server" />,      // API & jobs
+    <Cpu key="cpu" />,            // DX tuned
+    <Shield key="shield" />,      // PII vault & redaction
+    <Globe key="globe" />,        // i18n & locale routing
+    <Boxes key="boxes" />,        // Background jobs & queue
+    <Terminal key="terminal" />,  // Developer CLI
+    <FileText key="filetext" />,  // Audit exports & SIEM
+    <Cloud key="cloud" />         // File storage & media
+  ]
+
+  // ---- SAFE features build (no crash if features/items missing) ----
+  const featureItems = (dict as any)?.features?.items as DictFeature[] | undefined
+
+  if (process.env.NODE_ENV !== "production" && !featureItems) {
+    // Helpful during development if a locale forgot the section
+    // eslint-disable-next-line no-console
+    console.warn("[home] Missing dict.features.items — rendering 0 features")
+  }
+
+  // Render all JSON items; if there are fewer icons, reuse the first as fallback
+  const ALL_FEATURES: FeatureItem[] = (featureItems ?? []).map((it, i) => ({
+    icon: featureIcons[i] ?? featureIcons[0],
+    title: it.title,
+    desc: it.desc
+  }))
+
   return (
     <div className="flex min-h-screen flex-col bg-background">
       {/* Header */}
-    <header className="w-full border-b bg-background px-6 py-4">
-      <div className="flex max-w-7xl mx-auto items-center justify-between">
-        {/* Left logo */}
-        <Link href="/" className="text-xl font-bold tracking-tight text-primary">
-          Yamato
-        </Link>
+      <header className="w-full border-b bg-background px-6 py-4">
+        <div className="flex max-w-7xl mx-auto items-center justify-between">
+          {/* Left logo */}
+          <Link href="/" className="text-xl font-bold tracking-tight text-primary">
+            {t("brand")}
+          </Link>
 
-        {/* Right menu */}
-        <div className="flex items-center gap-4 text-sm">
-          <Link href="/modules" className="hover:text-primary">Modules</Link>
-          <Link href="/docs" className="hover:text-primary">Docs</Link>
-          <Link href="/auth/register" className="hover:text-primary">Register</Link>
-          <Link href="/auth/login" className="hover:text-primary">Login</Link>
-          <LanguageToggle />
-          <ModeToggle />
+          {/* Right menu */}
+          <div className="flex items-center gap-4 text-sm">
+            <Link href="/modules" className="hover:text-primary">{t("nav.modules")}</Link>
+            <Link href="/docs" className="hover:text-primary">{t("nav.docs")}</Link>
+            <Link href="/auth/register" className="hover:text-primary">{t("nav.register")}</Link>
+            <Link href="/auth/login" className="hover:text-primary">{t("nav.login")}</Link>
+            <LanguageToggle />
+            <ModeToggle />
+          </div>
         </div>
-      </div>
-    </header>
+      </header>
 
       {/* Main */}
       <main className="flex-1">
@@ -126,19 +155,16 @@ export default function HomePage() {
             <div className="mx-auto flex max-w-[900px] flex-col items-center gap-5 text-center">
               <Badge variant="secondary" className="rounded-full px-3 py-1">
                 <Sparkles className="mr-1 h-3.5 w-3.5" aria-hidden="true" />
-                Open-source + Enterprise-ready
+                {t("badge.os_enterprise")}
               </Badge>
 
               <h1 className="text-balance text-3xl md:text-5xl font-bold leading-tight tracking-tight">
-                Ship production-ready SaaS,{" "}
-                <span className="bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
-                  reliable, secure and audit-ready.
-                </span>
+                {t("hero.title")}
               </h1>
               <p className="text-balance max-w-[780px] text-muted-foreground">
-                Yamato Enterprise is a multi-tenant Next.js + shadcn/ui starter with RBAC, audit trails, and a retractable
-                sidebar UX. Build secure dashboards your customers love—without wiring the basics.
+                {t("hero.subtitle")}
               </p>
+
               {/* Mockup / artwork + legend */}
               <div className="relative mt-0 flex justify-center md:mt-0">
                 <figure className="inline-flex flex-col items-center gap-3">
@@ -146,32 +172,19 @@ export default function HomePage() {
                     src="/yamato_logo.svg"
                     width={520}
                     height={380}
-                    alt="Yamato Enterprise dashboard preview"
+                    alt={t("hero.image_alt")}
                     priority
                     className="relative block"
                   />
                 </figure>
               </div>
 
-
               {/* KPIs */}
               <div className="w-full max-w-[820px] pt-6">
                 <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
-                  <Stat icon={<Timer className="h-4 w-4" />} value="~15 min" label="to first deploy" />
-                  <Stat icon={<Building2 className="h-4 w-4" />} value="100+" label="tenants per cluster" />
-                  <Stat icon={<KeyRound className="h-4 w-4" />} value="RBAC" label="roles & permissions built-in" />
-                  <Stat icon={<BarChart3 className="h-4 w-4" />} value="Observability" label="Metrics, tracing, and Reports" />
-                  <Stat
-                        icon={<Github className="h-4 w-4" />}
-                        value="Open source"
-                        label="MIT-licensed core"
-                      />
-                      {/* NEW: Security */}
-                      <Stat
-                        icon={<ShieldCheck className="h-4 w-4" />}
-                        value="Security"
-                        label="CSP, 2FA-ready"
-                      />
+                  {KPIS.map((kpi) => (
+                    <Stat key={kpi.label + kpi.value} icon={kpi.icon} value={kpi.value} label={kpi.label} />
+                  ))}
                 </div>
               </div>
             </div>
@@ -181,10 +194,9 @@ export default function HomePage() {
         {/* FEATURES (core + enhancements) */}
         <section id="features" className="container max-w-[1100px] py-16 md:py-24" aria-label="Features">
           <div className="mx-auto max-w-[780px] text-center">
-            <h2 className="text-2xl font-bold tracking-tight md:text-4xl">Everything you need</h2>
+            <h2 className="text-2xl font-bold tracking-tight md:text-4xl">{t("features.heading")}</h2>
             <p className="mt-3 text-muted-foreground">
-              Stop wiring the foundation—focus on your moat. Yamato Enterprise ships batteries-included for modern
-              multi-tenant SaaS.
+              {t("features.subheading")}
             </p>
           </div>
 
@@ -208,39 +220,39 @@ export default function HomePage() {
                     src="/ready.svg"
                     width={180}
                     height={120}
-                    alt="Yamato Enterprise preview"
+                    alt={t("cta.image_alt")}
                     priority
                     className="w-[160px] md:w-[180px] drop-shadow-sm select-none pointer-events-none"
                   />
                 </div>
-
               </div>
 
               {/* COPY: 8/12 (≈2/3) on md+ */}
               <div className="md:col-span-8">
                 <h3 className="text-xl md:text-2xl font-semibold tracking-tight">
-                  Ready to launch your next SaaS?
+                  {t("cta.heading")}
                 </h3>
-                  <Badge variant="secondary" className="rounded-full px-3 py-1">
-                    <Sparkles className="mr-1 h-3.5 w-3.5" aria-hidden="true" />
-                    Let <span className="font-medium px-1"> Yamato </span> handle the basic and boring parts.
-                  </Badge>
+                <Badge variant="secondary" className="rounded-full px-3 py-1">
+                  <Sparkles className="mr-1 h-3.5 w-3.5" aria-hidden="true" />
+                  {t("cta.badge", { brand: t("brand") })}
+                </Badge>
                 <p className="mt-2 text-muted-foreground">
-                  Start from a secure, multi-tenant foundation with a polished UI and sane defaults.
+                  {t("cta.copy")}
                 </p>
 
                 <div className="mt-5 flex flex-wrap items-center gap-3">
                   <Button size="lg" asChild>
                     <Link href="/dashboard">
-                      Try the demo <Rocket className="ml-2 h-4 w-4" aria-hidden="true" />
+                      {t("cta.buttons.try_demo")} <Rocket className="ml-2 h-4 w-4" aria-hidden="true" />
                     </Link>
                   </Button>
                   <Button size="lg" variant="outline" asChild>
                     <Link
                       href="https://github.com/salimi-my/shadcn-ui-sidebar"
-                      target="_blank" rel="noopener noreferrer"
+                      target="_blank"
+                      rel="noopener noreferrer"
                     >
-                      GitHub
+                      {t("cta.buttons.github")}
                     </Link>
                   </Button>
                 </div>
@@ -248,8 +260,6 @@ export default function HomePage() {
             </div>
           </div>
         </section>
-
-
       </main>
     </div>
   )

@@ -102,28 +102,6 @@ export default function HomePage() {
 
   return (
     <div className="flex min-h-screen flex-col bg-background">
-      {/* Header */}
-      <header className="w-full border-b bg-background px-6 py-4">
-        <div className="flex max-w-7xl mx-auto items-center justify-between">
-          {/* Left logo */}
-          {/* Left logo */}
-          <Link href="/public" className="text-xl font-bold tracking-tight text-primary">
-            {t("brand")}
-          </Link>
-
-          {/* Right menu */}
-          <div className="flex items-center gap-4 text-sm">
-            <Link href="/public/modules" className="hover:text-primary">{t("nav.modules")}</Link>
-            <Link href="/public/docs" className="hover:text-primary">{t("nav.docs")}</Link>
-            <Link href="/public/register" className="hover:text-primary">{t("nav.register")}</Link>
-            <Link href="/public/login" className="hover:text-primary">{t("nav.login")}</Link>
-            <LanguageToggle />
-            <ModeToggle />
-          </div>
-
-        </div>
-      </header>
-
       {/* Main */}
       <main className="flex-1">
         {/* HERO */}

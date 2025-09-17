@@ -1,0 +1,13 @@
+{
+  "title": "Create your account",
+  "subtitle": "Start your 14-day trial. No credit card required.",
+  "cta": "Create account",
+  "success": "Account created. Check your email to verify your address.",
+  "common": {
+    "name": "Full name",
+    "email": "Email",
+    "password": "Password",
+    "have_account": "Already have an account?",
+    "sign_in": "Sign in"
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "title": "Redefinir senha",
+  "subtitle": "Informe seu e-mail e enviaremos um link de redefinição.",
+  "cta": "Enviar link",
+  "sent_ok": "Se o e-mail existir, o link foi enviado.",
+  "common": {
+    "email": "E-mail"
+  }
+}

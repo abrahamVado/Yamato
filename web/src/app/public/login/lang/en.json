@@ -1,0 +1,12 @@
+{
+  "title": "Welcome back",
+  "subtitle": "Sign in to your dashboard",
+  "cta": "Sign in",
+  "forgot": "Forgot your password?",
+  "error": "Invalid email or password.",
+  "common": {
+    "email": "Email",
+    "password": "Password",
+    "sign_up": "Create account"
+  }
+}

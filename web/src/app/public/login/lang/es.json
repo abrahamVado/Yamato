@@ -1,0 +1,12 @@
+{
+  "title": "Bienvenido de nuevo",
+  "subtitle": "Accede a tu panel",
+  "cta": "Iniciar sesión",
+  "forgot": "¿Olvidaste tu contraseña?",
+  "error": "Correo o contraseña inválidos.",
+  "common": {
+    "email": "Correo",
+    "password": "Contraseña",
+    "sign_up": "Crear cuenta"
+  }
+}

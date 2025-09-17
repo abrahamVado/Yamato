@@ -3,6 +3,7 @@ import { useSearchParams } from "next/navigation"
 // app/page.tsx
 import Link from "next/link"
 import Image from "next/image"
+import { LanguageToggle } from "@/components/language-toggle"
 import {
   PanelsTopLeft,
   Rocket,
@@ -34,6 +35,7 @@ import {
   Database,
   GitBranch,
   FlaskConical,
+  Menu
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -72,37 +74,24 @@ export default function HomePage() {
   return (
     <div className="flex min-h-screen flex-col bg-background">
       {/* Header */}
-      <header className="sticky top-0 z-50 w-full border-b bg-background/80 backdrop-blur-md supports-[backdrop-filter]:bg-background/60">
-        <div className="container flex h-14 items-center">
-          <Link href="/" className="flex items-center transition-opacity hover:opacity-90">
-            <PanelsTopLeft className="mr-3 h-6 w-6" aria-hidden="true" />
-            <span className="font-bold tracking-tight">Yamato Enterprise</span>
-            <span className="sr-only">Go to Yamato Enterprise home</span>
-          </Link>
+    <header className="w-full border-b bg-background px-6 py-4">
+      <div className="flex max-w-7xl mx-auto items-center justify-between">
+        {/* Left logo */}
+        <Link href="/" className="text-xl font-bold tracking-tight text-primary">
+          Yamato
+        </Link>
 
-          <nav className="ml-auto flex items-center gap-2">
-            <Button variant="ghost" className="hidden sm:flex" size="sm" asChild>
-              <Link href="#features">Features</Link>
-            </Button>
-            <Button variant="ghost" className="hidden sm:flex" size="sm" asChild>
-              <Link href="#demo">Demo</Link>
-            </Button>
-            <Button variant="outline" size="icon" className="h-8 w-8 rounded-full" asChild>
-              <Link href="https://github.com/salimi-my/shadcn-ui-sidebar" target="_blank" rel="noopener noreferrer">
-                <Github className="h-[1.1rem] w-[1.1rem]" aria-hidden="true" />
-                <span className="sr-only">Open GitHub</span>
-              </Link>
-            </Button>
-            <ModeToggle />
-            <Button className="hidden sm:inline-flex" size="sm" asChild>
-              <Link href="/dashboard">
-                Live demo
-                <ArrowRight className="ml-1.5 h-4 w-4" aria-hidden="true" />
-              </Link>
-            </Button>
-          </nav>
+        {/* Right menu */}
+        <div className="flex items-center gap-4 text-sm">
+          <Link href="/modules" className="hover:text-primary">Modules</Link>
+          <Link href="/docs" className="hover:text-primary">Docs</Link>
+          <Link href="/auth/register" className="hover:text-primary">Register</Link>
+          <Link href="/auth/login" className="hover:text-primary">Login</Link>
+          <LanguageToggle />
+          <ModeToggle />
         </div>
-      </header>
+      </div>
+    </header>
 
       {/* Main */}
       <main className="flex-1">

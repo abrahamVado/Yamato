@@ -142,9 +142,9 @@ export default function HomePage() {
 
               <h1 className="text-balance text-3xl md:text-5xl font-bold leading-tight tracking-tight">
                 Ship production-ready SaaS,{" "}
-                <span className="bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
-                  reliable, secure, and audit-ready
-                </span>.
+                <span className="bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
+                  reliable, secure and audit-ready.
+                </span>
               </h1>
               <p className="text-balance max-w-[780px] text-muted-foreground">
                 Yamato Enterprise is a multi-tenant Next.js + shadcn/ui starter with RBAC, audit trails, and a retractable

@@ -1,3 +1,4 @@
+
 export default function DocsPage() {
   return (
     <div className="container max-w-4xl py-10 prose dark:prose-invert">

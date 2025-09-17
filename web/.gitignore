@@ -1,0 +1,14 @@
+node_modules/
+web/node_modules/
+web/node_modules
+web/node_modules/*
+node_modules
+webbackup/
+webbackup
+webbackup/*
+webworking/*
+webworking
+webworking/
+web/.next
+web/.next/
+web/.next/*

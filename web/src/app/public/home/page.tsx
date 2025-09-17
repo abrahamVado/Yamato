@@ -106,19 +106,21 @@ export default function HomePage() {
       <header className="w-full border-b bg-background px-6 py-4">
         <div className="flex max-w-7xl mx-auto items-center justify-between">
           {/* Left logo */}
-          <Link href="/" className="text-xl font-bold tracking-tight text-primary">
+          {/* Left logo */}
+          <Link href="/public" className="text-xl font-bold tracking-tight text-primary">
             {t("brand")}
           </Link>
 
           {/* Right menu */}
           <div className="flex items-center gap-4 text-sm">
-            <Link href="/modules" className="hover:text-primary">{t("nav.modules")}</Link>
-            <Link href="/docs" className="hover:text-primary">{t("nav.docs")}</Link>
-            <Link href="/auth/register" className="hover:text-primary">{t("nav.register")}</Link>
-            <Link href="/auth/login" className="hover:text-primary">{t("nav.login")}</Link>
+            <Link href="/public/modules" className="hover:text-primary">{t("nav.modules")}</Link>
+            <Link href="/public/docs" className="hover:text-primary">{t("nav.docs")}</Link>
+            <Link href="/public/register" className="hover:text-primary">{t("nav.register")}</Link>
+            <Link href="/public/login" className="hover:text-primary">{t("nav.login")}</Link>
             <LanguageToggle />
             <ModeToggle />
           </div>
+
         </div>
       </header>
 

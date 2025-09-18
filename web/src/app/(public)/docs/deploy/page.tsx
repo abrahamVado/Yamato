@@ -1,4 +1,4 @@
-// src/app/public/docs/deploy/page.tsx
+// src/app/(public)/docs/deploy/page.tsx
 "use client"
 
 import * as React from "react"

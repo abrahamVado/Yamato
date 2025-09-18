@@ -1,4 +1,4 @@
-// src/app/public/docs/layout.tsx
+// src/app/(public)/docs/layout.tsx
 import * as React from "react"
 import DocsSidebar from "@/components/docs/sidebar"
 

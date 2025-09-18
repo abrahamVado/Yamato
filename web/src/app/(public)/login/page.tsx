@@ -1,4 +1,4 @@
-// src/app/public/login/page.tsx
+// src/app/(public)/login/page.tsx
 "use client"
 
 import * as React from "react"

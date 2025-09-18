@@ -41,7 +41,7 @@ function deepMerge<T extends Dict>(base: T, over: Dict): T {
 async function loadLocaleDict(locale: string): Promise<Dict> {
   if (locale === "en") return baseEN as Dict
   try {
-    const mod = await import(`@/app/public/home/lang/${locale}.json`)
+    const mod = await import(`@/app/(public)/home/lang/${locale}.json`)
     const loc = (mod as any).default ?? mod
     // Merge over EN so missing keys (e.g., features.items) fall back gracefully
     return deepMerge(baseEN as Dict, loc)

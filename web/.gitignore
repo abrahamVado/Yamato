@@ -12,3 +12,13 @@ webworking/
 web/.next
 web/.next/
 web/.next/*
+example/
+example/*
+example
+.next
+/web/.next
+/web/.next/
+/web/.next/*
+*.gz
+/.next
+web/.next/app-build-manifest.json

@@ -1,4 +1,4 @@
-// src/app/public/docs/observability/page.tsx
+// src/app/(public)/docs/observability/page.tsx
 "use client"
 
 import * as React from "react"

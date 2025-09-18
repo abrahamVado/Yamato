@@ -1,4 +1,4 @@
-// src/app/public/docs/rbac/page.tsx
+// src/app/(public)/docs/rbac/page.tsx
 "use client"
 
 import * as React from "react"

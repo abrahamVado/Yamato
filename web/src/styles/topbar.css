@@ -1,0 +1,14 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Topbar primitives shared by public + admin headers */
+@layer components {
+  .topbar { @apply sticky top-0 z-20 w-full bg-background/90 backdrop-blur supports-[backdrop-filter]:bg-background/70 border-b; }
+  .topbar--floating { @apply sticky top-2 z-30 px-2 sm:px-4; }
+  .topbar-inner { @apply mx-4 sm:mx-8 flex h-14 items-center; }
+  .brand-link { @apply text-xl font-bold tracking-tight text-primary hover:opacity-90 transition-opacity; }
+  .nav-links { @apply flex items-center gap-4 text-sm; }
+  .nav-link { @apply hover:text-primary transition-colors; }
+  .nav-link-active { @apply text-primary font-medium; }
+}

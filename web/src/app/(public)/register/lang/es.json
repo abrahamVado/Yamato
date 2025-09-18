@@ -1,0 +1,13 @@
+{
+  "title": "Crea tu cuenta",
+  "subtitle": "Empieza tu prueba de 14 días. No se requiere tarjeta.",
+  "cta": "Crear cuenta",
+  "success": "Cuenta creada. Revisa tu correo para verificar tu dirección.",
+  "common": {
+    "name": "Nombre completo",
+    "email": "Correo",
+    "password": "Contraseña",
+    "have_account": "¿Ya tienes cuenta?",
+    "sign_in": "Iniciar sesión"
+  }
+}

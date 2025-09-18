@@ -3,7 +3,7 @@
 import React from "react"
 
 // ---- Base dict (always present, used for SSR-safe first render) ----
-import baseEN from "@/app/public/home/lang/en.json"
+import baseEN from "@/app/(public)/home/lang/en.json"
 
 type Dict = Record<string, any>
 type I18nContextValue = {

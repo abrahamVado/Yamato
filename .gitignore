@@ -12,3 +12,6 @@ webworking/
 web/.next
 web/.next/
 web/.next/*
+example/
+example/*
+example

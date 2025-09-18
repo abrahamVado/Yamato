@@ -1,9 +1,0 @@
-{
-  "title": "Reset your password",
-  "subtitle": "Enter your email and we’ll send you a reset link.",
-  "cta": "Send reset link",
-  "sent_ok": "If that email exists, a reset link is on its way.",
-  "common": {
-    "email": "Email"
-  }
-}

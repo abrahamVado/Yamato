@@ -1,9 +1,0 @@
-{
-  "title": "Restablecer contraseña",
-  "subtitle": "Escribe tu correo y te enviaremos un enlace.",
-  "cta": "Enviar enlace",
-  "sent_ok": "Si el correo existe, te enviamos un enlace.",
-  "common": {
-    "email": "Correo"
-  }
-}

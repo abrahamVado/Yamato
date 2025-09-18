@@ -1,0 +1,5 @@
+{
+  "title": "Verifica tu correo",
+  "subtitle": "Enviamos un enlace de verificación a <b>{email}</b>.",
+  "back_to_login": "Volver a iniciar sesión"
+}

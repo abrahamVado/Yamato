@@ -1,0 +1,12 @@
+{
+  "title": "Bem-vindo de volta",
+  "subtitle": "Entre no seu painel",
+  "cta": "Entrar",
+  "forgot": "Esqueceu a senha?",
+  "error": "E-mail ou senha inválidos.",
+  "common": {
+    "email": "E-mail",
+    "password": "Senha",
+    "sign_up": "Criar conta"
+  }
+}

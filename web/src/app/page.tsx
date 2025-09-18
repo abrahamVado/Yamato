@@ -1,2 +1,2 @@
 // src/app/page.tsx
-export { default } from "./public/home/page"
+export { default } from "./(public)/home/page"

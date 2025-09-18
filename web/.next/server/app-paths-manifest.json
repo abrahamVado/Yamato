@@ -1,6 +1,10 @@
 {
-  "/public/login/page": "app/public/login/page.js",
+  "/public/docs/configuration/page": "app/public/docs/configuration/page.js",
+  "/public/docs/auth/page": "app/public/docs/auth/page.js",
   "/public/docs/page": "app/public/docs/page.js",
-  "/page": "app/page.js",
-  "/public/register/page": "app/public/register/page.js"
+  "/public/docs/tenants/page": "app/public/docs/tenants/page.js",
+  "/public/docs/rbac/page": "app/public/docs/rbac/page.js",
+  "/public/docs/deploy/page": "app/public/docs/deploy/page.js",
+  "/public/docs/observability/page": "app/public/docs/observability/page.js",
+  "/public/docs/troubleshooting/page": "app/public/docs/troubleshooting/page.js"
 }

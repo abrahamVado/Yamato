@@ -1,4 +1,4 @@
-
+// src/app/public/docs/page.tsx
 "use client"
 
 import * as React from "react"
@@ -26,9 +26,22 @@ export default function DocsPage() {
   }, [locale])
 
   return (
-    <div className="container max-w-4xl py-10 prose dark:prose-invert">
+    <>
       <h1>{dict.title}</h1>
-      <p>{dict.subtitle}</p>
-    </div>
+      <p className="lead">{dict.subtitle}</p>
+
+      <h2>What is Yamato?</h2>
+      <p>
+        Yamato is a multi-tenant SaaS boilerplate with auth, RBAC, observability,
+        and a modern front-end out of the box.
+      </p>
+
+      <h2>Quick links</h2>
+      <ul>
+        <li><a href="/public/docs/installation">Installation</a></li>
+        <li><a href="/public/docs/configuration">Configuration</a></li>
+        <li><a href="/public/docs/deploy">Deploy</a></li>
+      </ul>
+    </>
   )
 }

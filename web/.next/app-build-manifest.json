@@ -1,9 +1,14 @@
 {
   "pages": {
-    "/public/login/page": [
+    "/public/docs/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/public/login/page.js"
+      "static/chunks/app/public/docs/page.js"
+    ],
+    "/public/docs/layout": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/public/docs/layout.js"
     ],
     "/layout": [
       "static/chunks/webpack.js",
@@ -11,20 +16,45 @@
       "static/css/app/layout.css",
       "static/chunks/app/layout.js"
     ],
-    "/public/docs/page": [
+    "/public/docs/configuration/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/public/docs/page.js"
+      "static/chunks/app/public/docs/configuration/page.js"
     ],
-    "/page": [
+    "/public/docs/installation/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/page.js"
+      "static/chunks/app/public/docs/installation/page.js"
     ],
-    "/public/register/page": [
+    "/public/docs/auth/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/public/register/page.js"
+      "static/chunks/app/public/docs/auth/page.js"
+    ],
+    "/public/docs/tenants/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/public/docs/tenants/page.js"
+    ],
+    "/public/docs/rbac/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/public/docs/rbac/page.js"
+    ],
+    "/public/docs/deploy/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/public/docs/deploy/page.js"
+    ],
+    "/public/docs/observability/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/public/docs/observability/page.js"
+    ],
+    "/public/docs/troubleshooting/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/public/docs/troubleshooting/page.js"
     ]
   }
 }

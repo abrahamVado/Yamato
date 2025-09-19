@@ -1,1 +1,1 @@
-self.__REACT_LOADABLE_MANIFEST="{}"
+self.__REACT_LOADABLE_MANIFEST="{\"components/PageLoadOverlay.tsx -> @/components/CatLoader\":{\"id\":\"components/PageLoadOverlay.tsx -> @/components/CatLoader\",\"files\":[\"static/chunks/_app-pages-browser_src_components_CatLoader_tsx.js\"]}}"

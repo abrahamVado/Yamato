@@ -1,6 +1,6 @@
 {
   "/_not-found/page": "app/_not-found/page.js",
-  "/private/dashboard/page": "app/private/dashboard/page.js",
   "/(public)/page": "app/(public)/page.js",
-  "/(public)/login/page": "app/(public)/login/page.js"
+  "/(public)/register/page": "app/(public)/register/page.js",
+  "/(public)/loader/page": "app/(public)/loader/page.js"
 }

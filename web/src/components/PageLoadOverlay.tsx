@@ -1,91 +1,131 @@
+// src/components/PageLoadOverlay.tsx
 "use client";
-
 import * as React from "react";
-import { createPortal } from "react-dom";
-import { usePathname, useSearchParams } from "next/navigation";
-import dynamic from "next/dynamic";
+import { usePathname } from "next/navigation";
+import CatLoader, { SpinnerType } from "./CatLoader";
 
-const CatLoader = dynamic(() => import("@/components/CatLoader"), { ssr: false });
+type WaitItem = "images" | "fonts";
 
-function waitForImages(timeoutMs = 10000) {
-  const imgs = Array.from(document.images || []);
-  const pending = imgs.filter(img => !img.complete || img.naturalWidth === 0);
+type OverlayConfig = {
+  waitFor: WaitItem[];     // ["images","fonts"], ["images"], ["fonts"], []
+  minDurationMs: number;   // minimum on-screen time
+  label: string;
+  spinner: SpinnerType;    // "icon" | "ring"
+  mirror: boolean;         // flip paw
+  size: number;            // paw height
+  spinSize: number;        // spinner size
+  disabled?: boolean;
+};
 
-  const allImgPromises = pending.map(
-    img =>
-      new Promise<void>(resolve => {
-        const done = () => resolve();
-        img.addEventListener("load", done, { once: true });
-        img.addEventListener("error", done, { once: true });
-      })
-  );
+type Rule = { test: (path: string) => boolean; props: Partial<OverlayConfig> };
 
-  const fontsPromise =
-    (document as any).fonts?.ready?.catch?.(() => {}) ?? Promise.resolve();
+/* Defaults */
+const defaults: OverlayConfig = {
+  waitFor: ["images", "fonts"],
+  minDurationMs: 1000,
+  label: "Loading…",
+  spinner: "icon",
+  mirror: true,
+  size: 120,
+  spinSize: 32,
+  disabled: false,
+};
 
-  const timeout = new Promise<void>(resolve => setTimeout(resolve, timeoutMs));
-
-  return Promise.race([Promise.all([Promise.all(allImgPromises), fontsPromise]).then(() => {}), timeout]);
-}
+/* Per-route overrides (edit as you like) */
+const rules: Rule[] = [
+  { test: (p) => p === "/loader-demo", props: { label: "Preparing kittens…", waitFor: ["images","fonts"], spinner: "icon", mirror: true } },
+  { test: (p) => p.startsWith("/demo/images-only"), props: { label: "Loading images…", waitFor: ["images"], spinner: "ring", mirror: false } },
+  { test: (p) => p.startsWith("/demo/fonts-only"), props: { label: "Loading fonts…", waitFor: ["fonts"], spinner: "icon", mirror: true } },
+  { test: (p) => p.startsWith("/demo/min-only"), props: { label: "Just a sec…", waitFor: [], minDurationMs: 1200, spinner: "ring", mirror: false } },
+  { test: (p) => p === "/login" || p.startsWith("/public/login"), props: { label: "Welcome…", waitFor: [], minDurationMs: 600, spinner: "icon", mirror: false } },
+];
 
 export default function PageLoadOverlay() {
   const pathname = usePathname();
-  const search = useSearchParams();
-  const [mounted, setMounted] = React.useState(false);
-  const [visible, setVisible] = React.useState(true);   // show on first paint
-  const [animOut, setAnimOut] = React.useState(false);
 
-  // First load: wait for window.load (covers static assets, CSS, etc.)
-  React.useEffect(() => {
-    setMounted(true);
-    if (document.readyState === "complete") {
-      setVisible(false);
-    } else {
-      const onLoad = () => setVisible(false);
-      window.addEventListener("load", onLoad, { once: true });
-      return () => window.removeEventListener("load", onLoad);
-    }
-  }, []);
+  // IMPORTANT: avoid React.useMemo<OverlayConfig>(...) in TSX
+  const cfg = React.useMemo(() => {
+    const match = rules.find((r) => r.test(pathname));
+    return { ...defaults, ...(match?.props ?? {}) };
+  }, [pathname]) as OverlayConfig;
 
-  // Route changes: show overlay, then wait for images/fonts in the new view
+  const [visible, setVisible] = React.useState(true);
+
+  // Re-run on every navigation
   React.useEffect(() => {
-    if (!mounted) return;
-    // show
-    setAnimOut(false);
+    if (cfg.disabled) { setVisible(false); return; }
+
+    let alive = true;
+    let timer: number | undefined;
     setVisible(true);
 
-    // next tick: DOM has new route; then wait for resources
-    const id = requestAnimationFrame(async () => {
-      try {
-        await waitForImages(10000); // safety timeout
-      } finally {
-        // smooth fade out
-        setAnimOut(true);
-        const t = setTimeout(() => {
-          setVisible(false);
-          setAnimOut(false);
-        }, 220); // match transition duration below
-        return () => clearTimeout(t);
-      }
-    });
-    return () => cancelAnimationFrame(id);
-  }, [pathname, search, mounted]);
+    // Full-page: lock scroll & (optional) hide DOM below overlay
+    document.body.style.overflow = "hidden";
+    document.documentElement.classList.add("overlay-active");
 
-  if (!mounted) return null;
-  if (!visible && !animOut) return null;
+    const started = performance.now();
+    const promises: Promise<unknown>[] = [];
 
-  return createPortal(
+    // Fonts
+    if (cfg.waitFor.includes("fonts")) {
+      const fontsReady = (document as any).fonts?.ready ?? Promise.resolve();
+      promises.push(fontsReady);
+    }
+
+    // Images
+    if (cfg.waitFor.includes("images")) {
+      const imgs = Array.from(document.querySelectorAll("img"));
+      const imgPromises = imgs.map((img) => {
+        const el = img as HTMLImageElement;
+        if (el.complete && el.naturalWidth > 0) return Promise.resolve();
+        return new Promise<void>((resolve) => {
+          const done = () => {
+            el.removeEventListener("load", done);
+            el.removeEventListener("error", done);
+            resolve();
+          };
+          el.addEventListener("load", done, { once: true });
+          el.addEventListener("error", done, { once: true });
+        });
+      });
+      promises.push(...imgPromises);
+    }
+
+    (async () => {
+      await Promise.all(promises);
+      const elapsed = performance.now() - started;
+      const wait = Math.max(cfg.minDurationMs - elapsed, 0);
+      timer = window.setTimeout(() => {
+        if (!alive) return;
+        setVisible(false);
+        document.body.style.overflow = "";
+        document.documentElement.classList.remove("overlay-active");
+      }, wait);
+    })();
+
+    return () => {
+      alive = false;
+      if (timer) clearTimeout(timer);
+      document.body.style.overflow = "";
+      document.documentElement.classList.remove("overlay-active");
+    };
+  }, [pathname, cfg.disabled, cfg.waitFor, cfg.minDurationMs]);
+
+  return (
     <div
-      aria-live="polite"
-      aria-busy="true"
-      className={`fixed inset-0 z-[9999] grid place-items-center bg-background/80 backdrop-blur-sm transition-opacity duration-200 ${
-        animOut ? "opacity-0" : "opacity-100"
-      }`}
+      id="page-loader-overlay"
+      className={`fixed inset-0 z-[9999] grid place-items-center transition-opacity duration-300 ${
+        visible ? "opacity-100" : "opacity-0 pointer-events-none"
+      } bg-background`} /* opaque full-page */
+      aria-hidden={!visible}
     >
-      <div className="w-[200px]">
-        <CatLoader label="Cargando gatito…" />
-      </div>
-    </div>,
-    document.body
+      <CatLoader
+        label={cfg.label}
+        spinner={cfg.spinner}
+        mirror={cfg.mirror}
+        size={cfg.size}
+        spinSize={cfg.spinSize}
+      />
+    </div>
   );
 }

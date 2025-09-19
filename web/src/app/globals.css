@@ -105,3 +105,7 @@
   .text-icon-sun { color: hsl(var(--icon-sun)); }
   .text-icon-moon { color: hsl(var(--icon-moon)); }
 }
+/* Hide everything beneath the overlay to avoid any flash */
+html.overlay-active body > *:not(#page-loader-overlay) {
+  visibility: hidden !important;
+}

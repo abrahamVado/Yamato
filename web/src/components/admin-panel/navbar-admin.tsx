@@ -40,7 +40,7 @@ export function NavbarAdmin({
             />
           )}
 
-          <NavActions inboxHref="/messages" chatHref="/chat" inboxCount={3} chatCount={1} />
+          <NavActions inboxHref="/messages" chatHref="/chat" inboxCount={0} chatCount={0} />
 
           {/* EXACT same toggles as public header */}
           <PublicNavToggles />

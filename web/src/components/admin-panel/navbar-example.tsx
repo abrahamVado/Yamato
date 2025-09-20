@@ -19,7 +19,7 @@ export function NavbarExample({ title }: NavbarProps) {
         </div>
 
         <div className="ml-auto flex items-center gap-1.5 sm:gap-2">
-          <NavActions inboxHref="/messages" chatHref="/chat" inboxCount={3} chatCount={1} />
+          <NavActions inboxHref="/messages" chatHref="/chat" inboxCount={0} chatCount={1} />
           <LanguageSelector />
           <ModeToggle />
           <UserNav />

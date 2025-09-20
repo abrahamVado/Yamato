@@ -5,18 +5,15 @@ import { ModeToggle } from "@/components/mode-toggle"
 import { UserNav } from "@/components/admin-panel/user-nav"
 import { SheetMenu } from "@/components/admin-panel/sheet-menu"
 import { NavActions } from "@/components/admin-panel/nav-actions"
-
-// ✅ use the SAME language toggle as the public header
 import { LanguageToggle } from "@/components/language-toggle"
 
-// (Optional) if you want the same Docs/Register(/Login) links from public nav
-// create PublicNav.tsx as shown earlier, or import your existing NavLink trio here.
-// import { PublicNavLinks } from "@/components/public/PublicNav"
+// NEW: in-app notifications bell
+import { NotificationsBell } from "@/components/notifications/NotificationsBell"
 
 interface NavbarProps {
   title: string
   showPublicLinks?: boolean
-  includeLoginLink?: boolean // forwards to PublicNavLinks if you enable it
+  includeLoginLink?: boolean
 }
 
 export function Navbar({
@@ -33,17 +30,14 @@ export function Navbar({
         </div>
 
         <div className="ml-auto flex items-center gap-1.5 sm:gap-2">
-          {/* If you want the same public links, uncomment below and ensure PublicNavLinks exists */}
-          {/* {showPublicLinks && (
-            <PublicNavLinks
-              includeLogin={includeLoginLink}
-              className="hidden md:flex items-center gap-4 mr-2"
-            />
-          )} */}
+          {/* Notifications bell (sheet opens on click) */}
+          <NotificationsBell />
 
+          {/* Your existing quick links/widgets */}
           <NavActions inboxHref="/messages" chatHref="/chat" inboxCount={3} chatCount={1} />
-          <LanguageToggle />  {/* ← SAME component as public header */}
-          <ModeToggle />      {/* ← SAME theme toggle */}
+
+          <LanguageToggle />
+          <ModeToggle />
           <UserNav />
         </div>
       </div>

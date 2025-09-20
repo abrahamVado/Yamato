@@ -1,7 +1,4 @@
 {
-  "/(public)/page": "app/(public)/page.js",
-  "/(public)/loader/page": "app/(public)/loader/page.js",
-  "/(public)/login/page": "app/(public)/login/page.js",
-  "/(public)/register/page": "app/(public)/register/page.js",
-  "/(public)/docs/page": "app/(public)/docs/page.js"
+  "/_not-found/page": "app/_not-found/page.js",
+  "/private/dashboard/page": "app/private/dashboard/page.js"
 }

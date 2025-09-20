@@ -2,9 +2,9 @@
 "use client"
 
 import { ModeToggle } from "@/components/mode-toggle"
-import { UserNav } from "@/components/admin-panel/user-nav"
-import { SheetMenu } from "@/components/admin-panel/sheet-menu"
-import { NavActions } from "@/components/admin-panel/nav-actions"
+import { UserNav } from "@/components/private/user-nav"
+import { SheetMenu } from "@/components/private/sheet-menu"
+import { NavActions } from "@/components/private/nav-actions"
 import { LanguageSelector } from "@/components/admin-panel/language-selector"
 
 interface NavbarProps { title: string }

@@ -2,9 +2,9 @@
 "use client"
 
 import * as React from "react"
-import { SheetMenu } from "@/components/admin-panel/sheet-menu"
-import { UserNav } from "@/components/admin-panel/user-nav"
-import { NavActions } from "@/components/admin-panel/nav-actions"
+import { SheetMenu } from "@/components/private/sheet-menu"
+import { UserNav } from "@/components/private/user-nav"
+import { NavActions } from "@/components/private/nav-actions"
 import { BrandLink } from "@/components/shared/Brand"
 
 // ⬇️ Import the exact same components used by the public header

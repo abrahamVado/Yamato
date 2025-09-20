@@ -2,9 +2,9 @@
 "use client"
 
 import { ModeToggle } from "@/components/mode-toggle"
-import { UserNav } from "@/components/admin-panel/user-nav"
-import { SheetMenu } from "@/components/admin-panel/sheet-menu"
-import { NavActions } from "@/components/admin-panel/nav-actions"
+import { UserNav } from "@/components/private/user-nav"
+import { SheetMenu } from "@/components/private/sheet-menu"
+import { NavActions } from "@/components/private/nav-actions"
 import { LanguageToggle } from "@/components/language-toggle"
 
 // NEW: in-app notifications bell

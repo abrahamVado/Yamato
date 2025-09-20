@@ -61,11 +61,11 @@ export function getMenuList(pathname: string): Group[] {
               label: "AAVSO"
             },
             {
-              href: "/posts/new",
+              href: "/private/center/xls/upload",
               label: "Shared Files"
             },
             {
-              href: "/posts/new",
+              href: "/private/center/xls/uploadgo",
               label: "Shared Files v2"
             }
           ]

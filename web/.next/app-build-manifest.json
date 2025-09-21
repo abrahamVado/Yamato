@@ -1,14 +1,14 @@
 {
   "pages": {
-    "/private/dashboard/page": [
+    "/not-found": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/private/dashboard/page.js"
+      "static/chunks/app/not-found.js"
     ],
-    "/private/layout": [
+    "/_not-found/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/private/layout.js"
+      "static/chunks/app/_not-found/page.js"
     ],
     "/layout": [
       "static/chunks/webpack.js",
@@ -21,15 +21,25 @@
       "static/chunks/main-app.js",
       "static/chunks/app/loading.js"
     ],
-    "/not-found": [
+    "/private/center/xls/uploadgo/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/not-found.js"
+      "static/chunks/app/private/center/xls/uploadgo/page.js"
     ],
-    "/_not-found/page": [
+    "/private/layout": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/_not-found/page.js"
+      "static/chunks/app/private/layout.js"
+    ],
+    "/private/center/xls/upload/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/private/center/xls/upload/page.js"
+    ],
+    "/private/center/xls/upload/layout": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/private/center/xls/upload/layout.js"
     ]
   }
 }

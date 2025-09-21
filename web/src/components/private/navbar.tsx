@@ -34,7 +34,7 @@ export function Navbar({
           <NotificationsBell />
 
           {/* Your existing quick links/widgets */}
-          <NavActions inboxHref="/messages" chatHref="/chat" inboxCount={3} chatCount={1} />
+          <NavActions inboxHref="/messages" chatHref="/chat" inboxCount={10000} chatCount={0} />
 
           <LanguageToggle />
           <ModeToggle />

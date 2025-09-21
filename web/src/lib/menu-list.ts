@@ -41,33 +41,158 @@ export function getMenuList(pathname: string): Group[] {
       ]
     },
     {
-      groupLabel: "Contents",
+      groupLabel: "Collaboration",
       menus: [
         {
           href: "",
-          label: "Posts",
+          label: "Coordinating centers",
           icon: SquarePen,
           submenus: [
             {
               href: "/posts",
-              label: "All Posts"
+              label: "MPC"
             },
             {
               href: "/posts/new",
-              label: "New Post"
+              label: "IAU"
+            },
+            {
+              href: "/posts/new",
+              label: "AAVSO"
+            },
+            {
+              href: "/private/center/xls/upload",
+              label: "Shared Files"
+            },
+            {
+              href: "/private/center/xls/uploadgo",
+              label: "Shared Files v2"
             }
           ]
         },
         {
           href: "/categories",
-          label: "Categories",
+          label: "Geocodes",
           icon: Bookmark
         },
         {
           href: "/tags",
-          label: "Tags",
+          label: "Calendar",
           icon: Tag
-        }
+        },
+        {
+          href: "",
+          label: "Marketplace",
+          icon: SquarePen,
+          submenus: [
+            {
+              href: "/posts",
+              label: "Market"
+            },
+            {
+              href: "/posts/new",
+              label: "Add Product"
+            },
+            {
+              href: "/posts/new",
+              label: "Categories"
+            },
+            {
+              href: "/posts/new",
+              label: "Payment integration"
+            },
+            {
+              href: "/posts/new",
+              label: ""
+            }
+          ]
+        },
+        {
+          href: "/tags",
+          label: "Open Positions",
+          icon: Tag
+        },
+        {
+          href: "",
+          label: "API Settings",
+          icon: SquarePen,
+          submenus: [
+            {
+              href: "/posts",
+              label: "Chatgpt"
+            },
+            {
+              href: "/posts/new",
+              label: "Translations"
+            },
+            {
+              href: "/posts/new",
+              label: "Matematical Reasoning"
+            },
+            {
+              href: "/posts/new",
+              label: "Python Examples"
+            },
+            {
+              href: "/posts/new",
+              label: "API Key's"
+            }
+          ]
+        },
+        {
+          href: "",
+          label: "Payments",
+          icon: SquarePen,
+          submenus: [
+            {
+              href: "/posts",
+              label: "Chatgpt"
+            },
+            {
+              href: "/posts/new",
+              label: "Translations"
+            },
+            {
+              href: "/posts/new",
+              label: "Matematical Reasoning"
+            },
+            {
+              href: "/posts/new",
+              label: "Python Examples"
+            },
+            {
+              href: "/posts/new",
+              label: "API Key's"
+            }
+          ]
+        },
+        {
+          href: "",
+          label: "OpenAI Tool's",
+          icon: SquarePen,
+          submenus: [
+            {
+              href: "/posts",
+              label: "Chatgpt"
+            },
+            {
+              href: "/posts/new",
+              label: "Translations"
+            },
+            {
+              href: "/posts/new",
+              label: "Matematical Reasoning"
+            },
+            {
+              href: "/posts/new",
+              label: "Python Examples"
+            },
+            {
+              href: "/posts/new",
+              label: "API Key's"
+            }
+          ]
+        },
       ]
     },
     {
@@ -77,6 +202,60 @@ export function getMenuList(pathname: string): Group[] {
           href: "/users",
           label: "Users",
           icon: Users
+        },
+        {
+          href: "",
+          label: "Teams",
+          icon: SquarePen,
+          submenus: [
+            {
+              href: "/posts",
+              label: "Chatgpt"
+            },
+            {
+              href: "/posts/new",
+              label: "Translations"
+            },
+            {
+              href: "/posts/new",
+              label: "Matematical Reasoning"
+            },
+            {
+              href: "/posts/new",
+              label: "Python Examples"
+            },
+            {
+              href: "/posts/new",
+              label: "API Key's"
+            }
+          ]
+        },
+        {
+          href: "",
+          label: "Join requests",
+          icon: SquarePen,
+          submenus: [
+            {
+              href: "/posts",
+              label: "Chatgpt"
+            },
+            {
+              href: "/posts/new",
+              label: "Translations"
+            },
+            {
+              href: "/posts/new",
+              label: "Matematical Reasoning"
+            },
+            {
+              href: "/posts/new",
+              label: "Python Examples"
+            },
+            {
+              href: "/posts/new",
+              label: "API Key's"
+            }
+          ]
         },
         {
           href: "/account",

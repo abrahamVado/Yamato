@@ -30,6 +30,16 @@
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/private/layout.js"
+    ],
+    "/private/center/xls/upload/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/private/center/xls/upload/page.js"
+    ],
+    "/private/center/xls/upload/layout": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/private/center/xls/upload/layout.js"
     ]
   }
 }

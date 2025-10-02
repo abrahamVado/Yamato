@@ -5,7 +5,10 @@ import Image from "next/image";
 import { Fan, RefreshCw, Cog, Aperture, Orbit, Loader2 } from "lucide-react";
 import RingSpinner from "@/components/RingSpinner";
 
-type SpinnerKind = "fan" | "refresh" | "cog" | "aperture" | "orbit" | "loader" | "ring";
+type SpinnerKind = "fan" | "refresh" | "cog" | "aperture" | "orbit" | "loader" | "ring" | "icon";
+
+//1.- Surface the spinner type so LoaderGuard can type its props without re-declaring the union.
+export type SpinnerType = SpinnerKind;
 
 type Props = {
   label?: string;
@@ -80,6 +83,7 @@ function SpinIcon({ kind, size }: { kind: SpinnerKind; size: number }) {
     case "orbit":
       return <Orbit className={cls} style={style} strokeWidth={stroke} />;
     case "loader":
+    case "icon":
     default:
       return <Loader2 className={cls} style={style} strokeWidth={stroke} />;
   }

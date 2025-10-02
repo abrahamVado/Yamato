@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "start:test": "next start -p 3000",
+    "lint": "next lint",
+    "test:e2e": "next build && pnpm exec playwright test"
   },
   "dependencies": {
     "@radix-ui/react-avatar": "^1.1.10",
@@ -37,6 +39,7 @@
     "zustand": "^5.0.8"
   },
   "devDependencies": {
+    "@playwright/test": "^1.55.1",
     "@types/node": "^20.11.30",
     "@types/react": "^18.2.66",
     "@types/react-dom": "^18.2.22",

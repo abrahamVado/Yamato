@@ -1,0 +1,13 @@
+{
+  "title": "Welcome back",
+  "subtitle": "Enter your credentials to access the Yamato dashboard.",
+  "cta": "Sign in",
+  "forgot": "Forgot password?",
+  "error": "Unable to authenticate with those credentials.",
+  "remember": "Remember me",
+  "common": {
+    "email": "Email",
+    "password": "Password",
+    "sign_up": "Create an account"
+  }
+}

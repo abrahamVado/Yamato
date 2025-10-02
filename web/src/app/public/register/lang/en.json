@@ -1,0 +1,12 @@
+{
+  "title": "Create your Yamato account",
+  "subtitle": "Fill out the form to get started with your workspace.",
+  "cta": "Register",
+  "common": {
+    "name": "Full name",
+    "email": "Email",
+    "password": "Password",
+    "have_account": "Already have an account?",
+    "sign_in": "Sign in"
+  }
+}

@@ -54,20 +54,28 @@ async function loadLocaleDict(locale: string): Promise<Dict> {
 export function I18nProvider({
   children,
   defaultLocale = "en",
+  locale: initialLocale,
+  dict: initialDict,
 }: {
   children: React.ReactNode
   defaultLocale?: string
+  locale?: string
+  dict?: Dict
 }) {
-  // IMPORTANT: don't auto-detect browser language on first paint (causes hydration mismatches)
-  const [locale, setLocale] = React.useState(defaultLocale)
-  // First dict is EN so SSR/CSR match immediately
-  const [dict, setDict] = React.useState<Dict>(baseEN as Dict)
-  const [ready, setReady] = React.useState(true) // EN is already loaded
+  //1.- Decide which locale to start with (SSR can inject a specific locale).
+  const resolvedLocale = initialLocale ?? defaultLocale
+  //2.- Initialize the dictionary with either the injected value or the base EN fallback.
+  const startingDict = (initialDict as Dict | undefined) ?? (baseEN as Dict)
+
+  //3.- Persist locale/dictionary in state so client transitions remain reactive.
+  const [locale, setLocale] = React.useState(resolvedLocale)
+  const [dict, setDict] = React.useState<Dict>(startingDict)
+  const [ready, setReady] = React.useState(true)
 
   // Load persisted locale AFTER mount (no hydration differences)
   React.useEffect(() => {
     const saved = typeof window !== "undefined" ? localStorage.getItem("locale") : null
-    if (saved && saved !== defaultLocale) {
+    if (saved && saved !== locale) {
       setReady(false)
       loadLocaleDict(saved).then(d => {
         setDict(d)
@@ -75,7 +83,7 @@ export function I18nProvider({
         setReady(true)
       })
     }
-  }, [defaultLocale])
+  }, [locale])
 
   // When user changes locale via toggle
   const changeLocale = React.useCallback((loc: string) => {

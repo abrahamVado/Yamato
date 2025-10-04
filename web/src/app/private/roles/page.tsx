@@ -1,11 +1,11 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import Shell from "@/components/secure/shell"
+import { RolesMatrix } from "@/components/views/private/RolesMatrix"
 
 export default function Page() {
   return (
     <Shell>
       <div className="grid gap-6">
-        <Card><CardHeader><CardTitle>Roles & Permissions</CardTitle></CardHeader><CardContent><p className="text-sm text-muted-foreground">Define roles and granular permissions.</p></CardContent></Card>
+        <RolesMatrix />
       </div>
     </Shell>
   )

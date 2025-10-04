@@ -2,15 +2,10 @@
 "use client"
 
 import * as React from "react"
-import Link from "next/link"
-import Image from "next/image"
 import { useSearchParams } from "next/navigation"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Checkbox } from "@/components/ui/checkbox" // ⬅️ added
 import { useI18n } from "@/app/providers/I18nProvider"
 import enBase from "./lang/en.json"
+import { LoginShowcase } from "@/components/views/public/LoginShowcase"
 
 type Dict = {
   title: string
@@ -57,88 +52,15 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-dvh flex items-center">
-      <div className="mx-auto w-full max-w-6xl px-6 lg:px-10 transform -translate-y-6 md:-translate-y-10 lg:-translate-y-14">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-0 place-items-center">
-          {/* Right: cat image */}
-          <div className="w-full flex flex-col items-center justify-center">
-            <Image
-              src="/calico_cat.svg"
-              alt="Cat logo"
-              width={420}
-              height={420}
-              priority
-              className="w-[340px] sm:w-[380px] lg:w-[420px] max-w-full h-auto select-none"
-            />
-          </div>
-
-          {/* Left: form */}
-          <div className="w-full max-w-md">
-            <h1 className="text-2xl font-semibold">{dict.title}</h1>
-            <p className="mt-2 text-muted-foreground">{dict.subtitle}</p>
-
-            <form onSubmit={onSubmit} className="mt-6 space-y-4">
-              <div>
-                <Label htmlFor="email">{dict.common.email}</Label>
-                <Input
-                  id="email"
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  autoComplete="email"
-                  required
-                />
-              </div>
-
-              <div>
-                <Label htmlFor="password">{dict.common.password}</Label>
-                <Input
-                  id="password"
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  autoComplete="current-password"
-                  required
-                />
-              </div>
-
-              {/* Remember me */}
-              <div className="flex items-center justify-between pt-1">
-                <div className="flex items-center space-x-2">
-<input
-  id="remember"
-  type="checkbox"
-  checked={remember}
-  onChange={(e) => setRemember(e.target.checked)}
-  className="h-6 w-6 rounded border-input text-primary focus:ring-2 focus:ring-ring accent-[hsl(var(--primary))]"
-/>
-
-                  <Label htmlFor="remember" className="text-sm text-muted-foreground">
-                    {dict.remember ?? "Remember me"}
-                  </Label>
-                </div>
-                <Link href="/public/forgot-password" className="text-sm text-primary hover:underline">
-                  {dict.forgot}
-                </Link>
-              </div>
-
-              <Button className="w-full" type="submit">
-                {dict.cta}
-              </Button>
-            </form>
-
-            <div className="mt-4 flex justify-between text-sm text-muted-foreground">
-              <Link href="/public/register" className="hover:underline">
-                {dict.common.sign_up}
-              </Link>
-              {/* kept a secondary forgot link for parity; you can remove if redundant */}
-              <Link href="/public/forgot-password" className="hover:underline">
-                {dict.forgot}
-              </Link>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+    <LoginShowcase
+      dict={dict}
+      email={email}
+      password={password}
+      remember={remember}
+      onEmailChange={setEmail}
+      onPasswordChange={setPassword}
+      onRememberChange={setRemember}
+      onSubmit={onSubmit}
+    />
   )
 }

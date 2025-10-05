@@ -103,5 +103,203 @@
       "github": "GitHub"
     },
     "image_alt": "Yamato Enterprise preview"
+  },
+  "private": {
+    "viewsAnalysis": {
+      "title": "View intelligence report",
+      "subtitle": "Enumerated summary of Yamato's operational surfaces to help teams align roadmaps.",
+      "table": {
+        "headingOrder": "No.",
+        "headingView": "View",
+        "headingPurpose": "Purpose",
+        "headingStatus": "Status"
+      },
+      "items": [
+        {
+          "view": "Dashboard",
+          "purpose": "Summarizes tenant health, throughput, and recent automation events.",
+          "status": "Production"
+        },
+        {
+          "view": "Modules",
+          "purpose": "Controls feature availability, rollout cadence, and deprecation plans.",
+          "status": "In review"
+        },
+        {
+          "view": "Teams",
+          "purpose": "Maps operators to squads so access reviews stay actionable.",
+          "status": "Production"
+        },
+        {
+          "view": "Security",
+          "purpose": "Surfaces policy drift, incident reports, and compliance attestations.",
+          "status": "Production"
+        },
+        {
+          "view": "Map dashboard",
+          "purpose": "Aggregates spatial KPIs to steer deployment coverage decisions.",
+          "status": "Beta"
+        },
+        {
+          "view": "Map explorer",
+          "purpose": "Investigates tenant clusters with layered telemetry overlays.",
+          "status": "Beta"
+        },
+        {
+          "view": "Map reports",
+          "purpose": "Generates distribution summaries with exportable heatmaps.",
+          "status": "Beta"
+        }
+      ],
+      "footnote": "Statuses reflect the staging plan captured during the last platform review."
+    },
+    "map": {
+      "title": "Geospatial operations map",
+      "subtitle": "Layer tenant telemetry, fulfillment lanes, and uptime coverage to orchestrate field rollouts.",
+      "layers": [
+        {
+          "title": "Tenant coverage",
+          "description": "Regional footprint showing activated automation pods per metro.",
+          "metric": "Active regions",
+          "value": "12",
+          "trend": "Up 4% week-over-week"
+        },
+        {
+          "title": "Latency bands",
+          "description": "Synthetic probes outlining blue/green deployments with alert rings.",
+          "metric": "Median latency",
+          "value": "84 ms",
+          "trend": "Down 9% after Osaka edge deploy"
+        },
+        {
+          "title": "Logistics lanes",
+          "description": "Map third-party integrations that sync fulfilment telemetry into Yamato.",
+          "metric": "Synced lanes",
+          "value": "28",
+          "trend": "3 new carriers connected"
+        }
+      ],
+      "actions": {
+        "refresh": "Refresh tiles",
+        "optimize": "Optimize routes"
+      }
+    },
+    "mapReports": {
+      "title": "Spatial reports studio",
+      "subtitle": "Compose analytic packets for leadership with shareable tiles and exports.",
+      "reports": [
+        {
+          "title": "Activation heatmap",
+          "description": "Highlights onboarding velocity across metro hubs by week.",
+          "format": "PNG",
+          "status": "Ready"
+        },
+        {
+          "title": "Fulfilment variance",
+          "description": "Quantifies SLA drift for each logistics partner per corridor.",
+          "format": "CSV",
+          "status": "Queued"
+        },
+        {
+          "title": "Escalation overlay",
+          "description": "Pins critical incidents with enriched postmortem metadata.",
+          "format": "PDF",
+          "status": "Draft"
+        }
+      ],
+      "actions": {
+        "export": "Export bundle",
+        "schedule": "Schedule digest"
+      }
+    },
+    "mapDashboard": {
+      "title": "Command map dashboard",
+      "subtitle": "Track signal health and orchestrate deployments from a single mission view.",
+      "widgets": [
+        {
+          "title": "Signal uptime",
+          "value": "99.7%",
+          "delta": "+0.3%",
+          "description": "Composite SLA across all connected telemetry feeds."
+        },
+        {
+          "title": "Rollout readiness",
+          "value": "78%",
+          "delta": "-4%",
+          "description": "Percentage of metros passing automated launch checks."
+        },
+        {
+          "title": "Support load",
+          "value": "46",
+          "delta": "+12",
+          "description": "Active tickets tagged to spatial incidents in the last 24h."
+        }
+      ],
+      "timeline": [
+        {
+          "time": "08:20",
+          "event": "Nagoya edge reroute deployed"
+        },
+        {
+          "time": "10:05",
+          "event": "Partner lane verified for Osaka corridor"
+        },
+        {
+          "time": "13:42",
+          "event": "Telemetry sync recovered after transient spike"
+        }
+      ]
+    },
+    "settings": {
+      "title": "Organization preferences",
+      "description": "Prototype how Yamato propagates platform-wide switches across tenants.",
+      "toggles": {
+        "billing": {
+          "title": "Billing alerts",
+          "description": "Email finance teams before usage exceeds committed spend."
+        },
+        "maintenance": {
+          "title": "Maintenance window",
+          "description": "Pause automation pushes during regional maintenance."
+        },
+        "ai": {
+          "title": "AI assistance",
+          "description": "Allow copilots to draft runbooks and respond to incidents."
+        }
+      },
+      "actions": {
+        "publish": "Publish to fleets"
+      },
+      "whatsapp": {
+        "title": "WhatsApp configuration",
+        "description": "Define routing for incident broadcasts and opt-in campaigns.",
+        "channels": [
+          {
+            "title": "Incident bridge",
+            "description": "Escalate P1 events to regional squads with context cards."
+          },
+          {
+            "title": "Adoption nudges",
+            "description": "Send rollout reminders to tenant champions via broadcast lists."
+          }
+        ],
+        "switch": "Enable WhatsApp sync"
+      },
+      "email": {
+        "title": "Email configuration",
+        "description": "Orchestrate transactional and digest campaigns per tenant.",
+        "templates": [
+          {
+            "title": "Activation digest",
+            "description": "Weekly summary of onboarding metrics and unresolved blockers."
+          },
+          {
+            "title": "Incident follow-up",
+            "description": "Automated RCA delivered to stakeholders post-mitigation."
+          }
+        ],
+        "switch": "Enable SMTP relay"
+      }
+    }
   }
 }

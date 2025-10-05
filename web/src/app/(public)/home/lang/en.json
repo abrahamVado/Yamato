@@ -250,6 +250,92 @@
         }
       ]
     },
+    "modules": {
+      "title": "Module control center",
+      "subtitle": "Tune which Yamato experiences are visible to each tenant before pushing changes to production.",
+      "a11y": {
+        "toggle": "Toggle {module}"
+      },
+      "status": {
+        "enabled": "Active tenants will see live telemetry updates within 60 seconds of rollout.",
+        "disabled": "Disabled tenants retain historical analytics but lose write access until re-enabled."
+      },
+      "tiers": {
+        "core": "Core",
+        "pilot": "Pilot",
+        "beta": "Beta"
+      },
+      "owners": {
+        "security": "Security",
+        "operations": "Operations",
+        "finance": "Finance",
+        "platform": "Platform"
+      },
+      "catalogue": [
+        {
+          "name": "Identity graph",
+          "description": "Cross-tenant identity stitching that reconciles SSO, SCIM and Yamato-native users.",
+          "owner": "security",
+          "enabled": true,
+          "tier": "core",
+          "icon": "shield"
+        },
+        {
+          "name": "Orchestration studio",
+          "description": "No-code automations blending playbooks, approvals and incident choreography.",
+          "owner": "operations",
+          "enabled": true,
+          "tier": "pilot",
+          "icon": "squares"
+        },
+        {
+          "name": "License guardian",
+          "description": "Predict overages and orchestrate downgrades before invoices spike across tenants.",
+          "owner": "finance",
+          "enabled": false,
+          "tier": "beta",
+          "icon": "banknotes"
+        },
+        {
+          "name": "Telemetry lake",
+          "description": "Unified observability pipeline with long-term retention for compliance audits.",
+          "owner": "platform",
+          "enabled": true,
+          "tier": "core",
+          "icon": "globe"
+        }
+      ],
+      "backlog": {
+        "title": "Future module backlog",
+        "subtitle": "Share this exploration list with product leadership and pick the next incubation track.",
+        "items": [
+          {
+            "name": "Predictive churn radar",
+            "theme": "Customer success",
+            "benefit": "Blend product telemetry and CRM signals to trigger proactive save plays for at-risk accounts.",
+            "icon": "sparkles"
+          },
+          {
+            "name": "Usage-based billing copilot",
+            "theme": "Finance",
+            "benefit": "Forecast invoices, detect anomalies and surface margin insights for consumption-driven plans.",
+            "icon": "presentation"
+          },
+          {
+            "name": "AI onboarding concierge",
+            "theme": "Growth",
+            "benefit": "Guide new tenants through tailored checklists, in-app tours and contextual upsell nudges.",
+            "icon": "lightbulb"
+          },
+          {
+            "name": "Customer health newsroom",
+            "theme": "Operations",
+            "benefit": "Publish daily briefs on adoption milestones, sentiment surveys and executive sponsor engagement.",
+            "icon": "newspaper"
+          }
+        ]
+      }
+    },
     "settings": {
       "title": "Organization preferences",
       "description": "Prototype how Yamato propagates platform-wide switches across tenants.",

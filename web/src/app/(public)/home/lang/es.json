@@ -129,6 +129,81 @@
         { "time": "13:42", "event": "Sincronización recuperada tras pico transitorio" }
       ]
     },
+    "modules": {
+      "title": "Centro de control de módulos",
+      "subtitle": "Configura qué experiencias de Yamato ve cada inquilino antes de publicar cambios.",
+      "a11y": { "toggle": "Alternar {module}" },
+      "status": {
+        "enabled": "Los inquilinos activos verán actualizaciones de telemetría en menos de 60 segundos.",
+        "disabled": "Los inquilinos desactivados conservan analíticas históricas pero sin permisos de escritura."
+      },
+      "tiers": { "core": "Núcleo", "pilot": "Piloto", "beta": "Beta" },
+      "owners": { "security": "Seguridad", "operations": "Operaciones", "finance": "Finanzas", "platform": "Plataforma" },
+      "catalogue": [
+        {
+          "name": "Grafo de identidad",
+          "description": "Conciliación de identidades multiinquilino que une SSO, SCIM y usuarios nativos de Yamato.",
+          "owner": "security",
+          "enabled": true,
+          "tier": "core",
+          "icon": "shield"
+        },
+        {
+          "name": "Estudio de orquestación",
+          "description": "Automatizaciones sin código que combinan playbooks, aprobaciones e incidentes.",
+          "owner": "operations",
+          "enabled": true,
+          "tier": "pilot",
+          "icon": "squares"
+        },
+        {
+          "name": "Guardia de licencias",
+          "description": "Predice excesos y orquesta reducciones antes de que suban las facturas entre inquilinos.",
+          "owner": "finance",
+          "enabled": false,
+          "tier": "beta",
+          "icon": "banknotes"
+        },
+        {
+          "name": "Lago de telemetría",
+          "description": "Canal de observabilidad unificado con retención prolongada para auditorías.",
+          "owner": "platform",
+          "enabled": true,
+          "tier": "core",
+          "icon": "globe"
+        }
+      ],
+      "backlog": {
+        "title": "Backlog de módulos futuros",
+        "subtitle": "Comparte esta lista exploratoria con liderazgo de producto y define la próxima incubación.",
+        "items": [
+          {
+            "name": "Radar predictivo de churn",
+            "theme": "Éxito del cliente",
+            "benefit": "Combina telemetría y señales CRM para activar planes proactivos ante cuentas en riesgo.",
+            "icon": "sparkles"
+          },
+          {
+            "name": "Copiloto de facturación por uso",
+            "theme": "Finanzas",
+            "benefit": "Pronostica facturas, detecta anomalías y revela márgenes en planes de consumo.",
+            "icon": "presentation"
+          },
+          {
+            "name": "Asistente de onboarding con IA",
+            "theme": "Crecimiento",
+            "benefit": "Guía a nuevos inquilinos con listas, recorridos in-app y sugerencias contextuales.",
+            "icon": "lightbulb"
+          },
+          {
+            "name": "Sala de prensa de salud del cliente",
+            "theme": "Operaciones",
+            "benefit": "Publica resúmenes diarios de adopción, encuestas de sentimiento y contacto ejecutivo.",
+            "icon": "newspaper"
+          }
+        ]
+      }
+    },
     "settings": {
       "title": "Preferencias de la organización",
       "description": "Simula cómo Yamato propaga interruptores globales por inquilino.",

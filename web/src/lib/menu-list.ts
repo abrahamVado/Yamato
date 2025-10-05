@@ -1,12 +1,6 @@
-import {
-  Tag,
-  Users,
-  Settings,
-  Bookmark,
-  SquarePen,
-  LayoutGrid,
-  LucideIcon
-} from "lucide-react";
+import type { ComponentType } from "react";
+import { Tag, Users, Settings, Bookmark, SquarePen, LayoutGrid } from "lucide-react";
+import { HiMiniMap, HiMiniPresentationChartBar, HiMiniDocumentChartBar, HiMiniListBullet } from "react-icons/hi2";
 
 type Submenu = {
   href: string;
@@ -18,7 +12,7 @@ type Menu = {
   href: string;
   label: string;
   active?: boolean;
-  icon: LucideIcon;
+  icon: ComponentType<{ size?: number | string; className?: string }>;
   submenus?: Submenu[];
 };
 
@@ -37,6 +31,31 @@ export function getMenuList(pathname: string): Group[] {
           label: "Dashboard",
           icon: LayoutGrid,
           submenus: []
+        }
+      ]
+    },
+    {
+      groupLabel: "Spatial intelligence",
+      menus: [
+        {
+          href: "/private/map-dashboard",
+          label: "Map dashboard",
+          icon: HiMiniPresentationChartBar,
+        },
+        {
+          href: "/private/map",
+          label: "Map explorer",
+          icon: HiMiniMap,
+        },
+        {
+          href: "/private/map-reports",
+          label: "Map reports",
+          icon: HiMiniDocumentChartBar,
+        },
+        {
+          href: "/private/views-analysis",
+          label: "Views analysis",
+          icon: HiMiniListBullet,
         }
       ]
     },

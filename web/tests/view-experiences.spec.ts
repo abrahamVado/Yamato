@@ -22,6 +22,7 @@ test.describe("Experience views", () => {
     { path: "/private/settings", marker: "Organization preferences" },
     { path: "/private/teams", marker: "Teams cockpit" },
     { path: "/private/users", marker: "Operator directory" },
+    { path: "/private/views-analysis", marker: "View intelligence report" },
   ] as const
 
   for (const view of privateViews) {

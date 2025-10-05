@@ -2,26 +2,26 @@
   "brand": "Yamato",
   "nav": {
     "modules": "Módulos",
-    "docs": "Docs",
-    "register": "Registrarse",
-    "login": "Acceder"
+    "docs": "Documentos",
+    "register": "Registro",
+    "login": "Iniciar sesión"
   },
   "badge": {
-    "os_enterprise": "Código abierto + Listo para empresa"
+    "os_enterprise": "Código abierto listo para empresa"
   },
   "hero": {
-    "title": "Lanza un SaaS listo para producción, confiable, seguro y apto para auditoría.",
-    "subtitle": "Yamato Enterprise es un starter multi-tenant con Next.js + shadcn/ui, RBAC, trazas de auditoría y sidebar retráctil. Crea paneles seguros que tus clientes amen—sin cablear lo básico.",
+    "title": "Lanza SaaS de producción, confiable, seguro y listo para auditoría.",
+    "subtitle": "Yamato Enterprise es un punto de partida multi-tenant con Next.js y shadcn/ui que incluye RBAC, auditorías y una barra lateral retráctil.",
     "image_alt": "Vista previa del panel Yamato Enterprise"
   },
   "kpis": {
     "deploy_time": {
       "value": "~15 min",
-      "label": "hasta el primer deploy"
+      "label": "hasta el primer despliegue"
     },
     "tenants": {
       "value": "100+",
-      "label": "tenants por clúster"
+      "label": "inquilinos por clúster"
     },
     "rbac": {
       "value": "RBAC",
@@ -33,7 +33,7 @@
     },
     "oss": {
       "value": "Código abierto",
-      "label": "Núcleo con licencia MIT"
+      "label": "Nucleo con licencia MIT"
     },
     "security": {
       "value": "Seguridad",
@@ -42,66 +42,195 @@
   },
   "features": {
     "heading": "Todo lo que necesitas",
-    "subheading": "Deja de cablear la base—enfócate en tu ventaja. Yamato Enterprise trae baterías incluidas para SaaS multi-tenant moderno.",
+    "subheading": "Deja de cablear la fundación y enfócate en tu ventaja. Yamato Enterprise trae baterías incluidas para SaaS multi-tenant moderno.",
     "items": [
-      {
-        "title": "Multi-tenant y facturación",
-        "desc": "Aislamiento primero. Hooks listos para Stripe y configuración por tenant."
-      },
-      {
-        "title": "RBAC y auditoría",
-        "desc": "Roles, permisos y trazas de auditoría granulares para equipos con cumplimiento."
-      },
-      {
-        "title": "Equipos e invitaciones",
-        "desc": "Acceso a nivel organización, patrones listos para SSO y gestión de miembros."
-      },
-      {
-        "title": "Seguro por defecto",
-        "desc": "Encabezados recomendados, sesiones endurecidas y sanitización de entradas."
-      },
-      {
-        "title": "API y jobs",
-        "desc": "Endpoints tipados y patrón de jobs en segundo plano para tareas largas."
-      },
-      {
-        "title": "DX afinada",
-        "desc": "shadcn/ui, Tailwind y layout modular limpio para enviar más rápido."
-      },
-      {
-        "title": "Bóveda PII y redacción",
-        "desc": "Cifrado a nivel de campo, tokenización y vistas seguras para datos sensibles."
-      },
-      {
-        "title": "i18n y ruteo por locale",
-        "desc": "Rutas localizadas, formatos ICU, plurales y soporte RTL."
-      },
-      {
-        "title": "Jobs en background y cola",
-        "desc": "Adaptador de colas (Redis/SQS) + tablero para reintentos y programación."
-      },
-      {
-        "title": "CLI para desarrolladores",
-        "desc": "Genera módulos, ejecuta code-mods, seed de tenants y sincroniza entornos."
-      },
-      {
-        "title": "Exportes de auditoría y SIEM",
-        "desc": "Log a prueba de manipulación con exporte CSV/Parquet y sinks para SIEM."
-      },
-      {
-        "title": "Almacenamiento y medios",
-        "desc": "Cargas firmadas, transformación de imágenes y políticas de ciclo de vida por tenant."
-      }
+      { "title": "Multi-tenant y facturación", "desc": "Aislamiento primero. Hooks listos para Stripe y configuración por inquilino." },
+      { "title": "RBAC y auditoría", "desc": "Roles granulares, permisos y bitácoras de auditoría para equipos cumplidos." },
+      { "title": "Equipos e invitaciones", "desc": "Acceso a nivel organización, patrones SSO y administración de miembros." },
+      { "title": "Seguro por defecto", "desc": "Headers de mejores prácticas, sesiones reforzadas y sanitización de entradas." },
+      { "title": "API y jobs", "desc": "Endpoints tipados y patrón de trabajos en segundo plano para tareas largas." },
+      { "title": "DX optimizada", "desc": "shadcn/ui, Tailwind y un layout limpio para enviar más rápido." },
+      { "title": "Bóveda de PII y redacción", "desc": "Encriptado por campo, tokenización y vistas seguras para datos sensibles." },
+      { "title": "i18n y rutas por idioma", "desc": "Rutas localizadas, formatos ICU, pluralización de números/fechas y soporte RTL." },
+      { "title": "Jobs y colas", "desc": "Adaptador de cola (Redis/SQS) y panel para reintentos y programación." },
+      { "title": "CLI para desarrolladores", "desc": "Genera módulos, corre code-mods, siembra inquilinos y sincroniza entornos." },
+      { "title": "Auditorías y SIEM", "desc": "Bitácora inviolable con exportación CSV/Parquet y sinks SIEM." },
+      { "title": "Almacenamiento de archivos", "desc": "Cargas firmadas, transformaciones de imágenes y políticas por inquilino." }
     ]
   },
   "cta": {
     "heading": "¿Listo para lanzar tu próximo SaaS?",
-    "badge": "Deja que {brand} se encargue de lo básico y aburrido.",
-    "copy": "Empieza desde una base multi-tenant segura con UI pulida y defaults sensatos.",
+    "badge": "Deja que {brand} maneje lo básico y aburrido.",
+    "copy": "Parte de una base segura, multi-tenant, con una UI pulida y defaults sensatos.",
     "buttons": {
       "try_demo": "Probar demo",
       "github": "GitHub"
     },
     "image_alt": "Vista previa de Yamato Enterprise"
+  },
+  "private": {
+    "viewsAnalysis": {
+      "title": "Informe de inteligencia de vistas",
+      "subtitle": "Resumen enumerado de las superficies operativas de Yamato para alinear hojas de ruta.",
+      "table": {
+        "headingOrder": "No.",
+        "headingView": "Vista",
+        "headingPurpose": "Propósito",
+        "headingStatus": "Estado"
+      },
+      "items": [
+        { "view": "Dashboard", "purpose": "Resume salud de inquilinos, rendimiento y eventos recientes.", "status": "Producción" },
+        { "view": "Módulos", "purpose": "Controla disponibilidad de funciones, cadencia de despliegue y retiros.", "status": "En revisión" },
+        { "view": "Equipos", "purpose": "Relaciona operadores con escuadras para auditorías de acceso accionables.", "status": "Producción" },
+        { "view": "Seguridad", "purpose": "Muestra desvíos de políticas, incidentes y evidencias de cumplimiento.", "status": "Producción" },
+        { "view": "Panel de mapa", "purpose": "Agrupa KPIs espaciales para guiar decisiones de cobertura.", "status": "Beta" },
+        { "view": "Explorador de mapa", "purpose": "Investiga clústeres con capas de telemetría superpuestas.", "status": "Beta" },
+        { "view": "Reportes de mapa", "purpose": "Genera resúmenes de distribución con heatmaps exportables.", "status": "Beta" }
+      ],
+      "footnote": "Los estados reflejan el plan acordado en la última revisión de plataforma."
+    },
+    "map": {
+      "title": "Mapa de operaciones geoespaciales",
+      "subtitle": "Superpone telemetría de inquilinos, rutas de cumplimiento y cobertura de uptime para orquestar despliegues.",
+      "layers": [
+        { "title": "Cobertura de inquilinos", "description": "Huella regional con pods de automatización activos por metro.", "metric": "Regiones activas", "value": "12", "trend": "Sube 4% semana contra semana" },
+        { "title": "Bandas de latencia", "description": "Probes sintéticos delineando despliegues blue/green con anillos de alerta.", "metric": "Latencia media", "value": "84 ms", "trend": "Baja 9% tras despliegue en Osaka" },
+        { "title": "Rutas logísticas", "description": "Mapea integraciones que sincronizan telemetría logística en Yamato.", "metric": "Rutas sincronizadas", "value": "28", "trend": "3 nuevos carriers conectados" }
+      ],
+      "actions": {
+        "refresh": "Actualizar mosaicos",
+        "optimize": "Optimizar rutas"
+      }
+    },
+    "mapReports": {
+      "title": "Estudio de reportes espaciales",
+      "subtitle": "Compón paquetes analíticos para liderazgo con mosaicos compartibles y exportes.",
+      "reports": [
+        { "title": "Heatmap de activación", "description": "Resalta velocidad de onboarding por semana y metro.", "format": "PNG", "status": "Listo" },
+        { "title": "Varianza de cumplimiento", "description": "Cuantifica desvíos SLA por socio logístico y corredor.", "format": "CSV", "status": "En cola" },
+        { "title": "Capa de escalaciones", "description": "Marca incidentes críticos con metadatos de postmortem.", "format": "PDF", "status": "Borrador" }
+      ],
+      "actions": {
+        "export": "Exportar paquete",
+        "schedule": "Programar resumen"
+      }
+    },
+    "mapDashboard": {
+      "title": "Panel de mando geoespacial",
+      "subtitle": "Controla salud de señales y despliegues desde una vista de misión.",
+      "widgets": [
+        { "title": "Disponibilidad de señal", "value": "99.7%", "delta": "+0.3%", "description": "SLA compuesto de todas las fuentes conectadas." },
+        { "title": "Preparación de despliegue", "value": "78%", "delta": "-4%", "description": "Porcentaje de metros que pasan chequeos automáticos." },
+        { "title": "Carga de soporte", "value": "46", "delta": "+12", "description": "Tickets activos ligados a incidentes espaciales en 24h." }
+      ],
+      "timeline": [
+        { "time": "08:20", "event": "Reencaminamiento en Nagoya desplegado" },
+        { "time": "10:05", "event": "Carril de socio verificado para corredor Osaka" },
+        { "time": "13:42", "event": "Sincronización recuperada tras pico transitorio" }
+      ]
+    },
+    "modules": {
+      "title": "Centro de control de módulos",
+      "subtitle": "Configura qué experiencias de Yamato ve cada inquilino antes de publicar cambios.",
+      "a11y": { "toggle": "Alternar {module}" },
+      "status": {
+        "enabled": "Los inquilinos activos verán actualizaciones de telemetría en menos de 60 segundos.",
+        "disabled": "Los inquilinos desactivados conservan analíticas históricas pero sin permisos de escritura."
+      },
+      "tiers": { "core": "Núcleo", "pilot": "Piloto", "beta": "Beta" },
+      "owners": { "security": "Seguridad", "operations": "Operaciones", "finance": "Finanzas", "platform": "Plataforma" },
+      "catalogue": [
+        {
+          "name": "Grafo de identidad",
+          "description": "Conciliación de identidades multiinquilino que une SSO, SCIM y usuarios nativos de Yamato.",
+          "owner": "security",
+          "enabled": true,
+          "tier": "core",
+          "icon": "shield"
+        },
+        {
+          "name": "Estudio de orquestación",
+          "description": "Automatizaciones sin código que combinan playbooks, aprobaciones e incidentes.",
+          "owner": "operations",
+          "enabled": true,
+          "tier": "pilot",
+          "icon": "squares"
+        },
+        {
+          "name": "Guardia de licencias",
+          "description": "Predice excesos y orquesta reducciones antes de que suban las facturas entre inquilinos.",
+          "owner": "finance",
+          "enabled": false,
+          "tier": "beta",
+          "icon": "banknotes"
+        },
+        {
+          "name": "Lago de telemetría",
+          "description": "Canal de observabilidad unificado con retención prolongada para auditorías.",
+          "owner": "platform",
+          "enabled": true,
+          "tier": "core",
+          "icon": "globe"
+        }
+      ],
+      "backlog": {
+        "title": "Backlog de módulos futuros",
+        "subtitle": "Comparte esta lista exploratoria con liderazgo de producto y define la próxima incubación.",
+        "items": [
+          {
+            "name": "Radar predictivo de churn",
+            "theme": "Éxito del cliente",
+            "benefit": "Combina telemetría y señales CRM para activar planes proactivos ante cuentas en riesgo.",
+            "icon": "sparkles"
+          },
+          {
+            "name": "Copiloto de facturación por uso",
+            "theme": "Finanzas",
+            "benefit": "Pronostica facturas, detecta anomalías y revela márgenes en planes de consumo.",
+            "icon": "presentation"
+          },
+          {
+            "name": "Asistente de onboarding con IA",
+            "theme": "Crecimiento",
+            "benefit": "Guía a nuevos inquilinos con listas, recorridos in-app y sugerencias contextuales.",
+            "icon": "lightbulb"
+          },
+          {
+            "name": "Sala de prensa de salud del cliente",
+            "theme": "Operaciones",
+            "benefit": "Publica resúmenes diarios de adopción, encuestas de sentimiento y contacto ejecutivo.",
+            "icon": "newspaper"
+          }
+        ]
+      }
+    },
+    "settings": {
+      "title": "Preferencias de la organización",
+      "description": "Simula cómo Yamato propaga interruptores globales por inquilino.",
+      "toggles": {
+        "billing": { "title": "Alertas de facturación", "description": "Correo a finanzas antes de exceder consumo comprometido." },
+        "maintenance": { "title": "Ventana de mantenimiento", "description": "Pausa pushes de automatización durante mantenimientos regionales." },
+        "ai": { "title": "Asistencia AI", "description": "Permite copilotos que redacten runbooks y respondan incidentes." }
+      },
+      "actions": { "publish": "Publicar a flotas" },
+      "whatsapp": {
+        "title": "Configuración de WhatsApp",
+        "description": "Define ruteo para alertas de incidentes y campañas opt-in.",
+        "channels": [
+          { "title": "Puente de incidentes", "description": "Escala eventos P1 con tarjetas de contexto." },
+          { "title": "Impulsos de adopción", "description": "Envía recordatorios de despliegue a champions." }
+        ],
+        "switch": "Habilitar sincronización WhatsApp"
+      },
+      "email": {
+        "title": "Configuración de correo",
+        "description": "Orquesta campañas transaccionales y resúmenes por inquilino.",
+        "templates": [
+          { "title": "Resumen de activación", "description": "Semanal con métricas de onboarding y bloqueos pendientes." },
+          { "title": "Seguimiento de incidentes", "description": "RCA automático enviado tras la mitigación." }
+        ],
+        "switch": "Habilitar relay SMTP"
+      }
+    }
   }
 }

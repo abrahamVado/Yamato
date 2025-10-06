@@ -51,6 +51,7 @@ export function PublicHeader() {
         <nav className="flex items-center gap-4 text-sm">
           {/* Use root URLs; your rewrites will map them to /public/... */}
           <NavLink href="/docs">{t("nav.docs")}</NavLink>
+          <NavLink href="/gameplay/world">{t("nav.gameplay")}</NavLink>
           <NavLink href="/register">{t("nav.register")}</NavLink>
           <NavLink href="/login">{t("nav.login")}</NavLink>
 

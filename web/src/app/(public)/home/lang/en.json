@@ -4,7 +4,8 @@
     "modules": "Modules",
     "docs": "Docs",
     "register": "Register",
-    "login": "Login"
+    "login": "Login",
+    "gameplay": "Gameplay"
   },
   "badge": {
     "os_enterprise": "Open-source + Enterprise-ready"

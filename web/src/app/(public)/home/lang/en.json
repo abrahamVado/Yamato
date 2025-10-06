@@ -5,7 +5,8 @@
     "docs": "Docs",
     "gameplay": "Gameplay",
     "register": "Register",
-    "login": "Login"
+    "login": "Login",
+    "gameplay": "Gameplay"
   },
   "badge": {
     "os_enterprise": "Open-source + Enterprise-ready"

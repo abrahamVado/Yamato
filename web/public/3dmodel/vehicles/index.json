@@ -1,0 +1,16 @@
+[
+  {
+    "id": "sky-runner",
+    "name": "Sky Runner",
+    "role": "Recon skimmer",
+    "description": "Lightweight hovercraft tuned for scouting valleys and ridgelines.",
+    "file": "/3dmodel/vehicles/sky-runner.gltf"
+  },
+  {
+    "id": "cargo-hauler",
+    "name": "Cargo Hauler",
+    "role": "Logistics barge",
+    "description": "Sturdy platform used to move supplies between frontier settlements.",
+    "file": "/3dmodel/vehicles/cargo-hauler.gltf"
+  }
+]

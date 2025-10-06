@@ -3,6 +3,7 @@
   "nav": {
     "modules": "Modules",
     "docs": "Docs",
+    "gameplay": "Gameplay",
     "register": "Register",
     "login": "Login",
     "gameplay": "Gameplay"
@@ -12,7 +13,7 @@
   },
   "hero": {
     "title": "Ship production-ready SaaS, reliable, secure and audit-ready.",
-    "subtitle": "Yamato Enterprise is a multi-tenant Next.js + shadcn/ui starter with RBAC, audit trails, and a retractable sidebar UX. Build secure dashboards your customers love—without wiring the basics.",
+    "subtitle": "Yamato Enterprise is a multi-tenant Next.js + shadcn/ui starter with RBAC, audit trails, and a retractable sidebar UX. Build secure dashboards your customers love\u2014without wiring the basics.",
     "image_alt": "Yamato Enterprise dashboard preview"
   },
   "kpis": {
@@ -43,7 +44,7 @@
   },
   "features": {
     "heading": "Everything you need",
-    "subheading": "Stop wiring the foundation—focus on your moat. Yamato Enterprise ships batteries-included for modern multi-tenant SaaS.",
+    "subheading": "Stop wiring the foundation\u2014focus on your moat. Yamato Enterprise ships batteries-included for modern multi-tenant SaaS.",
     "items": [
       {
         "title": "Multi-tenant & billing",

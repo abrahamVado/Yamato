@@ -1,5 +1,16 @@
 {
   "title": "验证你的邮箱",
   "subtitle": "我们已向 <b>{email}</b> 发送验证链接。",
+  "verifying": "正在确认你的邮箱…",
+  "verified": "邮箱已验证，可以开始使用！",
+  "verification_failed": "无法验证你的邮箱。",
+  "resend_title": "需要重新发送？",
+  "resend_description": "在下方输入地址，我们会再次将验证链接发送到 {email}。",
+  "resend_label": "邮箱",
+  "resend_placeholder": "name@example.com",
+  "resend_cta": "重新发送邮件",
+  "resend_pending": "发送中…",
+  "resend_success": "新的验证链接已发送至 {email}。",
+  "resend_error": "无法重新发送验证邮件，请稍后再试。",
   "back_to_login": "返回登录"
 }

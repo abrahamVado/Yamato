@@ -1,5 +1,16 @@
 {
   "title": "Verifica tu correo",
   "subtitle": "Enviamos un enlace de verificación a <b>{email}</b>.",
+  "verifying": "Confirmando tu correo…",
+  "verified": "Correo verificado. ¡Todo listo!",
+  "verification_failed": "No pudimos verificar tu correo.",
+  "resend_title": "¿Necesitas otro correo?",
+  "resend_description": "Ingresa la dirección abajo y reenviaremos el enlace de verificación a {email}.",
+  "resend_label": "Correo",
+  "resend_placeholder": "nombre@ejemplo.com",
+  "resend_cta": "Reenviar correo",
+  "resend_pending": "Enviando…",
+  "resend_success": "Un nuevo enlace de verificación va en camino a {email}.",
+  "resend_error": "No pudimos reenviar el correo de verificación. Inténtalo de nuevo en un momento.",
   "back_to_login": "Volver a iniciar sesión"
 }

@@ -1,5 +1,16 @@
 {
   "title": "Verify your email",
   "subtitle": "We sent a verification link to <b>{email}</b>.",
+  "verifying": "Confirming your email…",
+  "verified": "Email verified. You're all set!",
+  "verification_failed": "We couldn't verify your email.",
+  "resend_title": "Need another email?",
+  "resend_description": "Enter the address below and we'll resend the verification link to {email}.",
+  "resend_label": "Email",
+  "resend_placeholder": "name@example.com",
+  "resend_cta": "Resend email",
+  "resend_pending": "Sending…",
+  "resend_success": "A new verification link is on its way to {email}.",
+  "resend_error": "We couldn't resend the verification email. Try again in a moment.",
   "back_to_login": "Back to login"
 }

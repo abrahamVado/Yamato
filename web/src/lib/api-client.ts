@@ -1,7 +1,7 @@
 "use client";
 
 const AUTH_TOKEN_STORAGE_KEY = "yamato.authToken";
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL?.trim();
 const PROXY_PREFIX = "/api/proxy";
 
 function isAbsoluteUrl(url: string): boolean {
@@ -19,12 +19,26 @@ function shouldProxyBrowserRequests(baseUrl: string): boolean {
   if (typeof window === "undefined") {
     return false;
   }
-  //2.- Compare the configured backend origin against the current page origin.
+  const trimmedBase = baseUrl.trim();
+  if (!trimmedBase) {
+    return false;
+  }
   try {
-    const backend = new URL(baseUrl);
+    //2.- Prefer the straightforward absolute URL comparison when the string parses cleanly.
+    const backend = new URL(trimmedBase);
+    if (backend.origin === "null") {
+      return true;
+    }
     return backend.origin !== window.location.origin;
   } catch {
-    return false;
+    try {
+      //3.- Fall back to resolving the base against the current origin so relative inputs still proxy.
+      const resolved = new URL(trimmedBase, window.location.origin);
+      return resolved.origin !== window.location.origin;
+    } catch {
+      //4.- Default to proxying when parsing fails entirely to avoid cross-origin fetch attempts.
+      return true;
+    }
   }
 }
 
@@ -60,44 +74,72 @@ function collapseSameOriginBase(baseUrl: string, normalizedPath: string): string
   }
 }
 
-function joinWithBase(path: string): string {
-  //1.- Normalize the configured base URL and join it with the relative path while preventing duplicate slashes.
-  if (!API_BASE_URL || !path) {
-    return path;
-  }
+type ResolvedPath = {
+  url: string;
+  normalizedPath: string;
+  usedProxy: boolean;
+};
+
+function joinWithBase(path: string): ResolvedPath {
   const normalizedPath = path.replace(/^\/+/, "");
-  if (shouldProxyBrowserRequests(API_BASE_URL) && !normalizedPath.startsWith(PROXY_PREFIX.replace(/^\/+/, ""))) {
-    //2.- Route browser requests through the Next.js proxy to avoid cross-origin failures during local development.
-    return buildProxyPath(normalizedPath);
+  if (!API_BASE_URL) {
+    //1.- When no base URL is configured defer to the caller-provided path and remember the normalized segments.
+    return { url: path, normalizedPath, usedProxy: false };
   }
+
+  if (
+    shouldProxyBrowserRequests(API_BASE_URL) &&
+    normalizedPath &&
+    !normalizedPath.startsWith(PROXY_PREFIX.replace(/^\/+/, ""))
+  ) {
+    //2.- Route browser requests through the Next.js proxy to avoid cross-origin failures during local development.
+    return { url: buildProxyPath(normalizedPath), normalizedPath, usedProxy: true };
+  }
+
   const trimmedBase = API_BASE_URL.replace(/\/+$/, "");
   const sameOriginPath = collapseSameOriginBase(trimmedBase, normalizedPath);
   if (sameOriginPath) {
-    return sameOriginPath;
+    //3.- Collapse same-origin targets down to relative paths so fetch receives "/api/..." inputs.
+    return { url: sameOriginPath, normalizedPath, usedProxy: false };
   }
-  if (!normalizedPath) {
-    return trimmedBase;
-  }
-  return `${trimmedBase}/${normalizedPath}`;
+
+  const url = normalizedPath ? `${trimmedBase}/${normalizedPath}` : trimmedBase;
+  //4.- Fall back to the fully-qualified backend URL when proxying is unnecessary.
+  return { url, normalizedPath, usedProxy: false };
 }
 
-function resolveRequestInput(input: RequestInfo): RequestInfo {
+type ResolvedRequest = {
+  info: RequestInfo;
+  normalizedPath: string | null;
+  usedProxy: boolean;
+};
+
+function resolveRequestInput(input: RequestInfo): ResolvedRequest {
   //1.- Apply the base URL when the caller passes a relative string while leaving absolute URLs untouched.
   if (typeof input === "string") {
-    return isAbsoluteUrl(input) ? input : joinWithBase(input);
+    const { url, normalizedPath, usedProxy } = joinWithBase(input);
+    let resolvedUrl = url;
+    if (resolvedUrl && !isAbsoluteUrl(resolvedUrl) && !resolvedUrl.startsWith("/")) {
+      resolvedUrl = `/${resolvedUrl}`;
+    }
+    if (!resolvedUrl) {
+      resolvedUrl = normalizedPath ? `/${normalizedPath}` : "/";
+    }
+    return { info: resolvedUrl, normalizedPath, usedProxy };
   }
   if (typeof URL !== "undefined" && input instanceof URL) {
-    return input;
+    return { info: input, normalizedPath: null, usedProxy: false };
   }
   if (typeof Request !== "undefined" && input instanceof Request) {
     const url = input.url;
     if (isAbsoluteUrl(url) || !API_BASE_URL) {
-      return input;
+      return { info: input, normalizedPath: null, usedProxy: false };
     }
-    const resolvedUrl = joinWithBase(url);
-    return new Request(resolvedUrl, input);
+    const { url: joinedUrl, normalizedPath, usedProxy } = joinWithBase(url);
+    const finalUrl = isAbsoluteUrl(joinedUrl) || joinedUrl.startsWith("/") ? joinedUrl : `/${joinedUrl}`;
+    return { info: new Request(finalUrl, input), normalizedPath, usedProxy };
   }
-  return input;
+  return { info: input, normalizedPath: null, usedProxy: false };
 }
 
 export function getStoredToken(): string | null {
@@ -126,7 +168,8 @@ export function setStoredToken(token: string) {
 
 export async function apiRequest<T>(input: RequestInfo, init: RequestInit = {}): Promise<T> {
   //1.- Resolve the request target so relative paths respect the configured API base URL.
-  let resolvedInput = resolveRequestInput(input);
+  const { info: resolvedRequest, normalizedPath, usedProxy } = resolveRequestInput(input);
+  let resolvedInput = resolvedRequest;
   if (typeof resolvedInput === "string" && !isAbsoluteUrl(resolvedInput) && !resolvedInput.startsWith("/")) {
     //2.- Default relative strings to root-based paths when no base URL is configured.
     resolvedInput = `/${resolvedInput}`;
@@ -140,10 +183,24 @@ export async function apiRequest<T>(input: RequestInfo, init: RequestInit = {}):
   //4.- Always forward cookies to the Laravel backend so Sanctum session state is preserved.
   const credentials: RequestCredentials = init.credentials ?? "include";
 
-  //5.- Execute the network request using the provided arguments.
-  const response = await fetch(resolvedInput, { ...init, headers, credentials });
+  let response: Response;
+  try {
+    //5.- Execute the network request using the provided arguments.
+    response = await fetch(resolvedInput, { ...init, headers, credentials });
+  } catch (error) {
+    if (typeof window === "undefined" || !API_BASE_URL || !normalizedPath || usedProxy || typeof resolvedInput !== "string") {
+      throw error;
+    }
+    try {
+      //6.- Retry through the proxy when browser fetches fail (e.g., due to CORS) so the request stays same-origin.
+      const fallbackTarget = buildProxyPath(normalizedPath);
+      response = await fetch(fallbackTarget, { ...init, headers, credentials });
+    } catch {
+      throw error;
+    }
+  }
 
-  //6.- Handle authentication errors by clearing credentials and redirecting.
+  //7.- Handle authentication errors by clearing credentials and redirecting.
   if (response.status === 401 || response.status === 419) {
     clearStoredToken();
     if (typeof window !== "undefined") {
@@ -152,13 +209,13 @@ export async function apiRequest<T>(input: RequestInfo, init: RequestInit = {}):
     throw new Error("Authentication required");
   }
 
-  //7.- Read the raw body so we can gracefully handle empty responses such as 204 logout acknowledgements.
+  //8.- Read the raw body so we can gracefully handle empty responses such as 204 logout acknowledgements.
   const rawBody = await response.text();
   const hasBody = rawBody.trim().length > 0;
   let data: unknown = null;
   if (hasBody) {
     const contentType = response.headers.get("content-type") ?? "";
-    //8.- Parse JSON payloads while falling back to plain text when Laravel responds with strings.
+    //9.- Parse JSON payloads while falling back to plain text when Laravel responds with strings.
     if (contentType.includes("application/json")) {
       try {
         data = JSON.parse(rawBody);
@@ -171,7 +228,7 @@ export async function apiRequest<T>(input: RequestInfo, init: RequestInit = {}):
   }
 
   if (!response.ok) {
-    //9.- Attach the status code and parsed body so callers can surface validation errors verbatim.
+    //10.- Attach the status code and parsed body so callers can surface validation errors verbatim.
     const error = new Error((data as { message?: string } | null)?.message ?? "Request failed") as Error & {
       status?: number;
       body?: unknown;
@@ -181,7 +238,7 @@ export async function apiRequest<T>(input: RequestInfo, init: RequestInit = {}):
     throw error;
   }
 
-  //10.- Return the parsed payload when available while maintaining the generic signature for callers expecting JSON.
+  //11.- Return the parsed payload when available while maintaining the generic signature for callers expecting JSON.
   return data as T;
 }
 

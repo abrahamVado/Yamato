@@ -1,0 +1,24 @@
+services:
+  next:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: nextjs
+    expose: ["3000"]
+    environment:
+      NODE_ENV: production
+      NEXT_TELEMETRY_DISABLED: "1"
+    networks: [mesh]
+
+  edge:
+    image: nginx:alpine
+    container_name: edge
+    depends_on: [next]
+    ports: ["3000:80"]             # single origin: http://localhost:3000
+    volumes:
+      - ./proxy.conf:/etc/nginx/conf.d/default.conf:ro
+    networks: [mesh]
+
+networks:
+  mesh:
+    external: true

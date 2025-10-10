@@ -1,320 +1,116 @@
-# Laravel Multi-Tenant Setup (Spatie Permissions + Tenant Middleware)
+# Yamato
 
-This package contains a ready-to-use multi-tenant configuration for Laravel 12+ using **Spatie Laravel Permission** with **teams/tenants support**.
-```mermaid
+## Overview
+Yamato is a Next.js 14 starter that assembles an authenticated dashboard experience with rich loading states, localization, and role-aware navigation. The application is wired through the App Router and wraps every page in shared providers for theming, i18n, toasts, and deployment announcements, so the UI shell is consistently configured across marketing and secure areas.【F:web/src/app/layout.tsx†L1-L47】
 
-sequenceDiagram
-  participant SPA as SPA
-  participant API as Laravel API
-  participant DB as DB
-  participant Mail as Mailer
+The project showcases reusable building blocks for SaaS-style dashboards:
 
-  Note over SPA,API: Register
-  SPA->>API: POST /api/auth/register {name,email,pw}
-  API->>DB: create user (status=unverified)
-  API->>Mail: send verification link (token)
-  API-->>SPA: {pendingVerification:true}
+- A locale-aware translation provider with persistence and runtime dictionary loading.【F:web/src/app/providers/I18nProvider.tsx†L1-L124】
+- Loader guards that gate route transitions until assets or minimum durations complete, feeding into a customizable cat-themed spinner overlay.【F:web/src/components/AppShell.tsx†L1-L47】【F:web/src/components/LoaderGuard.tsx†L1-L125】
+- Client helpers for role-based access control definitions and authenticated API access patterns that centralize token storage and error handling.【F:web/src/lib/rbac.ts†L1-L14】【F:web/src/lib/api-client.ts†L1-L59】
+- Marketing copy and navigation metadata that reinforce the multi-tenant focus of the starter.【F:web/src/app/(public)/home/lang/en.json†L1-L32】
 
-  Note over SPA,API: Verify Email
-  SPA->>API: POST /api/auth/email/verify {token,email}
-  API->>DB: mark user email_verified_at=now
-  API-->>SPA: {}
+## Repository layout
+- **Root workspace** – Holds shared tooling and npm scripts that delegate to the web frontend (`npm --prefix web …`).【F:package.json†L1-L29】
+- **`tests/`** – Houses Node.js tests run through the built-in test runner to guard critical project automation.【F:tests/package-scripts.test.mjs†L1-L24】
+- **`web/`** – The Next.js application containing the App Router tree, UI components, language packs, Tailwind styling, and lib helpers referenced above.【F:web/package.json†L1-L56】【F:web/src/app/layout.tsx†L1-L47】
 
-  Note over SPA,API: Login
-  SPA->>API: POST /api/auth/login {email,pw}
-  API->>DB: check credentials + tenant scope
-  API-->>SPA: {token,user}
-```
-# Yamato Monorepo Structure
+## Getting started
 
-Below is the folder tree for the Yamato project.  
-It includes the **shared SASS design system**, the **React SPA frontend**, and a placeholder for the **Laravel API**.
+### Prerequisites
+- Node.js 18.17 or newer (required by Next.js 14.2.5) and npm.
 
-```text
-yamato/                                                   // Monorepo root (Next.js frontend + Laravel API placeholder)
-├─ package.json                                           // (optional) root scripts (e.g., "dev:web", "dev:api")
-├─ .editorconfig                                          // Editor settings
-├─ .gitignore                                             // node_modules, .next, dist, build, .env*, etc.
-│
-├─ web/                                                     // Next.js app (frontend only) + ALL SCSS
-│  ├─ package.json                                          // Next.js + React + TS deps/scripts
-│  ├─ next.config.ts                                        // Next config; rewrites to proxy /api → backend (dev)
-│  ├─ tsconfig.json                                         // TS config + path aliases (@ → src)
-│  ├─ .env.local.example                                    // NEXT_PUBLIC_API_URL= http://localhost:8000
-│  ├─ public/                                               // Static assets served as-is
-│  │  ├─ favicon.svg                                        // App icon
-│  │  └─ robots.txt                                         // Crawler rules
-│  │
-│  └─ src/
-│     ├─ app/                                               // App Router (RSC/SSR/SSG)
-│     │  ├─ layout.tsx                                      // Root layout; global styles import
-│     │  ├─ page.tsx                                        // Public Home (SSR/RSC)
-│     │  ├─ (public)/                                       // Optional: segment for public pages
-│     │  │  ├─ about/page.tsx                               // About/Team
-│     │  │  └─ pricing/page.tsx                             // Pricing/FAQ
-│     │  ├─ (secure)/                                       // Auth-guarded segment (client or mixed)
-│     │  │  └─ dashboard/page.tsx                           // Secure dashboard (KPI/Bento)
-│     │  └─ middleware.ts                                   // (optional) edge auth/redirects for / (secure)
-│     │
-│     ├─ components/                                        // Reusable UI
-│     │  ├─ ui/
-│     │  │  └─ Icons.tsx                                    // Icon hero
-│     │  ├─ public/
-│     │  │  ├─ Hero.tsx                                     // Marketing hero
-│     │  │  ├─ MarketingCard.tsx                            // Feature card
-│     │  │  ├─ PublicNavbar.tsx                             // Public navbar
-│     │  │  └─ PublicFooter.tsx                             // Public footer
-│     │  └─ secure/
-│     │     ├─ Topbar.tsx                                   // Search/user menu
-│     │     ├─ Sidebar.tsx                                  // App navigation
-│     │     ├─ KpiTile.tsx                                  // Single KPI tile
-│     │     ├─ KpiGrid.tsx                                  // KPI grid
-│     │     ├─ BentoCard.tsx                                // Bento widget
-│     │     ├─ DataTable.tsx                                // Sort/filter table
-│     │     ├─ Modal.tsx                                    // Modal/dialog
-│     │     ├─ Tabs.tsx                                     // Tabs & panels
-│     │     ├─ Toasts.tsx                                   // Toast host
-│     │     └─ ChartContainer.tsx                           // Responsive chart container
-│     │
-│     ├─ lib/                                               // Frontend helpers/clients
-│     │  ├─ api.ts                                          // fetch wrapper reading NEXT_PUBLIC_API_URL
-│     │  └─ auth.ts                                         // minimal auth helper (cookie/JWT handling)
-│     │
-│     ├─ styles/                                            // 🔁 All SCSS lives here (public + secure)
-│     │  ├─ app.scss                                        // Optional umbrella; can @use public/secure
-│     │  ├─ _print.scss                                     // Print styles
-│     │  ├─ _rtl.scss                                       // RTL helpers (dir flips, logical props)
-│     │  ├─ _icons.scss                                     // icons
-│     │  │
-│     │  ├─ core/                                           // Design primitives (shared)
-│     │  │  ├─ _reset.scss                                  // Normalize/reset + base elements
-│     │  │  ├─ _tokens.scss                                 // Colors, spacing, radii, shadows, z-index, breakpoints
-│     │  │  ├─ _typography.scss                             // Type scale, headings, utilities
-│     │  │  ├─ _functions.scss                              // token(), clampScale(), color-mix helpers
-│     │  │  ├─ _mixins.scss                                 // mq(), container(), focus-ring(), truncate()
-│     │  │  ├─ _utilities.scss                              // Display/position/spacing/overflow/visually-hidden
-│     │  │  └─ _accessibility.scss                          // Skip-links, focus-visible, contrast tweaks
-│     │  │
-│     │  ├─ themes/                                         // Theme variable layers (shared)
-│     │  │  ├─ _light.scss                                  // :root light-mode vars
-│     │  │  └─ _dark.scss                                   // [data-theme="dark"] overrides
-│     │  │
-│     │  ├─ vendor/
-│     │  │  └─ _charts.scss                                 // Chart theming (axes, tooltip, legend)
-│     │  │
-│     │  ├─ public/                                         // PUBLIC bundle (unauthenticated)
-│     │  │  ├─ public.scss                                  // Entry: @use ../core, ../themes, ./_index
-│     │  │  ├─ _index.scss                                  // Collects base/components/pages
-│     │  │  ├─ base/
-│     │  │  │  ├─ _globals.scss                             // Body bg, links, containers (marketing)
-│     │  │  │  ├─ _layout.scss                              // Sections, grids, wrappers
-│     │  │  │  ├─ _header.scss                              // Navbar, logo, mobile menu
-│     │  │  │  └─ _footer.scss                              // Footer grid, newsletter, legal
-│     │  │  ├─ components/
-│     │  │  │  ├─ _hero.scss                                // Hero blocks (headline/media/ribbons)
-│     │  │  │  ├─ _buttons.scss                             // CTA/ghost/link variants & sizes
-│     │  │  │  ├─ _cards.scss                               // Feature/testimonial/logo tiles
-│     │  │  │  ├─ _forms.scss                               // Simple forms + validation states
-│     │  │  │  └─ _badges.scss                              // Pills/labels (brand/neutral/status)
-│     │  │  └─ pages/
-│     │  │     ├─ _home.scss                                // Landing sections, CTA bands, FAQ
-│     │  │     ├─ _about.scss                               // Team grid, timeline, values
-│     │  │     └─ _pricing.scss                             // Pricing tables, highlights, compare
-│     │  │
-│     │  └─ secure/                                         // SECURE bundle (authenticated app)
-│     │     ├─ secure.scss                                  // Entry: @use ../core, ../themes, ./_index
-│     │     ├─ _index.scss                                  // Collects base/components/modules/pages
-│     │     ├─ base/
-│     │     │  ├─ _globals.scss                             // App defaults (scrollbars/selection), density
-│     │     │  ├─ _layout.scss                              // Topbar/Sidebar/Content grid, resizable panes
-│     │     │  ├─ _topbar.scss                              // Topbar size, search, user menu
-│     │     │  └─ _sidebar.scss                             // Nav groups, active/hover, collapse rail
-│     │     ├─ components/
-│     │     │  ├─ _buttons.scss                             // Icon-only, split, loading, destructive
-│     │     │  ├─ _badges.scss                              // Status chips (semantic colors)
-│     │     │  ├─ _tables.scss                              // Density, sticky headers, row states
-│     │     │  ├─ _forms.scss                               // Inputs/selects/switches, error summaries
-│     │     │  ├─ _modals.scss                              // Modal/drawer shells & sizes
-│     │     │  ├─ _tabs.scss                                // Tabs (underline/pills), panels
-│     │     │  ├─ _toasts.scss                              // Toast positions/stacking/variants
-│     │     │  └─ _charts.scss                              // Chart container sizing, legends
-│     │     ├─ modules/
-│     │     │  ├─ _auth.scss                                // Login/Register/2FA screens
-│     │     │  ├─ _kpi-grid.scss                            // KPI tiles (40–120px), condensed grid
-│     │     │  ├─ _bento.scss                               // Bento dashboards (s/m/l cards)
-│     │     │  ├─ _audit.scss                               // Audit log: severity colors, filters
-│     │     │  └─ _rbac.scss                                // Role/permission matrix, sticky col
-│     │     └─ pages/
-│     │        ├─ _dashboard.scss                           // Widget grid defaults, gaps, quick actions
-│     │        ├─ _documents.scss                           // List + preview split, file badges
-│     │        ├─ _settings.scss                            // Sectioned forms, sidebar tabs, danger zone
-│     │        └─ _profile.scss                             // Profile card, avatar, security keys
-│     │
-│     ├─ utils/                                             // Generic helpers
-│     │  ├─ format.ts                                       // Money/date/percent formatters
-│     │  └─ constants.ts                                    // Paths, enums, constants
-│     └─ assets/
-│        ├─ images/                                         // Logos/illustrations
-│        └─ fonts/                                          // Self-hosted fonts
-│
-├─ api-laravel/                                              // Backend (separate service; peer of web/)
-│  └─ README.md                                              // Placeholder for future Laravel API
-│
-└─ docs/
-   └─ INTEGRRATION.md                                        // Notes on SPA + styles; API wiring TBD
+### Install dependencies
+```bash
+# Install root-level tooling (Node test runner, shared utilities)
+npm install
 
-
-```
-## 📂 Included Files
-
-- **composer.json**  
-  Autoload configuration with PSR-4 namespaces and `app/helpers.php` autoloaded.
-
-- **app/helpers.php**  
-  Defines helper functions like `tenant()` and `is_truthy()`.
-
-- **app/Models/Tenant.php**  
-  Eloquent model for tenants.
-
-- **app/Http/Middleware/SetCurrentTenant.php**  
-  Middleware to resolve the current tenant via:
-  - `X-Tenant` header
-  - URL path `/t/{slug}`
-  - Subdomain `{slug}.yourapp.test`
-
-- **database/migrations/2025_09_05_000000_create_tenants_table.php**  
-  Migration to create the `tenants` table.
-
-- **database/seeders/TenantRbacSeeder.php**  
-  Seeder that:
-  - Creates demo tenants (`acme`, `umbrella`)
-  - Seeds roles (`admin`, `manager`, `viewer`) per tenant
-  - Seeds permissions (`users.*`, `orders.*`)
-  - Assigns the first user in the DB as an `admin` in each tenant
-
-## ⚙️ Installation Steps
-
-1. Install Spatie Permissions:
-   ```bash
-   composer require spatie/laravel-permission
-   php artisan vendor:publish --provider="Spatie\Permission\PermissionServiceProvider" --tag="permission-config"
-   php artisan vendor:publish --provider="Spatie\Permission\PermissionServiceProvider" --tag="permission-migrations"
-   php artisan migrate
-   ```
-
-2. Enable teams in `config/permission.php`:
-   ```php
-   'teams' => [
-       'enabled' => true,
-       'team_model' => App\Models\Tenant::class,
-       'team_foreign_key' => 'tenant_id',
-       'teams_morph_key' => null,
-   ],
-   ```
-
-3. Register the middleware in `bootstrap/app.php`:
-   ```php
-   ->withMiddleware(function (Middleware $middleware) {
-       $middleware->alias([
-           'tenant' => \App\Http\Middleware\SetCurrentTenant::class,
-       ]);
-   })
-   ```
-
-4. Run migrations:
-   ```bash
-   php artisan migrate
-   ```
-
-5. Seed tenants, roles, and permissions:
-   ```bash
-   php artisan db:seed --class=TenantRbacSeeder
-   php artisan permission:cache-reset
-   ```
-
-## ✅ Usage
-
-### Routes Example
-
-```php
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\OrderController;
-
-Route::get('/', fn() => view('welcome'));
-
-// Tenant-aware routes (require auth + tenant)
-Route::middleware(['auth:sanctum','tenant'])->group(function () {
-    Route::get('/dashboard', [DashboardController::class, 'index'])
-        ->middleware('role:admin');
-
-    Route::get('/orders', [OrderController::class, 'index'])
-        ->middleware('permission:orders.view');
-
-    Route::post('/orders', [OrderController::class, 'store'])
-        ->middleware('permission:orders.create');
-});
+# Install the Next.js application dependencies
+npm --prefix web install
 ```
 
-### Resolve tenant in code:
-```php
-$tenant = tenant();
-echo $tenant?->name;
+### Verify the backend API
+Before starting the frontend ensure the backend is running and healthy. The default backend instance
+exposes a health probe at `http://localhost:8080/api/health`:
+
+```bash
+curl http://localhost:8080/api/health
 ```
 
-### Assign roles scoped to the current tenant:
-```php
-$user->assignRole('admin'); // applies to resolved tenant
+A `200 OK` response confirms the API is ready for traffic. Keep the service running while you work
+on the Next.js client so authenticated requests and uploads complete successfully. The upload
+workflows respect the `NEXT_PUBLIC_UPLOAD_BACKEND` family of environment variables, so add
+configuration such as `.env.local` when you need to point at a different host or switch between the
+Go and Laravel upload targets.【F:web/src/lib/backend.ts†L1-L16】
+
+### Run the development server
+```bash
+npm run dev
+```
+This starts `next dev` for the application under `web/` on port 3000 by default.【F:package.json†L4-L12】【F:web/package.json†L1-L12】
+Keep the backend process from the previous step running so the API client can execute authenticated
+requests against your services.【F:web/src/lib/api-client.ts†L1-L59】
+
+### Build for production
+```bash
+npm run build
+```
+This compiles the Next.js application for production using `next build` via the delegated workspace script.【F:package.json†L4-L12】【F:web/package.json†L5-L11】
+
+### Start a production server
+```bash
+npm run start
+```
+This runs `next start` inside the `web/` workspace to serve the compiled `.next` output.【F:package.json†L4-L12】【F:web/package.json†L5-L11】
+
+### Linting and tests
+```bash
+npm run lint    # Delegates to next lint inside web/
+npm test        # Runs the Node.js test suite at the repository root
+npm run test:e2e  # Builds the Next.js app and executes Playwright tests
+```
+Linting and end-to-end checks execute inside the Next.js workspace, while the Node.js test runner validates root automation scripts.【F:package.json†L4-L20】【F:tests/package-scripts.test.mjs†L1-L24】【F:web/package.json†L5-L26】
+
+## Dockerizing the application
+Use a multi-stage build to encapsulate the Next.js frontend and its root scripts:
+
+```dockerfile
+# Stage 1: install dependencies
+FROM node:20-alpine AS deps
+WORKDIR /app
+COPY package.json package-lock.json ./
+COPY web/package.json ./web/
+RUN npm install \
+ && npm --prefix web install
+
+# Stage 2: build the Next.js app
+FROM node:20-alpine AS build
+WORKDIR /app
+COPY --from=deps /app/node_modules ./node_modules
+COPY --from=deps /app/web/node_modules ./web/node_modules
+COPY . .
+RUN npm run build
+
+# Stage 3: run the production server
+FROM node:20-alpine AS runner
+WORKDIR /app
+ENV NODE_ENV=production
+COPY --from=build /app/package.json ./
+COPY --from=build /app/node_modules ./node_modules
+COPY --from=build /app/web/package.json ./web/
+COPY --from=build /app/web/.next ./web/.next
+COPY --from=build /app/web/public ./web/public
+EXPOSE 3000
+CMD ["npm", "run", "start"]
 ```
 
-## 🔒 Notes
-
-- Global middleware applies to all requests, route middleware only where added.  
-- Choose **route middleware** if you have public routes (landing pages, docs, auth).  
-- Choose **global middleware** if your entire app is tenant-scoped.
-
----
-```mermaid
-
-flowchart TB
-  subgraph Client[Client/SPA]
-    UI[SPA Pages]
-  end
-
-  subgraph Edge[Edge / Web]
-    Nginx
-    PHPFPM
-  end
-
-  subgraph App[Laravel App]
-    Controllers
-    Middleware
-    Policies
-    Services
-    Jobs
-    Events
-  end
-
-  subgraph Packages[Packages]
-    Spatie[spatie/laravel-permission]
-  end
-
-  subgraph Data[Storage]
-    DB[(PostgreSQL/MySQL)]
-    Cache[(Redis)]
-    Queue[(Redis/SQS)]
-  end
-
-  subgraph Mail[Mail]
-    Mailer[Mail Driver]
-  end
-
-  UI -->|HTTP JSON + X-Tenant| Nginx --> PHPFPM --> Middleware --> Controllers
-  Middleware --> Services --> DB
-  Services --> Events --> Jobs --> Queue
-  Jobs --> Mailer
-  Packages --- App
-  Controllers --> Policies
-  Services --> Cache
+Build and run the container with:
+```bash
+docker build -t yamato-app .
+docker run --rm -p 3000:3000 yamato-app
 ```
-Happy coding 🚀
+The container launches the production server on port 3000 using the same npm scripts defined in `package.json`.【F:package.json†L4-L12】
+
+## Additional resources
+- Component providers such as `ThemeProvider` and the i18n system ensure consistent UX across the application shell.【F:web/src/app/layout.tsx†L1-L47】【F:web/src/app/providers/I18nProvider.tsx†L1-L124】
+- Explore `web/src/components/` for reusable admin panels, loaders, gameplay showcases, and shared UI primitives ready for composition across routes.【F:web/src/components/AppShell.tsx†L1-L47】【F:web/src/components/LoaderGuard.tsx†L1-L125】

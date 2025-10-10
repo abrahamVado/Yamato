@@ -197,7 +197,7 @@ export default function AuthDiagnosticsPage() {
               {errorMessage ? <p className="text-sm text-destructive">{errorMessage}</p> : null}
             </div>
             <p className="text-xs text-muted-foreground">
-              The email template supports the token <code>{{"{{timestamp}}"}}</code> to generate unique addresses for each run.
+              The email template supports the token <code>{"{{timestamp}}"}</code> to generate unique addresses for each run.
             </p>
           </CardContent>
         </Card>

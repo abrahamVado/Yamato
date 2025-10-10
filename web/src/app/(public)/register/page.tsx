@@ -109,27 +109,33 @@ export default function RegisterPage() {
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
+    //1.- Prevent duplicate submissions while the previous request is still processing.
+    if (isSubmitting) {
+      return
+    }
     setIsSubmitting(true)
     setFormError(null)
     setFieldErrors({})
     try {
-      //1.- Forward the collected credentials to Laravel so it can create the pending user record.
+      const trimmedName = name.trim()
+      const trimmedEmail = email.trim()
+      //2.- Forward the collected credentials to Laravel so it can create the pending user record.
       const response = await apiMutation<Record<string, unknown>>("auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
-        body: JSON.stringify({ name, email, password }),
+        body: JSON.stringify({ name: trimmedName, email: trimmedEmail, password }),
       })
 
-      //2.- Capture any verification notice and pass it along to the confirmation screen.
+      //3.- Capture any verification notice and pass it along to the confirmation screen.
       const notice = extractVerificationNotice(response) ?? dict.success ?? ""
-      const query = new URLSearchParams({ email })
+      const query = new URLSearchParams({ email: trimmedEmail })
       if (notice) {
-        query.set("notice", notice.replace("{email}", email))
+        query.set("notice", notice.replace("{email}", trimmedEmail))
       }
       router.push(`/public/verify-email?${query.toString()}`)
     } catch (error) {
-      //3.- Promote Laravel's validation response so operators know which fields need attention.
+      //4.- Promote Laravel's validation response so operators know which fields need attention.
       let message = fallbackErrorMessage
       if (error instanceof Error && error.message) {
         message = error.message

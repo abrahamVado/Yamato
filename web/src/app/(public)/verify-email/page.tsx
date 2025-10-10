@@ -151,28 +151,42 @@ export default function VerifyEmailPage() {
 
   async function onResend(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
+    //1.- Prevent duplicate resend attempts while a previous request is still pending.
+    if (isResending) {
+      return
+    }
+    const targetEmail = (resendEmail || emailParam).trim()
+    if (!targetEmail) {
+      setResendMessage(null)
+      setResendError(dict.resend_error)
+      return
+    }
     setIsResending(true)
     setResendMessage(null)
     setResendError(null)
     try {
-      //4.- Ask Laravel to dispatch another verification notification for the provided email.
+      //2.- Ask Laravel to dispatch another verification notification for the provided email.
       const response = await apiMutation<Record<string, unknown>>("email/verification-notification", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
-        body: JSON.stringify({ email: resendEmail || emailParam }),
+        body: JSON.stringify({ email: targetEmail }),
       })
       const message = extractMessage(response) ?? dict.resend_success
-      setResendMessage(message.replace("{email}", resendEmail || emailParam))
+      setResendMessage(message.replace("{email}", targetEmail))
     } catch (error) {
-      //5.- Map Laravel's failure message so throttling and invalid-email states are transparent.
+      //3.- Map Laravel's failure message so throttling and invalid-email states are transparent.
       let message = dict.resend_error
       if (error instanceof Error && error.message) {
         message = error.message
       }
-      const body = (error as { body?: { message?: string } })?.body
+      const body = (error as { body?: { message?: string; retry_after?: number } })?.body
       if (body?.message) {
         message = body.message
+      }
+      if (typeof body?.retry_after === "number" && body.retry_after > 0) {
+        const seconds = Math.ceil(body.retry_after)
+        message = `${message} Please try again in ${seconds} second${seconds === 1 ? "" : "s"}.`
       }
       setResendError(message)
     } finally {

@@ -75,7 +75,7 @@ async function importApiClientModule({ windowOrigin } = {}) {
 
 test('apiRequest proxies browser mutations to the Next.js backend', async () => {
   const previous = process.env.NEXT_PUBLIC_API_BASE_URL
-  process.env.NEXT_PUBLIC_API_BASE_URL = 'http://localhost:8080'
+  process.env.NEXT_PUBLIC_API_BASE_URL = 'http://localhost:8080/api'
   try {
     const { apiRequest, fetchCalls } = await importApiClientModule({ windowOrigin: 'http://localhost:3000' })
     await apiRequest('auth/register', { method: 'POST', body: JSON.stringify({}) })
@@ -89,12 +89,28 @@ test('apiRequest proxies browser mutations to the Next.js backend', async () => 
 
 test('apiRequest keeps the direct backend URL on the server', async () => {
   const previous = process.env.NEXT_PUBLIC_API_BASE_URL
-  process.env.NEXT_PUBLIC_API_BASE_URL = 'http://localhost:8080'
+  process.env.NEXT_PUBLIC_API_BASE_URL = 'http://localhost:8080/api'
   try {
     const { apiRequest, fetchCalls } = await importApiClientModule({ windowOrigin: null })
     await apiRequest('auth/register', { method: 'POST', body: JSON.stringify({}) })
     assert.equal(fetchCalls.length, 1)
-    assert.equal(fetchCalls[0].input, 'http://localhost:8080/auth/register')
+    assert.equal(fetchCalls[0].input, 'http://localhost:8080/api/auth/register')
+  } finally {
+    process.env.NEXT_PUBLIC_API_BASE_URL = previous
+  }
+})
+
+test('apiRequest collapses same-origin URLs to relative paths in the browser', async () => {
+  const previous = process.env.NEXT_PUBLIC_API_BASE_URL
+  process.env.NEXT_PUBLIC_API_BASE_URL = 'http://localhost:3000/api'
+  try {
+    //1.- Recreate a browser runtime whose origin matches the configured API base URL.
+    const { apiRequest, fetchCalls } = await importApiClientModule({ windowOrigin: 'http://localhost:3000' })
+    //2.- Issue a mutation so the helper resolves the target URL using the shared base.
+    await apiRequest('auth/register', { method: 'POST', body: JSON.stringify({}) })
+    //3.- Confirm the resolved input removes the origin so fetch("/api/...") is used.
+    assert.equal(fetchCalls.length, 1)
+    assert.equal(fetchCalls[0].input, '/api/auth/register')
   } finally {
     process.env.NEXT_PUBLIC_API_BASE_URL = previous
   }

@@ -20,9 +20,12 @@ Next.js application via the npm `start` script.
 
 If your backend API does not run on the default `http://localhost:8080`, define the environment
 variables documented in `web/src/lib/backend.ts` (for example
-`NEXT_PUBLIC_UPLOAD_BACKEND="https://api.example.com"`) when starting the container:
+`NEXT_PUBLIC_UPLOAD_BACKEND="https://api.example.com"`) when starting the container. Pair the
+container with the Nginx edge so browser calls use the single-origin `http://localhost:3000/api`
+base URL:
 ```bash
-docker run --rm -p 3000:3000 -e NEXT_PUBLIC_UPLOAD_BACKEND="https://api.example.com" yamato-app
+docker run --rm -p 3000:3000 -e NEXT_PUBLIC_UPLOAD_BACKEND="https://api.example.com" \
+  -e NEXT_PUBLIC_API_BASE_URL="http://localhost:3000/api" yamato-app
 ```
 
 ## Web-only image

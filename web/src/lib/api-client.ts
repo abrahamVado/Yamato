@@ -37,6 +37,29 @@ function buildProxyPath(path: string): string {
   return `${PROXY_PREFIX}/${trimmedPath}`;
 }
 
+function collapseSameOriginBase(baseUrl: string, normalizedPath: string): string | null {
+  //1.- Detect the browser runtime so we can attempt to trim same-origin URLs down to path-only strings.
+  if (typeof window === "undefined") {
+    return null;
+  }
+  try {
+    //2.- Resolve the configured base against the current origin to support both absolute and relative inputs.
+    const resolvedBase = new URL(baseUrl, window.location.origin);
+    if (resolvedBase.origin !== window.location.origin) {
+      return null;
+    }
+    //3.- Join the pathname and target while preventing duplicate slashes so fetch receives "/api/..." values.
+    const basePath = resolvedBase.pathname.replace(/\/+$/, "");
+    const joinedPath = normalizedPath ? `${basePath}/${normalizedPath}` : basePath;
+    if (!joinedPath) {
+      return "/";
+    }
+    return joinedPath.startsWith("/") ? joinedPath : `/${joinedPath}`;
+  } catch {
+    return null;
+  }
+}
+
 function joinWithBase(path: string): string {
   //1.- Normalize the configured base URL and join it with the relative path while preventing duplicate slashes.
   if (!API_BASE_URL || !path) {
@@ -48,6 +71,10 @@ function joinWithBase(path: string): string {
     return buildProxyPath(normalizedPath);
   }
   const trimmedBase = API_BASE_URL.replace(/\/+$/, "");
+  const sameOriginPath = collapseSameOriginBase(trimmedBase, normalizedPath);
+  if (sameOriginPath) {
+    return sameOriginPath;
+  }
   if (!normalizedPath) {
     return trimmedBase;
   }

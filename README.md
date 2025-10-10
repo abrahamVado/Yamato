@@ -72,7 +72,9 @@ npm run test:e2e  # Builds the Next.js app and executes Playwright tests
 Linting and end-to-end checks execute inside the Next.js workspace, while the Node.js test runner validates root automation scripts.【F:package.json†L4-L20】【F:tests/package-scripts.test.mjs†L1-L24】【F:web/package.json†L5-L26】
 
 ## Dockerizing the application
-Use a multi-stage build to encapsulate the Next.js frontend and its root scripts:
+The repository ships with production Dockerfiles at the root (`Dockerfile`) and inside the web
+workspace (`web/Dockerfile`). Refer to `docs/docker/README.md` for detailed usage instructions, or
+use the multi-stage build below to encapsulate the Next.js frontend and its root scripts:
 
 ```dockerfile
 # Stage 1: install dependencies

@@ -3,6 +3,7 @@
   "subtitle": "Empieza tu prueba de 14 días. No se requiere tarjeta.",
   "cta": "Crear cuenta",
   "success": "Cuenta creada. Revisa tu correo para verificar tu dirección.",
+  "error": "No pudimos crear tu cuenta. Revisa el formulario e inténtalo de nuevo.",
   "common": {
     "name": "Nombre completo",
     "email": "Correo",

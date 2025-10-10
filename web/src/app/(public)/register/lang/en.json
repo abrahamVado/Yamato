@@ -3,6 +3,7 @@
   "subtitle": "Start your 14-day trial. No credit card required.",
   "cta": "Create account",
   "success": "Account created. Check your email to verify your address.",
+  "error": "We couldn't create your account. Check the form and try again.",
   "common": {
     "name": "Full name",
     "email": "Email",

@@ -3,6 +3,7 @@
   "subtitle": "Comece seu teste de 14 dias. Não precisa de cartão.",
   "cta": "Criar conta",
   "success": "Conta criada. Verifique seu e-mail para confirmar o endereço.",
+  "error": "Não foi possível criar sua conta. Verifique o formulário e tente novamente.",
   "common": {
     "name": "Nome completo",
     "email": "E-mail",

@@ -1,5 +1,16 @@
 {
-  "title": "メール認証",
-  "subtitle": "<b>{email}</b> に認証リンクを送信しました。",
+  "title": "メールアドレスを確認",
+  "subtitle": "確認リンクを <b>{email}</b> に送信しました。",
+  "verifying": "メールアドレスを確認しています…",
+  "verified": "メールを確認しました。準備完了です。",
+  "verification_failed": "メールを確認できませんでした。",
+  "resend_title": "確認メールを再送しますか？",
+  "resend_description": "下にアドレスを入力すると {email} に確認リンクを再送します。",
+  "resend_label": "メール",
+  "resend_placeholder": "name@example.com",
+  "resend_cta": "確認メールを再送",
+  "resend_pending": "送信中…",
+  "resend_success": "{email} に新しい確認メールを送信しました。",
+  "resend_error": "確認メールを再送できませんでした。時間をおいて再試行してください。",
   "back_to_login": "ログインに戻る"
 }

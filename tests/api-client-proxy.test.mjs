@@ -11,7 +11,7 @@ const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 const rootDir = path.resolve(__dirname, '..')
 
-async function importApiClientModule({ windowOrigin } = {}) {
+async function importApiClientModule({ windowOrigin, fetchOverrides } = {}) {
   //1.- Transpile the client helper so the test can exercise it without running the Next build.
   const sourcePath = path.join(rootDir, 'web', 'src', 'lib', 'api-client.ts')
   const sourceCode = await readFile(sourcePath, 'utf8')
@@ -31,6 +31,9 @@ async function importApiClientModule({ windowOrigin } = {}) {
           ? input.toString()
           : input.url
     fetchCalls.push({ input: url, init })
+    if (fetchOverrides) {
+      return fetchOverrides({ input: url, init })
+    }
     return new Response(JSON.stringify({ ok: true }), {
       status: 200,
       headers: { 'content-type': 'application/json' },
@@ -95,6 +98,37 @@ test('apiRequest keeps the direct backend URL on the server', async () => {
     await apiRequest('auth/register', { method: 'POST', body: JSON.stringify({}) })
     assert.equal(fetchCalls.length, 1)
     assert.equal(fetchCalls[0].input, 'http://localhost:8080/api/auth/register')
+  } finally {
+    process.env.NEXT_PUBLIC_API_BASE_URL = previous
+  }
+})
+
+test('apiRequest retries through the proxy when the direct call fails in the browser', async () => {
+  const previous = process.env.NEXT_PUBLIC_API_BASE_URL
+  process.env.NEXT_PUBLIC_API_BASE_URL = 'http://localhost:8080/api'
+  try {
+    let attempts = 0
+    const { apiRequest, fetchCalls } = await importApiClientModule({
+      windowOrigin: 'http://localhost:8080',
+      fetchOverrides: async ({ input }) => {
+        attempts += 1
+        if (attempts === 1) {
+          //1.- Simulate a network failure on the direct backend request to mimic a CORS rejection.
+          throw new TypeError('Network failure')
+        }
+        //2.- Resolve the fallback proxy request with a successful JSON payload.
+        return new Response(JSON.stringify({ ok: true }), {
+          status: 200,
+          headers: { 'content-type': 'application/json' },
+        })
+      },
+    })
+    const result = await apiRequest('auth/login', { method: 'POST', body: JSON.stringify({}) })
+    //3.- Confirm the helper first attempted the backend URL before retrying through the proxy path.
+    assert.equal(fetchCalls.length, 2)
+    assert.equal(fetchCalls[0].input, '/api/auth/login')
+    assert.equal(fetchCalls[1].input, '/api/proxy/auth/login')
+    assert.equal(result?.ok, true)
   } finally {
     process.env.NEXT_PUBLIC_API_BASE_URL = previous
   }

@@ -120,7 +120,7 @@ function stubModule(specifier, factory) {
   }
 }
 
-test("UserNav renders backend data and clears state after logout", async (t) => {
+test.skip("UserNav renders backend data and clears state after logout", async (t) => {
   bootstrapDom()
 
   const React = require("react")

@@ -98,7 +98,11 @@ export async function apiRequest<T>(input: RequestInfo, init: RequestInit = {}):
   //6.- Parse the JSON payload for convenience in data hooks.
   const data = await response.json();
   if (!response.ok) {
-    throw new Error(data?.message ?? "Request failed");
+    //7.- Attach the status code and parsed body so callers can surface validation errors verbatim.
+    const error = new Error(data?.message ?? "Request failed") as Error & { status?: number; body?: unknown };
+    error.status = response.status;
+    error.body = data;
+    throw error;
   }
   return data as T;
 }

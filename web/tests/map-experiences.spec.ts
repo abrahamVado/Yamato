@@ -1,32 +1,13 @@
-import { test, expect, type Page, type APIRequestContext } from "@playwright/test"
+import { test, expect, type Page } from "@playwright/test"
+import { seedDashboardSession } from "./utils/auth"
 
 type MapView = {
   path: string
   marker: string
 }
 
-async function authenticate(page: Page, request: APIRequestContext) {
-  const login = await request.post("/private/api/auth/signin", {
-    data: { email: "admin@yamato.local", password: "admin" },
-  })
-  expect(login.status()).toBe(200)
-  const cookieHeader = login.headers()["set-cookie"] ?? ""
-  const sessionMatch = cookieHeader.match(/yamato_session=([^;]+)/)
-  expect(sessionMatch).toBeTruthy()
-  const cookieValue = sessionMatch?.[1] ?? ""
-
-  await page.context().addCookies([
-    {
-      name: "yamato_session",
-      value: cookieValue,
-      domain: "127.0.0.1",
-      path: "/",
-    },
-  ])
-
-  await page.addInitScript(() => {
-    window.localStorage.setItem("yamato.authToken", "demo-sanctum-token")
-  })
+async function authenticate(page: Page) {
+  await seedDashboardSession(page)
 }
 
 test.describe("Map experiences", () => {
@@ -37,9 +18,9 @@ test.describe("Map experiences", () => {
   ]
 
   for (const view of mapViews) {
-    test(`renders the ${view.path} surface`, async ({ page, request }) => {
+    test(`renders the ${view.path} surface`, async ({ page }) => {
       //1.- Authenticate and seed the dashboard session for the spatial surfaces.
-      await authenticate(page, request)
+      await authenticate(page)
 
       //2.- Navigate to the requested page and confirm the localized headline is visible.
       await page.goto(view.path)

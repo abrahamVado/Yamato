@@ -304,10 +304,12 @@ export async function runAuthDiagnostics(
 
   const backend = await checkBackendStatus(baseUrl, fetchImpl, request.lookupHost)
 
+  type DiagnosticsRunner = () => Promise<{ message: string; details?: unknown } | null>
+
   async function runTest(
     id: AuthTestResult["id"],
     name: string,
-    runner: () => Promise<{ message: string; details?: unknown }> | null,
+    runner: DiagnosticsRunner | null | undefined,
   ) {
     //1.- Skip the test early when prerequisites are not satisfied.
     if (!runner) {
@@ -354,8 +356,9 @@ export async function runAuthDiagnostics(
   }
 
   const registerConfig = request.register
-  await runTest("register", "User registration", registerConfig
+  const registerRunner: DiagnosticsRunner | null = registerConfig
     ? async () => {
+        //1.- Capture the templated email and send the registration payload to the backend probe.
         const email = applyEmailTemplate(registerConfig.email)
         const url = resolveTargetUrl(baseUrl, "auth/register")
         const { data, response } = await sendJsonRequest(
@@ -368,6 +371,7 @@ export async function runAuthDiagnostics(
           fetchImpl,
           cookieJar,
         )
+        //2.- Persist the generated email so later stages can reuse or display it in the report.
         context.registeredEmail = email
         return {
           message:
@@ -375,7 +379,8 @@ export async function runAuthDiagnostics(
           details: { status: response.status, data },
         }
       }
-    : null)
+    : null
+  await runTest("register", "User registration", registerRunner)
 
   const loginConfig = request.login
   await runTest("login", "Login", loginConfig
@@ -405,9 +410,11 @@ export async function runAuthDiagnostics(
   await runTest("token", "Token generation", () => {
     //1.- Only validate the token when the login step produced a usable credential.
     if (!context.loginToken) {
-      return null
+      //2.- Resolve a null payload so the runner satisfies the shared DiagnosticsRunner contract.
+      return Promise.resolve(null)
     }
     return Promise.resolve({
+      //3.- Surface the captured token for downstream automation or manual verification.
       message: "Authentication token captured successfully",
       details: { token: context.loginToken },
     })

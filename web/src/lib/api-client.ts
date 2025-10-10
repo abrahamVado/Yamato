@@ -2,6 +2,7 @@
 
 const AUTH_TOKEN_STORAGE_KEY = "yamato.authToken";
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
+const PROXY_PREFIX = "/api/proxy";
 
 function isAbsoluteUrl(url: string): boolean {
   //1.- Detect whether the provided string already includes a scheme so we avoid prefixing it.
@@ -13,17 +14,44 @@ function isAbsoluteUrl(url: string): boolean {
   }
 }
 
+function shouldProxyBrowserRequests(baseUrl: string): boolean {
+  //1.- Bail out when running on the server where CORS rules do not apply.
+  if (typeof window === "undefined") {
+    return false;
+  }
+  //2.- Compare the configured backend origin against the current page origin.
+  try {
+    const backend = new URL(baseUrl);
+    return backend.origin !== window.location.origin;
+  } catch {
+    return false;
+  }
+}
+
+function buildProxyPath(path: string): string {
+  //1.- Remove any leading slash so the catch-all route receives clean segments.
+  const trimmedPath = path.replace(/^\/+/, "");
+  if (!trimmedPath) {
+    return PROXY_PREFIX;
+  }
+  return `${PROXY_PREFIX}/${trimmedPath}`;
+}
+
 function joinWithBase(path: string): string {
   //1.- Normalize the configured base URL and join it with the relative path while preventing duplicate slashes.
   if (!API_BASE_URL || !path) {
     return path;
   }
+  const normalizedPath = path.replace(/^\/+/, "");
+  if (shouldProxyBrowserRequests(API_BASE_URL) && !normalizedPath.startsWith(PROXY_PREFIX.replace(/^\/+/, ""))) {
+    //2.- Route browser requests through the Next.js proxy to avoid cross-origin failures during local development.
+    return buildProxyPath(normalizedPath);
+  }
   const trimmedBase = API_BASE_URL.replace(/\/+$/, "");
-  const trimmedPath = path.replace(/^\/+/, "");
-  if (!trimmedPath) {
+  if (!normalizedPath) {
     return trimmedBase;
   }
-  return `${trimmedBase}/${trimmedPath}`;
+  return `${trimmedBase}/${normalizedPath}`;
 }
 
 function resolveRequestInput(input: RequestInfo): RequestInfo {

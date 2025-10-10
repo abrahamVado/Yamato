@@ -41,7 +41,7 @@ export default function AdminUsersPanel() {
     }
   }, []);
 
-  const { items, isLoading, error, create } = useAdminResource<AdminUser>("/api/admin/users");
+  const { items, isLoading, error, create } = useAdminResource<AdminUser>("admin/users");
 
   async function handleSeedUser() {
     //1.- Build a unique payload, validate it with Zod, and trigger the mutation with optimism.

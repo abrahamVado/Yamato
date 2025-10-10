@@ -3,6 +3,15 @@
 import useSWR, { useSWRConfig } from "swr";
 import { apiMutation, apiRequest } from "@/lib/api-client";
 
+function sanitizeAdminPath(path: string): string {
+  //1.- Strip leading slashes and legacy `/api` prefixes so the hook cooperates with the configured base URL.
+  const withoutLeadingSlash = path.replace(/^\/+/, "");
+  if (withoutLeadingSlash.startsWith("api/")) {
+    return withoutLeadingSlash.slice(4);
+  }
+  return withoutLeadingSlash;
+}
+
 type AdminListResponse<T> = { data: T[] };
 type AdminSingleResponse<T> = { data: T };
 
@@ -21,8 +30,9 @@ type DeleteOptions = {
 };
 
 export function useAdminResource<T extends Identifiable>(path: string) {
+  const resourcePath = sanitizeAdminPath(path);
   //1.- Fetch the admin list using SWR so the UI stays in sync with mutations.
-  const { data, error, isLoading, mutate } = useSWR<AdminListResponse<T>>(path, (url: string) =>
+  const { data, error, isLoading, mutate } = useSWR<AdminListResponse<T>>(resourcePath, (url: string) =>
     apiRequest<AdminListResponse<T>>(url),
   );
   const { mutate: globalMutate } = useSWRConfig();
@@ -31,7 +41,7 @@ export function useAdminResource<T extends Identifiable>(path: string) {
     //1.- Perform the POST request with optimistic data appended to the cache.
     await mutate(
       async (current) => {
-        const response = await apiMutation<AdminSingleResponse<T>>(path, {
+        const response = await apiMutation<AdminSingleResponse<T>>(resourcePath, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(payload),
@@ -50,7 +60,7 @@ export function useAdminResource<T extends Identifiable>(path: string) {
 
   async function update(id: number, payload: unknown, options: UpdateOptions<T> = {}) {
     //1.- Send a PATCH request and optimistically merge the response into the cache.
-    const url = `${path}/${id}`;
+    const url = `${resourcePath}/${id}`;
     await mutate(
       async (current) => {
         const response = await apiMutation<AdminSingleResponse<T>>(url, {
@@ -74,7 +84,7 @@ export function useAdminResource<T extends Identifiable>(path: string) {
 
   async function destroy(id: number, options: DeleteOptions = {}) {
     //1.- Issue the DELETE request and optimistically filter the item from cache.
-    const url = `${path}/${id}`;
+    const url = `${resourcePath}/${id}`;
     await mutate(
       async (current) => {
         await apiMutation<unknown>(url, { method: "DELETE" });
@@ -92,7 +102,7 @@ export function useAdminResource<T extends Identifiable>(path: string) {
 
   async function refresh() {
     //1.- Revalidate the cache through SWR's global mutate utility.
-    await globalMutate(path);
+    await globalMutate(resourcePath);
   }
 
   return {

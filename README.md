@@ -43,6 +43,11 @@ workflows respect the `NEXT_PUBLIC_UPLOAD_BACKEND` family of environment variabl
 configuration such as `.env.local` when you need to point at a different host or switch between the
 Go and Laravel upload targets.【F:web/src/lib/backend.ts†L1-L16】
 
+### Configure the API client
+Set `NEXT_PUBLIC_API_BASE_URL` in `web/.env.local` to the Laravel host plus its canonical `/api`
+prefix (for example `http://localhost:8080/api`) so the shared API helpers route requests to the
+correct backend.【F:web/.env.local†L1-L11】【F:docs/protected-admin-api/README.md†L6-L40】
+
 ### Run the development server
 ```bash
 npm run dev

@@ -36,6 +36,8 @@ test("apiRequest prefixes the configured base URL for relative paths", async () 
     return {
       ok: true,
       status: 200,
+      headers: new Headers({ "content-type": "application/json" }),
+      text: async () => JSON.stringify({ message: "ok" }),
       json: async () => ({ message: "ok" }),
     };
   };

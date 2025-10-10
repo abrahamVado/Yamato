@@ -82,11 +82,13 @@ export async function apiRequest<T>(input: RequestInfo, init: RequestInit = {}):
   if (token && !headers.has("authorization")) {
     headers.set("authorization", `Bearer ${token}`);
   }
+  //4.- Always forward cookies to the Laravel backend so Sanctum session state is preserved.
+  const credentials: RequestCredentials = init.credentials ?? "include";
 
-  //4.- Execute the network request using the provided arguments.
-  const response = await fetch(resolvedInput, { ...init, headers });
+  //5.- Execute the network request using the provided arguments.
+  const response = await fetch(resolvedInput, { ...init, headers, credentials });
 
-  //5.- Handle authentication errors by clearing credentials and redirecting.
+  //6.- Handle authentication errors by clearing credentials and redirecting.
   if (response.status === 401 || response.status === 419) {
     clearStoredToken();
     if (typeof window !== "undefined") {
@@ -95,15 +97,36 @@ export async function apiRequest<T>(input: RequestInfo, init: RequestInit = {}):
     throw new Error("Authentication required");
   }
 
-  //6.- Parse the JSON payload for convenience in data hooks.
-  const data = await response.json();
+  //7.- Read the raw body so we can gracefully handle empty responses such as 204 logout acknowledgements.
+  const rawBody = await response.text();
+  const hasBody = rawBody.trim().length > 0;
+  let data: unknown = null;
+  if (hasBody) {
+    const contentType = response.headers.get("content-type") ?? "";
+    //8.- Parse JSON payloads while falling back to plain text when Laravel responds with strings.
+    if (contentType.includes("application/json")) {
+      try {
+        data = JSON.parse(rawBody);
+      } catch {
+        data = rawBody;
+      }
+    } else {
+      data = rawBody;
+    }
+  }
+
   if (!response.ok) {
-    //7.- Attach the status code and parsed body so callers can surface validation errors verbatim.
-    const error = new Error(data?.message ?? "Request failed") as Error & { status?: number; body?: unknown };
+    //9.- Attach the status code and parsed body so callers can surface validation errors verbatim.
+    const error = new Error((data as { message?: string } | null)?.message ?? "Request failed") as Error & {
+      status?: number;
+      body?: unknown;
+    };
     error.status = response.status;
     error.body = data;
     throw error;
   }
+
+  //10.- Return the parsed payload when available while maintaining the generic signature for callers expecting JSON.
   return data as T;
 }
 

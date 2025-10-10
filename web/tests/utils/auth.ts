@@ -1,18 +1,24 @@
 import { Buffer } from "node:buffer"
 import type { Page } from "@playwright/test"
 
-const SESSION_COOKIE_VALUE = Buffer.from(
-  JSON.stringify({ id: "u1", name: "Yamato User", email: "admin@yamato.local", role: "admin" })
-).toString("base64")
-
 export const DEMO_BEARER_TOKEN = "demo-sanctum-token"
 
 export async function seedDashboardSession(page: Page) {
-  //1.- Inject the session cookie expected by the middleware guard so private routes unlock.
+  const sessionValue = Buffer.from(
+    JSON.stringify({ id: "u1", name: "Yamato User", email: "admin@yamato.local", role: "admin" })
+  ).toString("base64")
+
+  //1.- Mirror Laravel Sanctum's session cookies so middleware guards detect authenticated access.
   await page.context().addCookies([
     {
-      name: "yamato_session",
-      value: SESSION_COOKIE_VALUE,
+      name: "laravel_session",
+      value: sessionValue,
+      domain: "127.0.0.1",
+      path: "/",
+    },
+    {
+      name: "XSRF-TOKEN",
+      value: "test-xsrf-token",
       domain: "127.0.0.1",
       path: "/",
     },

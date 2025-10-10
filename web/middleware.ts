@@ -52,8 +52,18 @@ export function middleware(req: NextRequest) {
   const isPublicAuth = PUBLIC_AUTH_PATHS.some(p => rest === `/${p}` || rest.startsWith(`/${p}/`));
 
   if (isPrivate && !isPublicAuth) {
-    const sess = req.cookies.get("yamato_session")?.value;
-    if (!sess) {
+    //1.- Accept the Laravel Sanctum session cookies that indicate an authenticated browser session.
+    const sanctumCookies = ["laravel_session", "XSRF-TOKEN", "sanctum_session"];
+    const hasSanctumSession = req.cookies.getAll().some((cookie) => {
+      if (sanctumCookies.includes(cookie.name)) {
+        return true;
+      }
+      //2.- Support team-specific prefixes (e.g., `laravel_session_dev`) without hard-coding every variant.
+      return cookie.name.startsWith("laravel_");
+    });
+
+    if (!hasSanctumSession) {
+      //3.- Defer to client-side guards when no known Sanctum cookie is present to avoid false positives in mixed token flows.
       const url = req.nextUrl.clone();
       url.pathname = `/${locale}/auth/login`;                      // keep auth inside the same locale
       url.searchParams.set("from", pathname + (search || ""));     // preserve the original target

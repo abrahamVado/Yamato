@@ -1,9 +1,7 @@
 "use client";
 
-import { useEffect } from "react";
 import { useAdminResource } from "@/hooks/use-admin-resource";
 import { adminUserSchema } from "@/lib/validation/admin";
-import { getStoredToken, setStoredToken } from "@/lib/api-client";
 
 type Role = {
   id: number;
@@ -34,13 +32,6 @@ type AdminUser = {
 };
 
 export default function AdminUsersPanel() {
-  //1.- Ensure the demo Sanctum token exists so the API requests succeed locally.
-  useEffect(() => {
-    if (!getStoredToken()) {
-      setStoredToken("demo-sanctum-token");
-    }
-  }, []);
-
   const { items, isLoading, error, create } = useAdminResource<AdminUser>("admin/users");
 
   async function handleSeedUser() {

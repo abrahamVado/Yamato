@@ -43,10 +43,23 @@ workflows respect the `NEXT_PUBLIC_UPLOAD_BACKEND` family of environment variabl
 configuration such as `.env.local` when you need to point at a different host or switch between the
 Go and Laravel upload targets.【F:web/src/lib/backend.ts†L1-L16】
 
+### Start the edge proxy
+
+To avoid cross-origin requests, run the provided Nginx edge so both the Next.js frontend and the
+Laravel backend share `http://localhost:3000`.
+
+```bash
+docker compose up --build edge
+```
+
+The compose file builds the production Next.js image, starts it on the internal network, and then
+proxies traffic through Nginx using `proxy.conf`. Requests to `/` are routed to Next.js while
+`/api` calls are forwarded to the Laravel host defined in the shared Docker network.
+
 ### Configure the API client
-Set `NEXT_PUBLIC_API_BASE_URL` in `web/.env.local` to the Laravel host plus its canonical `/api`
-prefix (for example `http://localhost:8080/api`) so the shared API helpers route requests to the
-correct backend.【F:web/.env.local†L1-L11】【F:docs/protected-admin-api/README.md†L6-L40】
+Set `NEXT_PUBLIC_API_BASE_URL` in `web/.env.local` to the edge origin plus the canonical `/api`
+prefix (`http://localhost:3000/api`) so the shared API helpers resolve to relative paths like
+`fetch("/api/auth/login")` when running in the browser.【F:web/.env.local†L1-L11】【F:docs/protected-admin-api/README.md†L6-L40】
 
 ### Run the development server
 ```bash

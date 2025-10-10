@@ -1,0 +1,15 @@
+# Ignore local development artifacts to keep Docker layers lean.
+node_modules
+web/node_modules
+web/.next
+web/tests
+web/playwright-report
+web/test-results
+web/.playwright
+.next
+coverage
+**/.DS_Store
+.git
+.gitignore
+.env
+npm-debug.log*

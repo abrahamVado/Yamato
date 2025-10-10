@@ -1,4 +1,5 @@
 import { test, expect } from "@playwright/test"
+import { seedDashboardSession } from "./utils/auth"
 
 test.describe("Experience views", () => {
   test("login showcase renders marketing hero", async ({ page }) => {
@@ -26,29 +27,9 @@ test.describe("Experience views", () => {
   ] as const
 
   for (const view of privateViews) {
-    test(`renders the ${view.path} view`, async ({ page, request }) => {
+    test(`renders the ${view.path} view`, async ({ page }) => {
       //3.- Authenticate via the sign-in API and seed the browser context cookie.
-      const login = await request.post("/private/api/auth/signin", {
-        data: { email: "admin@yamato.local", password: "admin" },
-      })
-      expect(login.status()).toBe(200)
-      const cookieHeader = login.headers()["set-cookie"] ?? ""
-      const sessionMatch = cookieHeader.match(/yamato_session=([^;]+)/)
-      expect(sessionMatch).toBeTruthy()
-      const cookieValue = sessionMatch?.[1] ?? ""
-
-      await page.context().addCookies([
-        {
-          name: "yamato_session",
-          value: cookieValue,
-          domain: "127.0.0.1",
-          path: "/",
-        },
-      ])
-
-      await page.addInitScript(() => {
-        window.localStorage.setItem("yamato.authToken", "demo-sanctum-token")
-      })
+      await seedDashboardSession(page)
 
       //4.- Navigate to the private module and assert the new headline is visible.
       await page.goto(view.path)

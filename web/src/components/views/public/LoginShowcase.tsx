@@ -27,6 +27,8 @@ type LoginShowcaseProps = {
   onPasswordChange: (value: string) => void
   onRememberChange: (value: boolean) => void
   onSubmit: (event: FormEvent<HTMLFormElement>) => void
+  errorMessage?: string | null
+  isSubmitting?: boolean
 }
 
 export function LoginShowcase({
@@ -38,6 +40,8 @@ export function LoginShowcase({
   onPasswordChange,
   onRememberChange,
   onSubmit,
+  errorMessage,
+  isSubmitting = false,
 }: LoginShowcaseProps) {
   //3.- Draft a set of whimsical bullet points to spark product imagination.
   const highlights = [
@@ -104,6 +108,11 @@ export function LoginShowcase({
           {/* 7.- Present the fully controlled login form with the provided bindings. */}
           <section className="rounded-2xl border border-white/10 bg-white/10 p-8 backdrop-blur-xl shadow-2xl">
             <form onSubmit={onSubmit} className="space-y-6">
+              {errorMessage && (
+                <p className="rounded-lg border border-red-400/60 bg-red-500/20 px-4 py-3 text-sm text-red-50">
+                  {errorMessage}
+                </p>
+              )}
               <div className="space-y-2">
                 <Label htmlFor="email" className="text-white">
                   {dict.common.email}
@@ -146,7 +155,7 @@ export function LoginShowcase({
                 </Link>
               </div>
 
-              <Button type="submit" className="w-full">
+              <Button type="submit" className="w-full" disabled={isSubmitting}>
                 {dict.cta}
               </Button>
 

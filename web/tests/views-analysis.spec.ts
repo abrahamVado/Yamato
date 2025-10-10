@@ -1,33 +1,14 @@
-import { test, expect, type Page, type APIRequestContext } from "@playwright/test"
+import { test, expect, type Page } from "@playwright/test"
+import { seedDashboardSession } from "./utils/auth"
 
-async function authenticate(page: Page, request: APIRequestContext) {
-  const login = await request.post("/private/api/auth/signin", {
-    data: { email: "admin@yamato.local", password: "admin" },
-  })
-  expect(login.status()).toBe(200)
-  const cookieHeader = login.headers()["set-cookie"] ?? ""
-  const sessionMatch = cookieHeader.match(/yamato_session=([^;]+)/)
-  expect(sessionMatch).toBeTruthy()
-  const cookieValue = sessionMatch?.[1] ?? ""
-
-  await page.context().addCookies([
-    {
-      name: "yamato_session",
-      value: cookieValue,
-      domain: "127.0.0.1",
-      path: "/",
-    },
-  ])
-
-  await page.addInitScript(() => {
-    window.localStorage.setItem("yamato.authToken", "demo-sanctum-token")
-  })
+async function authenticate(page: Page) {
+  await seedDashboardSession(page)
 }
 
 test.describe("Views analysis localization", () => {
-  test("renders enumerated intelligence report in English", async ({ page, request }) => {
+  test("renders enumerated intelligence report in English", async ({ page }) => {
     //1.- Authenticate to reach the private analysis surface.
-    await authenticate(page, request)
+    await authenticate(page)
 
     //2.- Verify the English headings and enumerated entries render.
     await page.goto("/private/views-analysis")
@@ -39,13 +20,13 @@ test.describe("Views analysis localization", () => {
     ).toBeVisible()
   })
 
-  test("switches copy to Spanish when locale is persisted", async ({ page, request }) => {
+  test("switches copy to Spanish when locale is persisted", async ({ page }) => {
     //1.- Persist the locale before hydration so the provider loads the Spanish dictionary.
     await page.addInitScript(() => {
       window.localStorage.setItem("locale", "es")
     })
 
-    await authenticate(page, request)
+    await authenticate(page)
 
     //2.- Confirm the headline and sample rows reflect the translated copy.
     await page.goto("/private/views-analysis")

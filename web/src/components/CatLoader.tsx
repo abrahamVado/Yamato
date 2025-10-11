@@ -162,8 +162,15 @@ export default function CatLoader({
   const isServer = typeof window === "undefined";
   //6.- Detect server rendering so the loader can announce busy state in environments without the DOM APIs.
 
+  const statusProps = React.useMemo(() => {
+    //7.- Surface `aria-live` during SSR so streaming responses can verbalize the pending state before hydration completes.
+    return isServer
+      ? ({ role: "status", "aria-busy": "true", "aria-live": "polite" } as const)
+      : ({ role: "status", "aria-busy": "true" } as const);
+  }, [isServer]);
+
   return (
-    <div className="grid place-items-center text-foreground" aria-busy>
+    <div className="grid place-items-center text-foreground" {...statusProps}>
       {shouldRenderInlineStyles ? (
         <style
           id={CAT_LOADER_INLINE_STYLE_ID}

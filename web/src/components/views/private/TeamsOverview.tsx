@@ -1,8 +1,9 @@
 "use client"
 
-//1.- Import UI building blocks to display squad compositions for Yamato teams.
+//1.- Import UI building blocks plus the neumorphic shell to display squad compositions for Yamato teams.
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { PrivateNeumorphicShell } from "./PrivateNeumorphicShell"
 
 const teams = [
   {
@@ -23,32 +24,34 @@ const teams = [
 ]
 
 export function TeamsOverview() {
-  //2.- Render each team in a card with avatars representing operator initials.
+  //2.- Render each team in a card with avatars representing operator initials inside the neumorphic shell.
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Teams cockpit</CardTitle>
-        <CardDescription>Review who pilots each stream of work before granting elevated access.</CardDescription>
-      </CardHeader>
-      <CardContent className="grid gap-4">
-        {teams.map((team) => (
-          <div key={team.name} className="grid gap-3 rounded-xl border border-muted/60 bg-muted/20 p-4">
-            <div className="flex flex-wrap items-center justify-between gap-4">
-              <div>
-                <h3 className="text-lg font-semibold">{team.name}</h3>
-                <p className="text-sm text-muted-foreground">{team.mission}</p>
-              </div>
-              <div className="flex -space-x-3">
-                {team.members.map((initials) => (
-                  <Avatar key={initials} className="border-2 border-background">
-                    <AvatarFallback>{initials}</AvatarFallback>
-                  </Avatar>
-                ))}
+    <PrivateNeumorphicShell testId="teams-neumorphic-card">
+      <Card>
+        <CardHeader>
+          <CardTitle>Teams cockpit</CardTitle>
+          <CardDescription>Review who pilots each stream of work before granting elevated access.</CardDescription>
+        </CardHeader>
+        <CardContent className="grid gap-4">
+          {teams.map((team) => (
+            <div key={team.name} className="grid gap-3 rounded-xl border border-muted/60 bg-muted/20 p-4">
+              <div className="flex flex-wrap items-center justify-between gap-4">
+                <div>
+                  <h3 className="text-lg font-semibold">{team.name}</h3>
+                  <p className="text-sm text-muted-foreground">{team.mission}</p>
+                </div>
+                <div className="flex -space-x-3">
+                  {team.members.map((initials) => (
+                    <Avatar key={initials} className="border-2 border-background">
+                      <AvatarFallback>{initials}</AvatarFallback>
+                    </Avatar>
+                  ))}
+                </div>
               </div>
             </div>
-          </div>
-        ))}
-      </CardContent>
-    </Card>
+          ))}
+        </CardContent>
+      </Card>
+    </PrivateNeumorphicShell>
   )
 }

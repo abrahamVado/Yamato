@@ -1,11 +1,12 @@
 "use client"
 
-//1.- Pull in localization hooks, React state, and the icon-enhanced UI primitives used in the module console.
+//1.- Pull in localization hooks, React state, the shared shell, and the icon-enhanced UI primitives used in the module console.
 import * as React from "react"
 import { useI18n } from "@/app/providers/I18nProvider"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Switch } from "@/components/ui/switch"
+import { PrivateNeumorphicShell } from "./PrivateNeumorphicShell"
 import {
   HiMiniShieldCheck,
   HiMiniSquaresPlus,
@@ -187,14 +188,14 @@ export function ModulesConfigurator() {
   const resolvedBacklog = hydratedBacklog.length > 0 ? hydratedBacklog : defaultBacklog
 
   React.useEffect(() => {
-    //10.- Realign the module state whenever localized catalogue data changes (e.g., locale switches).
+    //9.- Realign the module state whenever localized catalogue data changes (e.g., locale switches).
     if (hydratedModules.length > 0) {
       setModules(hydratedModules)
     }
   }, [hydratedModules])
 
   function handleToggle(name: string, value: boolean) {
-    //9.- Update the module entry immutably to keep React state predictable and accessible.
+    //10.- Update the module entry immutably to keep React state predictable and accessible.
     setModules((current) =>
       current.map((module) =>
         module.name === name
@@ -207,90 +208,92 @@ export function ModulesConfigurator() {
     )
   }
 
+  //11.- Present the module catalogue inside the neumorphic wrapper so configuration feels cohesive.
   return (
-    <div className="space-y-6">
-      <Card className="border border-primary/20 bg-gradient-to-br from-background via-background to-primary/5 dark:from-backgroun
-d dark:via-background dark:to-primary/10">
-        <CardHeader>
-          <CardTitle>{t("private.modules.title")}</CardTitle>
-          <CardDescription>{t("private.modules.subtitle")}</CardDescription>
-        </CardHeader>
-        <CardContent className="grid gap-4">
-          {modules.map((module, index) => {
-            const Icon = iconMap[module.icon] ?? HiMiniSquaresPlus
-            return (
-              <div
-                key={module.name}
-                data-test="module-row"
-                className="grid gap-3 rounded-xl border border-muted bg-muted/20 p-4 transition hover:border-primary dark:border-muted/60 dark:bg-muted/10"
-              >
-                <div className="flex flex-wrap items-center justify-between gap-4">
+    <PrivateNeumorphicShell testId="modules-neumorphic-card">
+      <div className="space-y-6">
+        <Card className="border border-primary/20 bg-gradient-to-br from-background via-background to-primary/5 dark:from-background dark:via-background dark:to-primary/10">
+          <CardHeader>
+            <CardTitle>{t("private.modules.title")}</CardTitle>
+            <CardDescription>{t("private.modules.subtitle")}</CardDescription>
+          </CardHeader>
+          <CardContent className="grid gap-4">
+            {modules.map((module, index) => {
+              const Icon = iconMap[module.icon] ?? HiMiniSquaresPlus
+              return (
+                <div
+                  key={module.name}
+                  data-test="module-row"
+                  className="grid gap-3 rounded-xl border border-muted bg-muted/20 p-4 transition hover:border-primary dark:border-muted/60 dark:bg-muted/10"
+                >
+                  <div className="flex flex-wrap items-center justify-between gap-4">
+                    <div className="flex items-start gap-3">
+                      <span className="mt-1 inline-flex h-10 w-10 items-center justify-center rounded-full bg-primary/10 text-primary">
+                        <Icon className="h-5 w-5" aria-hidden />
+                      </span>
+                      <div>
+                        <h3 className="text-base font-semibold text-foreground">
+                          {index + 1}. {module.name}
+                        </h3>
+                        <p className="text-sm text-muted-foreground">{module.description}</p>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <Badge variant="outline" className="uppercase tracking-widest">
+                        {t(`private.modules.tiers.${module.tier}`)}
+                      </Badge>
+                      <Badge variant="secondary">{t(`private.modules.owners.${module.owner}`)}</Badge>
+                      <Switch
+                        checked={module.enabled}
+                        onCheckedChange={(value) => handleToggle(module.name, Boolean(value))}
+                        aria-label={t("private.modules.a11y.toggle", { module: module.name })}
+                      />
+                    </div>
+                  </div>
+                  <p className="text-xs text-muted-foreground">
+                    {module.enabled
+                      ? t("private.modules.status.enabled")
+                      : t("private.modules.status.disabled")}
+                  </p>
+                </div>
+              )
+            })}
+          </CardContent>
+        </Card>
+
+        {/* 12.- Outline a short list of possible new modules, keeping content concise for stakeholder review. */}
+        <Card className="border border-primary/20 bg-primary/5 dark:bg-primary/10">
+          <CardHeader>
+            <CardTitle>{t("private.modules.backlog.title")}</CardTitle>
+            <CardDescription>{t("private.modules.backlog.subtitle")}</CardDescription>
+          </CardHeader>
+          <CardContent className="grid gap-3">
+            {resolvedBacklog.map((candidate, index) => {
+              const Icon = iconMap[candidate.icon] ?? HiMiniSparkles
+              return (
+                <div
+                  key={candidate.name}
+                  data-test="backlog-row"
+                  className="flex flex-col justify-between gap-3 rounded-xl border border-dashed border-primary/40 bg-background/70 p-4 dark:bg-background/40 sm:flex-row sm:items-center"
+                >
                   <div className="flex items-start gap-3">
-                    <span className="mt-1 inline-flex h-10 w-10 items-center justify-center rounded-full bg-primary/10 text-primary">
+                    <span className="mt-1 inline-flex h-10 w-10 items-center justify-center rounded-full bg-primary/15 text-primary">
                       <Icon className="h-5 w-5" aria-hidden />
                     </span>
                     <div>
-                      <h3 className="text-base font-semibold text-foreground">
-                        {index + 1}. {module.name}
-                      </h3>
-                      <p className="text-sm text-muted-foreground">{module.description}</p>
+                      <p className="text-sm font-semibold uppercase tracking-widest text-primary">
+                        {index + 1}. {candidate.theme}
+                      </p>
+                      <h4 className="text-base font-semibold text-foreground">{candidate.name}</h4>
                     </div>
                   </div>
-                  <div className="flex items-center gap-3">
-                    <Badge variant="outline" className="uppercase tracking-widest">
-                      {t(`private.modules.tiers.${module.tier}`)}
-                    </Badge>
-                    <Badge variant="secondary">{t(`private.modules.owners.${module.owner}`)}</Badge>
-                    <Switch
-                      checked={module.enabled}
-                      onCheckedChange={(value) => handleToggle(module.name, Boolean(value))}
-                      aria-label={t("private.modules.a11y.toggle", { module: module.name })}
-                    />
-                  </div>
+                  <p className="text-sm text-muted-foreground sm:max-w-[420px]">{candidate.benefit}</p>
                 </div>
-                <p className="text-xs text-muted-foreground">
-                  {module.enabled
-                    ? t("private.modules.status.enabled")
-                    : t("private.modules.status.disabled")}
-                </p>
-              </div>
-            )
-          })}
-        </CardContent>
-      </Card>
-
-      {/* 11.- Outline a short list of possible new modules, keeping content concise for stakeholder review. */}
-      <Card className="border border-primary/20 bg-primary/5 dark:bg-primary/10">
-        <CardHeader>
-          <CardTitle>{t("private.modules.backlog.title")}</CardTitle>
-          <CardDescription>{t("private.modules.backlog.subtitle")}</CardDescription>
-        </CardHeader>
-        <CardContent className="grid gap-3">
-          {resolvedBacklog.map((candidate, index) => {
-            const Icon = iconMap[candidate.icon] ?? HiMiniSparkles
-            return (
-              <div
-                key={candidate.name}
-                data-test="backlog-row"
-                className="flex flex-col justify-between gap-3 rounded-xl border border-dashed border-primary/40 bg-background/70 p-4 dark:bg-background/40 sm:flex-row sm:items-center"
-              >
-                <div className="flex items-start gap-3">
-                  <span className="mt-1 inline-flex h-10 w-10 items-center justify-center rounded-full bg-primary/15 text-primary">
-                    <Icon className="h-5 w-5" aria-hidden />
-                  </span>
-                  <div>
-                    <p className="text-sm font-semibold uppercase tracking-widest text-primary">
-                      {index + 1}. {candidate.theme}
-                    </p>
-                    <h4 className="text-base font-semibold text-foreground">{candidate.name}</h4>
-                  </div>
-                </div>
-                <p className="text-sm text-muted-foreground sm:max-w-[420px]">{candidate.benefit}</p>
-              </div>
-            )
-          })}
-        </CardContent>
-      </Card>
-    </div>
+              )
+            })}
+          </CardContent>
+        </Card>
+      </div>
+    </PrivateNeumorphicShell>
   )
 }

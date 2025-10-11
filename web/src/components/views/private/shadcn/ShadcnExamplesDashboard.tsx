@@ -16,6 +16,7 @@ import { Switch } from "@/components/ui/switch"
 import { Label } from "@/components/ui/label"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import Link from "next/link"
+import { PrivateNeumorphicShell } from "../PrivateNeumorphicShell"
 
 //2.- Pull in the concrete example canvases that mirror the shadcn/ui marketing examples.
 import { DashboardExample } from "./examples/dashboard-example"
@@ -58,13 +59,9 @@ export function ShadcnExamplesDashboard({
         </BreadcrumbList>
       </Breadcrumb>
 
-      {/*5.- Center the gallery inside a neumorphic card so the private dashboard mirrors the docs treatment.*/}
-      <div className="mt-6 flex justify-center">
-        <Card
-          data-testid="dashboard-neumorphic-card"
-          className="neumorphic-card w-full max-w-6xl shadow-none px-6 py-6 md:px-8 md:py-8 lg:px-10"
-        >
-          <section className="space-y-6">
+      {/*5.- Center the gallery using the shared neumorphic shell so the private dashboard mirrors the docs treatment.*/}
+      <PrivateNeumorphicShell testId="dashboard-neumorphic-card" wrapperClassName="mt-6">
+        <section className="space-y-6">
             <Card className="border-dashed bg-muted/40 p-6">
               <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
                 <div className="space-y-2">
@@ -147,9 +144,8 @@ export function ShadcnExamplesDashboard({
                 <MailExample />
               </TabsContent>
             </Tabs>
-          </section>
-        </Card>
-      </div>
+        </section>
+      </PrivateNeumorphicShell>
     </ContentLayout>
   )
 }

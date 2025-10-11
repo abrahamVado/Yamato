@@ -27,4 +27,12 @@ export const docsNav: DocsSection[] = [
       { title: "Troubleshooting", href: "/public/docs/troubleshooting" },
     ],
   },
+  {
+    //1.- Surface the collection of component demos so visitors can quickly find hands-on UI references.
+    title: "Examples",
+    links: [
+      //2.- Route to the Shadcn UI component gallery that we curate within our documentation area.
+      { title: "Components", href: "/public/docs/examples/components" },
+    ],
+  },
 ]

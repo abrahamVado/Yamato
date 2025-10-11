@@ -1,5 +1,6 @@
 import Shell from "@/components/secure/shell"
 import { AdminUserForm } from "@/components/secure/users/AdminUserForm"
+import { PrivateViewLayout } from "@/components/views/private/PrivateViewLayout"
 
 type PageProps = {
   searchParams?: {
@@ -12,11 +13,15 @@ export default function Page({ searchParams }: PageProps) {
   const parsedId = searchParams?.id ? Number(searchParams.id) : undefined
   const userId = Number.isFinite(parsedId) ? Number(parsedId) : undefined
 
+  //2.- Surface a contextual header so operators see whether they are creating or editing a user.
+  const layoutTitle = userId ? "Edit user" : "Create user"
+
+  //3.- Render the secure shell with the private layout to align with the rest of the workspace headers.
   return (
     <Shell>
-      <div className="grid gap-6">
+      <PrivateViewLayout title={layoutTitle}>
         <AdminUserForm userId={userId} />
-      </div>
+      </PrivateViewLayout>
     </Shell>
   )
 }

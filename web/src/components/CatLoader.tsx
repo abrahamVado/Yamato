@@ -1,12 +1,14 @@
 // src/components/CatLoader.tsx
 "use client";
 import * as React from "react";
+import styles from "./CatLoader.module.css";
+//1.- Import the stylesheet once so Next.js scopes the animation without manual DOM injections.
 
+//2.- Preserve the spinner union so existing surfaces depending on SpinnerType continue compiling without changes.
 type SpinnerKind = "fan" | "refresh" | "cog" | "aperture" | "orbit" | "loader" | "ring" | "icon";
-
-//1.- Surface the spinner type so LoaderGuard can type its props without re-declaring the union.
 export type SpinnerType = SpinnerKind;
 
+//3.- Keep legacy props for compatibility while introducing CSS-module driven styling.
 type Props = {
   label?: string;
   size?: number;        // cat canvas size (px)
@@ -15,96 +17,6 @@ type Props = {
   spinner?: SpinnerKind; // legacy prop, the new loader ignores icon choice
   waitForPaw?: boolean; // legacy prop, retained to avoid breaking callers
 };
-
-//2.- Expose the style identifier so tests and other utilities can assert the stylesheet exists once.
-export const CAT_LOADER_STYLE_ID = "yamato-cat-loader-styles";
-const CAT_LOADER_INLINE_STYLE_ID = `${CAT_LOADER_STYLE_ID}__inline`;
-
-//3.- Provide the cat loader styles as a runtime string so both Next.js and the node:test environment can consume them without a bundler.
-const CAT_LOADER_CSS = String.raw`
-.cat-loader__frame {
-  position: relative;
-  width: min(var(--cat-loader-size, 160px), 100%);
-  aspect-ratio: 1 / 1;
-  overflow: hidden;
-  background-color: #e6dcdc;
-}
-
-.cat-loader__frame:hover > * {
-  animation-play-state: paused;
-}
-
-.cat-loader__frame:active > * {
-  animation-play-state: running;
-}
-
-.cat-loader__part {
-  position: absolute;
-  inset: 0;
-  animation: cat-loader-rotating 2.79s cubic-bezier(.65, .54, .12, .93) infinite;
-}
-
-.cat-loader__part::before {
-  content: "";
-  position: absolute;
-  inline-size: 50%;
-  block-size: 50%;
-  background-size: 200%;
-  background-repeat: no-repeat;
-  background-image: url('https://images.weserv.nl/?url=i.imgur.com/M1raXX3.png&il');
-}
-
-.cat-loader__head::before {
-  top: 0;
-  right: 0;
-  background-position: 100% 0%;
-  transform-origin: 0% 100%;
-  transform: rotate(90deg);
-}
-
-.cat-loader__tail {
-  animation-delay: .2s;
-}
-
-.cat-loader__tail::before {
-  left: 0;
-  bottom: 0;
-  background-position: 0% 100%;
-  transform-origin: 100% 0%;
-  transform: rotate(-30deg);
-}
-
-.cat-loader__body {
-  animation-delay: .1s;
-}
-
-.cat-loader__body:nth-of-type(2) {
-  animation-delay: .2s;
-}
-
-.cat-loader__body::before {
-  right: 0;
-  bottom: 0;
-  background-position: 100% 100%;
-  transform-origin: 0% 0%;
-}
-
-@keyframes cat-loader-rotating {
-  from { transform: rotate(720deg); }
-  to { transform: none; }
-}
-
-.cat-loader__mirrored {
-  transform: scaleX(-1);
-}
-
-.cat-loader__shell {
-  display: grid;
-  place-items: center;
-  text-align: center;
-  color: inherit;
-}
-`;
 
 export default function CatLoader({
   label = "Loading…",
@@ -119,79 +31,36 @@ export default function CatLoader({
   void _waitForPaw;
   //4.- Silence legacy props while keeping the public API untouched for existing callers.
 
-  const [shouldRenderInlineStyles, setShouldRenderInlineStyles] = React.useState(true);
-  //5.- Start every render with inline styles so the loader paints correctly even before hydration runs effects.
-
-  React.useEffect(() => {
-    if (typeof document === "undefined") return;
-    const existingStyle = document.getElementById(CAT_LOADER_STYLE_ID) as HTMLStyleElement | null;
-
-    if (!existingStyle) {
-      const style = document.createElement("style");
-      style.id = CAT_LOADER_STYLE_ID;
-      style.textContent = CAT_LOADER_CSS;
-      document.head.appendChild(style);
-    } else if (existingStyle.textContent !== CAT_LOADER_CSS) {
-      existingStyle.textContent = CAT_LOADER_CSS;
-    }
-
-    let rafHandle: number | null = null;
-    let timeoutHandle: ReturnType<typeof setTimeout> | null = null;
-
-    if (typeof window !== "undefined" && "requestAnimationFrame" in window) {
-      rafHandle = window.requestAnimationFrame(() => {
-        setShouldRenderInlineStyles(false);
-      });
-    } else {
-      timeoutHandle = setTimeout(() => {
-        setShouldRenderInlineStyles(false);
-      });
-    }
-
-    return () => {
-      if (rafHandle !== null) {
-        window.cancelAnimationFrame(rafHandle);
-      }
-
-      if (timeoutHandle !== null) {
-        clearTimeout(timeoutHandle);
-      }
-    };
-  }, []);
-
   const isServer = typeof window === "undefined";
-  //6.- Detect server rendering so the loader can announce busy state in environments without the DOM APIs.
+  //5.- Detect server rendering so we can expose polite live announcements before hydration completes.
 
   const statusProps = React.useMemo(() => {
-    //7.- Surface `aria-live` during SSR so streaming responses can verbalize the pending state before hydration completes.
+    //6.- Advertise aria-live only when rendering on the server to avoid duplicate announcements after hydration.
     return isServer
       ? ({ role: "status", "aria-busy": "true", "aria-live": "polite" } as const)
       : ({ role: "status", "aria-busy": "true" } as const);
   }, [isServer]);
 
+  const frameClassName = mirror ? `${styles.frame} ${styles.mirrored}` : styles.frame;
+  //7.- Compose the frame class so mirroring toggles without relying on conditional DOM manipulation.
+
   return (
     <div className="grid place-items-center text-foreground" {...statusProps}>
-      {shouldRenderInlineStyles ? (
-        <style
-          id={CAT_LOADER_INLINE_STYLE_ID}
-          dangerouslySetInnerHTML={{ __html: CAT_LOADER_CSS }}
-          suppressHydrationWarning
-        />
-      ) : null}
-
       <div
-        className={`cat-loader__shell`}
+        className={styles.shell}
         style={{ "--cat-loader-size": `${size}px` } as React.CSSProperties}
       >
-        <div className={`cat-loader__frame ${mirror ? "cat-loader__mirrored" : ""}`}>
-          <div className="cat-loader__body cat-loader__part" />
-          <div className="cat-loader__body cat-loader__part" />
-          <div className="cat-loader__tail cat-loader__part" />
-          <div className="cat-loader__head cat-loader__part" />
+        <div className={frameClassName}>
+          <div className={`${styles.body} ${styles.part}`} data-cat-loader-part="body" />
+          <div className={`${styles.body} ${styles.part}`} data-cat-loader-part="body" />
+          <div className={`${styles.tail} ${styles.part}`} data-cat-loader-part="tail" />
+          <div className={`${styles.head} ${styles.part}`} data-cat-loader-part="head" />
         </div>
       </div>
 
-      {label && <p className="mt-3 text-sm text-muted-foreground text-center">{label}</p>}
+      {label ? (
+        <p className="mt-3 text-sm text-muted-foreground text-center">{label}</p>
+      ) : null}
     </div>
   );
 }

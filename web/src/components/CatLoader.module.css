@@ -1,0 +1,87 @@
+.frame {
+  position: relative;
+  width: min(var(--cat-loader-size, 160px), 100%);
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  background-color: #e6dcdc;
+}
+
+.frame:hover > * {
+  animation-play-state: paused;
+}
+
+.frame:active > * {
+  animation-play-state: running;
+}
+
+.part {
+  position: absolute;
+  inset: 0;
+  animation: catLoaderRotating 2.79s cubic-bezier(.65, .54, .12, .93) infinite;
+}
+
+.part::before {
+  content: "";
+  position: absolute;
+  inline-size: 50%;
+  block-size: 50%;
+  background-size: 200%;
+  background-repeat: no-repeat;
+  background-image: url('https://images.weserv.nl/?url=i.imgur.com/M1raXX3.png&il');
+}
+
+.head::before {
+  top: 0;
+  right: 0;
+  background-position: 100% 0%;
+  transform-origin: 0% 100%;
+  transform: rotate(90deg);
+}
+
+.tail {
+  animation-delay: .2s;
+}
+
+.tail::before {
+  left: 0;
+  bottom: 0;
+  background-position: 0% 100%;
+  transform-origin: 100% 0%;
+  transform: rotate(-30deg);
+}
+
+.body {
+  animation-delay: .1s;
+}
+
+.body:nth-of-type(2) {
+  animation-delay: .2s;
+}
+
+.body::before {
+  right: 0;
+  bottom: 0;
+  background-position: 100% 100%;
+  transform-origin: 0% 0%;
+}
+
+@keyframes catLoaderRotating {
+  from {
+    transform: rotate(720deg);
+  }
+
+  to {
+    transform: none;
+  }
+}
+
+.mirrored {
+  transform: scaleX(-1);
+}
+
+.shell {
+  display: grid;
+  place-items: center;
+  text-align: center;
+  color: inherit;
+}

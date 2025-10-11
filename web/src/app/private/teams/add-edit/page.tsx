@@ -1,5 +1,6 @@
 import Shell from "@/components/secure/shell"
 import { AdminTeamForm } from "@/components/secure/teams/AdminTeamForm"
+import { PrivateNeumorphicShell } from "@/components/views/private/PrivateNeumorphicShell"
 import { PrivateViewLayout } from "@/components/views/private/PrivateViewLayout"
 
 type PageProps = {
@@ -17,10 +18,13 @@ export default function Page({ searchParams }: PageProps) {
   const layoutTitle = teamId ? "Edit team" : "Create team"
 
   //3.- Render the shared shell and private layout to display the new contextual heading.
+  //4.- Wrap the team form in the neumorphic shell so creation and editing match the rest of the workspace visuals.
   return (
     <Shell>
       <PrivateViewLayout title={layoutTitle}>
-        <AdminTeamForm teamId={teamId} />
+        <PrivateNeumorphicShell testId="teams-add-edit-neumorphic-shell">
+          <AdminTeamForm teamId={teamId} />
+        </PrivateNeumorphicShell>
       </PrivateViewLayout>
     </Shell>
   )

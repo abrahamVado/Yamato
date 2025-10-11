@@ -1,5 +1,6 @@
 import Shell from "@/components/secure/shell"
 import { AdminRoleForm } from "@/components/secure/roles/AdminRoleForm"
+import { PrivateNeumorphicShell } from "@/components/views/private/PrivateNeumorphicShell"
 import { PrivateViewLayout } from "@/components/views/private/PrivateViewLayout"
 
 type PageProps = {
@@ -17,10 +18,13 @@ export default function Page({ searchParams }: PageProps) {
   const layoutTitle = roleId ? "Edit role" : "Create role"
 
   //3.- Render the shared shell with the private layout so the contextual heading is visible above the form.
+  //4.- Place the role form inside the neumorphic shell to keep editing visuals aligned with other private pages.
   return (
     <Shell>
       <PrivateViewLayout title={layoutTitle}>
-        <AdminRoleForm roleId={roleId} />
+        <PrivateNeumorphicShell testId="roles-add-edit-neumorphic-shell">
+          <AdminRoleForm roleId={roleId} />
+        </PrivateNeumorphicShell>
       </PrivateViewLayout>
     </Shell>
   )

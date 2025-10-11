@@ -1,8 +1,9 @@
 "use client"
 
-//1.- Import cards and badges to display Yamato's security analytics slices.
+//1.- Import cards, badges, and the shared shell to display Yamato's security analytics slices.
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { PrivateNeumorphicShell } from "./PrivateNeumorphicShell"
 
 const alerts = [
   {
@@ -30,26 +31,29 @@ export function SecurityInsights() {
     info: "bg-sky-500/10 text-sky-400",
   }
 
+  //3.- Wrap the alert feed in the neumorphic shell so the security view aligns with the rest of the suite.
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Security command center</CardTitle>
-        <CardDescription>Review live posture insights before the Yamato SOC escalates.</CardDescription>
-      </CardHeader>
-      <CardContent className="grid gap-4">
-        {alerts.map((alert) => (
-          <div key={alert.title} className="grid gap-3 rounded-xl border border-muted/60 bg-muted/20 p-4">
-            <div className="flex items-center justify-between">
-              <h3 className="text-base font-semibold">{alert.title}</h3>
-              <Badge className={severityTone[alert.severity]}>{alert.severity}</Badge>
+    <PrivateNeumorphicShell testId="security-neumorphic-card">
+      <Card>
+        <CardHeader>
+          <CardTitle>Security command center</CardTitle>
+          <CardDescription>Review live posture insights before the Yamato SOC escalates.</CardDescription>
+        </CardHeader>
+        <CardContent className="grid gap-4">
+          {alerts.map((alert) => (
+            <div key={alert.title} className="grid gap-3 rounded-xl border border-muted/60 bg-muted/20 p-4">
+              <div className="flex items-center justify-between">
+                <h3 className="text-base font-semibold">{alert.title}</h3>
+                <Badge className={severityTone[alert.severity]}>{alert.severity}</Badge>
+              </div>
+              <p className="text-sm text-muted-foreground">{alert.detail}</p>
             </div>
-            <p className="text-sm text-muted-foreground">{alert.detail}</p>
-          </div>
-        ))}
-        <p className="text-xs text-muted-foreground">
-          Yamato continually learns from telemetry to highlight meaningful actions for your response crews.
-        </p>
-      </CardContent>
-    </Card>
+          ))}
+          <p className="text-xs text-muted-foreground">
+            Yamato continually learns from telemetry to highlight meaningful actions for your response crews.
+          </p>
+        </CardContent>
+      </Card>
+    </PrivateNeumorphicShell>
   )
 }

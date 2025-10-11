@@ -1,8 +1,9 @@
 "use client"
 
-//1.- Import UI helpers to render the permissions matrix for Yamato roles.
+//1.- Import UI helpers and the neumorphic shell to render the permissions matrix for Yamato roles.
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { PrivateNeumorphicShell } from "./PrivateNeumorphicShell"
 
 const roles = [
   {
@@ -23,30 +24,32 @@ const roles = [
 ]
 
 export function RolesMatrix() {
-  //2.- Render each role with a quick badge list to spotlight curated capabilities.
+  //2.- Render each role with a quick badge list inside the shared neumorphic wrapper.
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Role playbook</CardTitle>
-        <CardDescription>Define which crews can change modules, deploy automations or observe telemetry.</CardDescription>
-      </CardHeader>
-      <CardContent className="grid gap-5">
-        {roles.map((role) => (
-          <div key={role.name} className="grid gap-3 rounded-xl border border-muted/60 bg-muted/20 p-4">
-            <div className="flex flex-wrap items-center justify-between gap-4">
-              <h3 className="text-lg font-semibold">{role.name}</h3>
-              <div className="flex flex-wrap gap-2">
-                {role.permissions.map((permission) => (
-                  <Badge key={permission} variant="outline" className="uppercase tracking-widest">
-                    {permission}
-                  </Badge>
-                ))}
+    <PrivateNeumorphicShell testId="roles-neumorphic-card">
+      <Card>
+        <CardHeader>
+          <CardTitle>Role playbook</CardTitle>
+          <CardDescription>Define which crews can change modules, deploy automations or observe telemetry.</CardDescription>
+        </CardHeader>
+        <CardContent className="grid gap-5">
+          {roles.map((role) => (
+            <div key={role.name} className="grid gap-3 rounded-xl border border-muted/60 bg-muted/20 p-4">
+              <div className="flex flex-wrap items-center justify-between gap-4">
+                <h3 className="text-lg font-semibold">{role.name}</h3>
+                <div className="flex flex-wrap gap-2">
+                  {role.permissions.map((permission) => (
+                    <Badge key={permission} variant="outline" className="uppercase tracking-widest">
+                      {permission}
+                    </Badge>
+                  ))}
+                </div>
               </div>
+              <p className="text-sm text-muted-foreground">{role.summary}</p>
             </div>
-            <p className="text-sm text-muted-foreground">{role.summary}</p>
-          </div>
-        ))}
-      </CardContent>
-    </Card>
+          ))}
+        </CardContent>
+      </Card>
+    </PrivateNeumorphicShell>
   )
 }

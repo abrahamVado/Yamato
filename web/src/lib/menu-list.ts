@@ -40,17 +40,51 @@ const PRIVATE_MAIN_MENU_BLUEPRINT: Group[] = [
       {
         href: "/private/users",
         label: "Users",
-        icon: Users
+        icon: Users,
+        submenus: [
+          {
+            href: "/private/users",
+            label: "User Dashboard"
+          },
+          {
+            href: "/private/users/add-edit",
+            label: "Add / Edit User"
+          }
+        ]
       },
       {
         href: "/private/teams",
         label: "Teams",
-        icon: SquarePen
+        icon: SquarePen,
+        submenus: [
+          {
+            href: "/private/teams",
+            label: "Teams Dashboard"
+          },
+          {
+            href: "/private/teams/add-edit",
+            label: "Add / Edit Team"
+          }
+        ]
       },
       {
         href: "/private/roles",
         label: "Roles",
-        icon: Tag
+        icon: Tag,
+        submenus: [
+          {
+            href: "/private/roles",
+            label: "Roles Dashboard"
+          },
+          {
+            href: "/private/roles/add-edit",
+            label: "Add / Edit Role"
+          },
+          {
+            href: "/private/roles/edit-permissions",
+            label: "Edit Permissions"
+          }
+        ]
       },
       {
         href: "/private/modules",

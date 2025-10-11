@@ -16,9 +16,11 @@ type Props = {
   waitForPaw?: boolean; // legacy prop, retained to avoid breaking callers
 };
 
-const CAT_LOADER_STYLE_ID = "yamato-cat-loader-styles";
+//2.- Expose the style identifier so tests and other utilities can assert the stylesheet exists once.
+export const CAT_LOADER_STYLE_ID = "yamato-cat-loader-styles";
+const CAT_LOADER_INLINE_STYLE_ID = `${CAT_LOADER_STYLE_ID}__inline`;
 
-//2.- Provide the cat loader styles as a runtime string so both Next.js and the node:test environment can consume them without a bundler.
+//3.- Provide the cat loader styles as a runtime string so both Next.js and the node:test environment can consume them without a bundler.
 const CAT_LOADER_CSS = String.raw`
 .cat-loader__frame {
   position: relative;
@@ -115,25 +117,59 @@ export default function CatLoader({
   void _spinSize;
   void _spinner;
   void _waitForPaw;
-  //3.- Silence legacy props while keeping the public API untouched for existing callers.
+  //4.- Silence legacy props while keeping the public API untouched for existing callers.
 
-  //4.- Append the CSS to the document head on the client so repeated mounts reuse a single stylesheet.
+  const [shouldRenderInlineStyles, setShouldRenderInlineStyles] = React.useState(true);
+  //5.- Start every render with inline styles so the loader paints correctly even before hydration runs effects.
+
   React.useEffect(() => {
     if (typeof document === "undefined") return;
-    if (document.getElementById(CAT_LOADER_STYLE_ID)) return;
-    const style = document.createElement("style");
-    style.id = CAT_LOADER_STYLE_ID;
-    style.textContent = CAT_LOADER_CSS;
-    document.head.appendChild(style);
+    const existingStyle = document.getElementById(CAT_LOADER_STYLE_ID) as HTMLStyleElement | null;
+
+    if (!existingStyle) {
+      const style = document.createElement("style");
+      style.id = CAT_LOADER_STYLE_ID;
+      style.textContent = CAT_LOADER_CSS;
+      document.head.appendChild(style);
+    } else if (existingStyle.textContent !== CAT_LOADER_CSS) {
+      existingStyle.textContent = CAT_LOADER_CSS;
+    }
+
+    let rafHandle: number | null = null;
+    let timeoutHandle: ReturnType<typeof setTimeout> | null = null;
+
+    if (typeof window !== "undefined" && "requestAnimationFrame" in window) {
+      rafHandle = window.requestAnimationFrame(() => {
+        setShouldRenderInlineStyles(false);
+      });
+    } else {
+      timeoutHandle = setTimeout(() => {
+        setShouldRenderInlineStyles(false);
+      });
+    }
+
+    return () => {
+      if (rafHandle !== null) {
+        window.cancelAnimationFrame(rafHandle);
+      }
+
+      if (timeoutHandle !== null) {
+        clearTimeout(timeoutHandle);
+      }
+    };
   }, []);
 
   const isServer = typeof window === "undefined";
-  //5.- Detect server rendering so the initial HTML ships with embedded styles, avoiding an unstyled flash.
+  //6.- Detect server rendering so the loader can announce busy state in environments without the DOM APIs.
 
   return (
     <div className="grid place-items-center text-foreground" aria-busy>
-      {isServer ? (
-        <style id={CAT_LOADER_STYLE_ID} dangerouslySetInnerHTML={{ __html: CAT_LOADER_CSS }} />
+      {shouldRenderInlineStyles ? (
+        <style
+          id={CAT_LOADER_INLINE_STYLE_ID}
+          dangerouslySetInnerHTML={{ __html: CAT_LOADER_CSS }}
+          suppressHydrationWarning
+        />
       ) : null}
 
       <div

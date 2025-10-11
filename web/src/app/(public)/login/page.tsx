@@ -5,6 +5,7 @@ import * as React from "react"
 import { useRouter, useSearchParams } from "next/navigation"
 import { useI18n } from "@/app/providers/I18nProvider"
 import { apiMutation, setStoredToken } from "@/lib/api-client"
+import { resolvePostLoginRedirect } from "@/lib/login-redirect"
 import enBase from "./lang/en.json"
 import { LoginShowcase } from "@/components/views/public/LoginShowcase"
 
@@ -28,14 +29,11 @@ export default function LoginPage() {
   const [remember, setRemember] = React.useState<boolean>(true)
   const [isSubmitting, setIsSubmitting] = React.useState(false)
   const [errorMessage, setErrorMessage] = React.useState<string | null>(null)
-  const fallbackRedirect = React.useMemo(() => `/${locale}/private/dashboard`, [locale])
   const fromParam = sp.get("from")
   const redirectTarget = React.useMemo(() => {
-    //1.- Default to the localized dashboard when the query string lacks a destination.
-    if (!fromParam) return fallbackRedirect
-    //2.- Trust only absolute paths to avoid open-redirect behaviour.
-    return fromParam.startsWith("/") ? fromParam : fallbackRedirect
-  }, [fallbackRedirect, fromParam])
+    //1.- Delegate to the shared helper so the redirect logic stays consistent across callers.
+    return resolvePostLoginRedirect(fromParam)
+  }, [fromParam])
 
   React.useEffect(() => {
     let mounted = true

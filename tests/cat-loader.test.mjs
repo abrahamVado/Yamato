@@ -10,6 +10,7 @@ import { JSDOM } from 'jsdom';
 import React from 'react';
 import * as ReactJsxRuntime from 'react/jsx-runtime';
 import { render, waitFor, cleanup } from '@testing-library/react';
+import { renderToStaticMarkup } from 'react-dom/server';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -60,6 +61,11 @@ async function loadCatLoaderModule() {
     clearTimeout,
   };
 
+  //3.- Mirror the jsdom-powered globals so effects inside the sandboxed module can observe browser primitives.
+  sandbox.window = globalThis.window;
+  sandbox.document = globalThis.document;
+  sandbox.navigator = globalThis.navigator;
+
   vm.runInNewContext(transpiled.outputText, sandbox, { filename: catLoaderPath });
   return sandbox.module.exports;
 }
@@ -94,4 +100,26 @@ test('CatLoader renders the animated cat pieces and injects styles', async (t) =
     assert.ok(styleEl, 'cat loader styles should be injected into the document head');
     assert.match(styleEl.textContent || '', /cat-loader__frame/);
   });
+});
+
+test('CatLoader surfaces polite live updates when rendered without a window object', async () => {
+  const originalWindow = globalThis.window;
+  const originalDocument = globalThis.document;
+
+  try {
+    //1.- Remove browser globals to emulate an SSR render where assistive technology needs aria-live for announcements.
+    delete globalThis.window;
+    delete globalThis.document;
+
+    const { default: CatLoader } = await loadCatLoaderModule();
+
+    //2.- Render the loader to HTML and confirm the busy status includes polite live updates for screen readers.
+    const markup = renderToStaticMarkup(React.createElement(CatLoader, { label: 'Loading…' }));
+    assert.match(markup, /aria-live="polite"/, 'server-rendered loader should expose aria-live="polite"');
+    assert.match(markup, /role="status"/, 'server-rendered loader should keep the status role');
+  } finally {
+    //3.- Restore the simulated browser environment so subsequent DOM-based tests continue to operate normally.
+    globalThis.window = originalWindow;
+    globalThis.document = originalDocument;
+  }
 });

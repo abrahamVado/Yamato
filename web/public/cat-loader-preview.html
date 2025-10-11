@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Cat Loader Preview</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+      /*1.- Recreate the SCSS mixin output to absolutely position every cat piece within the square loader frame.*/
+      .cat-loader__part {
+        position: absolute;
+        inset: 0;
+        animation: cat-loader-rotating 2.79s cubic-bezier(.65, .54, .12, .93) infinite;
+      }
+
+      /*2.- Size the frame responsively so the loader keeps a perfect square aspect ratio.*/
+      .cat-loader__frame {
+        position: relative;
+        width: min(var(--cat-loader-size, 160px), 100%);
+        aspect-ratio: 1 / 1;
+        overflow: hidden;
+        background-color: #e6dcdc;
+      }
+
+      /*3.- Pause the animation on hover and resume on active to mirror the interactive demo behavior.*/
+      .cat-loader__frame:hover > * {
+        animation-play-state: paused;
+      }
+
+      .cat-loader__frame:active > * {
+        animation-play-state: running;
+      }
+
+      /*4.- Paint the sprite sheet and individual transforms for each cat segment.*/
+      .cat-loader__part::before {
+        content: "";
+        position: absolute;
+        inline-size: 50%;
+        block-size: 50%;
+        background-size: 200%;
+        background-repeat: no-repeat;
+        background-image: url('https://images.weserv.nl/?url=i.imgur.com/M1raXX3.png&il');
+      }
+
+      .cat-loader__head::before {
+        top: 0;
+        right: 0;
+        background-position: 100% 0%;
+        transform-origin: 0% 100%;
+        transform: rotate(90deg);
+      }
+
+      .cat-loader__tail {
+        animation-delay: .2s;
+      }
+
+      .cat-loader__tail::before {
+        left: 0;
+        bottom: 0;
+        background-position: 0% 100%;
+        transform-origin: 100% 0%;
+        transform: rotate(-30deg);
+      }
+
+      .cat-loader__body {
+        animation-delay: .1s;
+      }
+
+      .cat-loader__body:nth-of-type(2) {
+        animation-delay: .2s;
+      }
+
+      .cat-loader__body::before {
+        right: 0;
+        bottom: 0;
+        background-position: 100% 100%;
+        transform-origin: 0% 0%;
+      }
+
+      @keyframes cat-loader-rotating {
+        from {
+          transform: rotate(720deg);
+        }
+
+        to {
+          transform: none;
+        }
+      }
+
+      /*5.- Center the loader in the viewport with neutral typography.*/
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: grid;
+        place-items: center;
+        background-color: #f2eded;
+        font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      }
+
+      h1 {
+        margin-bottom: 1.5rem;
+        font-weight: 600;
+        color: #3f3a3a;
+        text-align: center;
+      }
+
+      .cat-loader__shell {
+        display: grid;
+        place-items: center;
+        text-align: center;
+        color: #3f3a3a;
+      }
+
+      .cat-loader__frame.cat-loader__mirrored {
+        transform: scaleX(-1);
+      }
+
+      p {
+        margin-top: 1rem;
+        font-size: 0.95rem;
+        color: #5c5454;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="cat-loader__shell" style="--cat-loader-size: 220px;">
+      <h1>Cat Loader Preview</h1>
+      <div class="cat-loader__frame cat-loader__mirrored">
+        <div class="cat-loader__body cat-loader__part"></div>
+        <div class="cat-loader__body cat-loader__part"></div>
+        <div class="cat-loader__tail cat-loader__part"></div>
+        <div class="cat-loader__head cat-loader__part"></div>
+      </div>
+      <p>Loading… hang tight!</p>
+    </main>
+  </body>
+</html>

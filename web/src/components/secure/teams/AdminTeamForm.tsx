@@ -8,19 +8,7 @@ import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { useAdminResource } from "@/hooks/use-admin-resource"
 import { adminTeamSchema } from "@/lib/validation/admin"
-
-type TeamMember = {
-  id: number
-  role: string
-  name?: string
-}
-
-type AdminTeam = {
-  id: number
-  name: string
-  description?: string
-  members: TeamMember[]
-}
+import type { AdminTeam, TeamMember } from "./team-types"
 
 type AdminTeamFormProps = {
   teamId?: number
@@ -84,7 +72,11 @@ export function AdminTeamForm({ teamId }: AdminTeamFormProps) {
       const payload = adminTeamSchema.parse({
         name: name.trim(),
         description: description.trim() || undefined,
-        members: members.map((member) => ({ id: member.id, role: member.role })),
+        members: members.map((member) => ({
+          id: member.id,
+          role: member.role,
+          name: member.name?.trim() || undefined,
+        })),
       })
       if (isEditing && teamId) {
         //6.- Send a PATCH for existing squads and update the optimistic cache entry.

@@ -6,19 +6,8 @@ import { useMemo } from "react"
 import { Button } from "@/components/ui/button"
 import { useAdminResource } from "@/hooks/use-admin-resource"
 import { adminTeamSchema } from "@/lib/validation/admin"
-
-type TeamMember = {
-  id: number
-  role: string
-  name?: string
-}
-
-type AdminTeam = {
-  id: number
-  name: string
-  description?: string
-  members: TeamMember[]
-}
+import { normalizeTeamMembers } from "./utils/normalize-team-members"
+import type { AdminTeam } from "./team-types"
 
 export default function AdminTeamsPanel() {
   const { items, isLoading, error, create, refresh } = useAdminResource<AdminTeam>("admin/teams")
@@ -39,21 +28,20 @@ export default function AdminTeamsPanel() {
         },
       ],
     })
+    //4.- Guarantee the optimistic roster includes a readable display name per operator.
+    const optimisticMembers = normalizeTeamMembers(payload.members)
+
     await create(payload, {
       optimistic: {
         id: timestamp,
         name: payload.name,
         description: payload.description,
-        members:
-          payload.members?.map((member) => ({
-            ...member,
-            name: member.name ?? `Operator ${member.id}`,
-          })) ?? [],
+        members: optimisticMembers,
       },
     })
   }
 
-  //4.- Present the table view with actionable headers and contextual help.
+  //5.- Present the table view with actionable headers and contextual help.
   return (
     <div className="space-y-4">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">

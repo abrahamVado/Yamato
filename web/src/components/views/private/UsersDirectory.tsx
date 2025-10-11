@@ -2,6 +2,7 @@
 
 //1.- Import cards to wrap the existing admin user panel with additional storytelling content.
 import type { ReactNode } from "react"
+import Link from "next/link"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 
@@ -18,7 +19,9 @@ export function UsersDirectory({ panel }: { panel: ReactNode }) {
           <Button type="button" variant="outline">
             Bulk invite
           </Button>
-          <Button type="button">Create operator</Button>
+          <Button asChild>
+            <Link href="/private/users/add-edit">Create operator</Link>
+          </Button>
         </div>
       </CardHeader>
       <CardContent className="space-y-6">

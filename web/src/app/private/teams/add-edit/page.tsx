@@ -1,16 +1,21 @@
 import Shell from "@/components/secure/shell"
+import { AdminTeamForm } from "@/components/secure/teams/AdminTeamForm"
 
-export default function Page() {
-  //1.- Reuse the secure shell to guarantee consistent chrome for the team maintenance workflow.
-  //2.- Present a transitional callout so navigation has meaningful content.
-  const placeholderMessage = "Create or update a team configuration from this workspace."
+type PageProps = {
+  searchParams?: {
+    id?: string
+  }
+}
+
+export default function Page({ searchParams }: PageProps) {
+  //1.- Convert the incoming query string into an optional numeric identifier for edit scenarios.
+  const parsedId = searchParams?.id ? Number(searchParams.id) : undefined
+  const teamId = Number.isFinite(parsedId) ? Number(parsedId) : undefined
 
   return (
     <Shell>
       <div className="grid gap-6">
-        <div className="rounded-md border border-dashed p-6 text-sm text-muted-foreground">
-          {placeholderMessage}
-        </div>
+        <AdminTeamForm teamId={teamId} />
       </div>
     </Shell>
   )

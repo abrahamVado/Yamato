@@ -1,16 +1,21 @@
 import Shell from "@/components/secure/shell"
+import { AdminRoleForm } from "@/components/secure/roles/AdminRoleForm"
 
-export default function Page() {
-  //1.- Wrap the role creation surface with the secure shell used across management routes.
-  //2.- Provide a guided message until the role editor experience ships.
-  const placeholderMessage = "Define or revise role attributes within this workspace."
+type PageProps = {
+  searchParams?: {
+    id?: string
+  }
+}
+
+export default function Page({ searchParams }: PageProps) {
+  //1.- Interpret optional ids from the query string to hydrate the form for editing.
+  const parsedId = searchParams?.id ? Number(searchParams.id) : undefined
+  const roleId = Number.isFinite(parsedId) ? Number(parsedId) : undefined
 
   return (
     <Shell>
       <div className="grid gap-6">
-        <div className="rounded-md border border-dashed p-6 text-sm text-muted-foreground">
-          {placeholderMessage}
-        </div>
+        <AdminRoleForm roleId={roleId} />
       </div>
     </Shell>
   )

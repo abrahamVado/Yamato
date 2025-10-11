@@ -4,6 +4,7 @@ import { z } from "zod";
 export const adminTeamMemberSchema = z.object({
   id: z.number().int().positive(),
   role: z.string().min(1),
+  name: z.string().min(1).optional(),
 });
 
 export const adminProfileSchema = z.object({

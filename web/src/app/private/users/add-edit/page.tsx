@@ -1,5 +1,6 @@
 import Shell from "@/components/secure/shell"
 import { AdminUserForm } from "@/components/secure/users/AdminUserForm"
+import { PrivateNeumorphicShell } from "@/components/views/private/PrivateNeumorphicShell"
 import { PrivateViewLayout } from "@/components/views/private/PrivateViewLayout"
 
 type PageProps = {
@@ -17,10 +18,13 @@ export default function Page({ searchParams }: PageProps) {
   const layoutTitle = userId ? "Edit user" : "Create user"
 
   //3.- Render the secure shell with the private layout to align with the rest of the workspace headers.
+  //4.- Surround the form with the neumorphic shell so editing stays visually consistent with other private views.
   return (
     <Shell>
       <PrivateViewLayout title={layoutTitle}>
-        <AdminUserForm userId={userId} />
+        <PrivateNeumorphicShell testId="users-add-edit-neumorphic-shell">
+          <AdminUserForm userId={userId} />
+        </PrivateNeumorphicShell>
       </PrivateViewLayout>
     </Shell>
   )

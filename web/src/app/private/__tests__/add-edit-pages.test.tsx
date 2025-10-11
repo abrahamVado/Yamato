@@ -8,6 +8,7 @@ import TeamsAddEditPage from "../teams/add-edit/page"
 import UsersAddEditPage from "../users/add-edit/page"
 
 const layoutSpy = vi.fn()
+const shellSpy = vi.fn()
 
 vi.mock("@/components/secure/shell", () => ({
   __esModule: true,
@@ -24,6 +25,13 @@ vi.mock("@/components/views/private/PrivateViewLayout", () => ({
         {children}
       </div>
     )
+  },
+}))
+
+vi.mock("@/components/views/private/PrivateNeumorphicShell", () => ({
+  PrivateNeumorphicShell: ({ children, testId }: { children: ReactNode; testId?: string }) => {
+    shellSpy(testId)
+    return <div data-testid={testId ?? "neumorphic-shell"}>{children}</div>
   },
 }))
 
@@ -52,6 +60,7 @@ vi.mock("@/components/secure/roles/RolePermissionsForm", () => ({
 describe("add edit private pages", () => {
   beforeEach(() => {
     layoutSpy.mockClear()
+    shellSpy.mockClear()
   })
 
   afterEach(() => {
@@ -63,6 +72,10 @@ describe("add edit private pages", () => {
 
     expect(screen.getByTestId("layout")).toHaveAttribute("data-title", "Create user")
     expect(layoutSpy).toHaveBeenCalledWith("Create user")
+    expect(shellSpy).toHaveBeenCalledWith("users-add-edit-neumorphic-shell")
+    const neumorphicShell = screen.getByTestId("users-add-edit-neumorphic-shell")
+    expect(neumorphicShell).toBeInTheDocument()
+    expect(neumorphicShell).toContainElement(screen.getByTestId("user-form"))
   })
 
   it("shows an edit header for the user form when an id is provided", () => {
@@ -70,6 +83,7 @@ describe("add edit private pages", () => {
 
     expect(screen.getByTestId("layout")).toHaveAttribute("data-title", "Edit user")
     expect(layoutSpy).toHaveBeenCalledWith("Edit user")
+    expect(shellSpy).toHaveBeenCalledWith("users-add-edit-neumorphic-shell")
   })
 
   it("renders the correct header for creating a team", () => {
@@ -77,6 +91,10 @@ describe("add edit private pages", () => {
 
     expect(screen.getByTestId("layout")).toHaveAttribute("data-title", "Create team")
     expect(layoutSpy).toHaveBeenCalledWith("Create team")
+    expect(shellSpy).toHaveBeenCalledWith("teams-add-edit-neumorphic-shell")
+    const neumorphicShell = screen.getByTestId("teams-add-edit-neumorphic-shell")
+    expect(neumorphicShell).toBeInTheDocument()
+    expect(neumorphicShell).toContainElement(screen.getByTestId("team-form"))
   })
 
   it("renders the correct header for editing a team", () => {
@@ -84,6 +102,7 @@ describe("add edit private pages", () => {
 
     expect(screen.getByTestId("layout")).toHaveAttribute("data-title", "Edit team")
     expect(layoutSpy).toHaveBeenCalledWith("Edit team")
+    expect(shellSpy).toHaveBeenCalledWith("teams-add-edit-neumorphic-shell")
   })
 
   it("renders the correct header for editing a role", () => {
@@ -91,6 +110,7 @@ describe("add edit private pages", () => {
 
     expect(screen.getByTestId("layout")).toHaveAttribute("data-title", "Edit role")
     expect(layoutSpy).toHaveBeenCalledWith("Edit role")
+    expect(shellSpy).toHaveBeenCalledWith("roles-add-edit-neumorphic-shell")
   })
 
   it("renders the correct header for creating a role", () => {
@@ -98,6 +118,10 @@ describe("add edit private pages", () => {
 
     expect(screen.getByTestId("layout")).toHaveAttribute("data-title", "Create role")
     expect(layoutSpy).toHaveBeenCalledWith("Create role")
+    expect(shellSpy).toHaveBeenCalledWith("roles-add-edit-neumorphic-shell")
+    const neumorphicShell = screen.getByTestId("roles-add-edit-neumorphic-shell")
+    expect(neumorphicShell).toBeInTheDocument()
+    expect(neumorphicShell).toContainElement(screen.getByTestId("role-form"))
   })
 
   it("renders the permissions editor with the edit permissions header", () => {
@@ -105,5 +129,9 @@ describe("add edit private pages", () => {
 
     expect(screen.getByTestId("layout")).toHaveAttribute("data-title", "Edit permissions")
     expect(layoutSpy).toHaveBeenCalledWith("Edit permissions")
+    expect(shellSpy).toHaveBeenCalledWith("permissions-edit-neumorphic-shell")
+    const neumorphicShell = screen.getByTestId("permissions-edit-neumorphic-shell")
+    expect(neumorphicShell).toBeInTheDocument()
+    expect(neumorphicShell).toContainElement(screen.getByTestId("permissions-form"))
   })
 })

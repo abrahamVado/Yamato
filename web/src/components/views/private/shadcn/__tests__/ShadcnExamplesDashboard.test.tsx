@@ -39,6 +39,13 @@ describe("ShadcnExamplesDashboard", () => {
     expect(screen.getByText(/Recent Sales/i)).toBeInTheDocument()
   })
 
+  it("wraps the experience in the shared neumorphic card", () => {
+    renderWithProviders()
+    const card = screen.getByTestId("dashboard-neumorphic-card")
+    expect(card).toBeInTheDocument()
+    expect(card).toHaveClass("neumorphic-card")
+  })
+
   it("renders the cards example so operators can review the layout", () => {
     renderWithProviders()
     const cardsTrigger = screen.getByRole("tab", { name: /cards/i })

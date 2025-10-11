@@ -38,9 +38,13 @@ Yamato's Next.js app router keeps public marketing surfaces separate from the au
 - `/private/modules` – Module marketplace shell at `web/src/app/private/modules/page.tsx`.
 - `/private/profile` – Profile editor from `web/src/app/private/profile/page.tsx`.
 - `/private/roles` – Role management grid at `web/src/app/private/roles/page.tsx`.
+- `/private/roles/add-edit` – Modal wrapper used for creating and updating roles via `web/src/app/private/roles/add-edit/page.tsx`.
+- `/private/roles/edit-permissions` – Permission editor overlay defined in `web/src/app/private/roles/edit-permissions/page.tsx`.
 - `/private/security` – Security center overview in `web/src/app/private/security/page.tsx`.
 - `/private/security/auth-tests` – Auth diagnostics panel from `web/src/app/private/security/auth-tests/page.tsx`.
 - `/private/settings` – Workspace settings surface at `web/src/app/private/settings/page.tsx`.
 - `/private/teams` – Team management view in `web/src/app/private/teams/page.tsx`.
+- `/private/teams/add-edit` – Form surface for provisioning and renaming teams inside `web/src/app/private/teams/add-edit/page.tsx`.
 - `/private/users` – User directory + admin panel at `web/src/app/private/users/page.tsx`.
+- `/private/users/add-edit` – Admin-driven user creation and editing workflow from `web/src/app/private/users/add-edit/page.tsx`.
 - `/private/views-analysis` – Analytics walkthrough from `web/src/app/private/views-analysis/page.tsx`.

@@ -22,8 +22,9 @@ export function NavbarAdmin({
   includeLoginLink = false,
 }: NavbarAdminProps) {
   return (
-    <header className="topbar">
-      <div className="topbar-inner w-full">
+    <header className="sticky top-0 z-20 w-full border-b bg-background/90 backdrop-blur supports-[backdrop-filter]:bg-background/70">
+      <div className="mx-4 flex h-14 w-full items-center sm:mx-8">
+        {/* //1.- Keep the admin breadcrumb row aligned with the public navigation styling. */}
         <div className="flex items-center gap-3">
           <SheetMenu />
           <BrandLink />
@@ -32,11 +33,12 @@ export function NavbarAdmin({
           )}
         </div>
 
+        {/* //2.- Mirror the landing header controls on the right while layering in admin widgets. */}
         <div className="ml-auto flex items-center gap-4">
           {showPublicLinks && (
             <PublicNavLinks
               includeLogin={includeLoginLink}
-              className="hidden md:flex items-center gap-4 mr-2"
+              className="hidden md:flex items-center gap-4 mr-2 text-sm"
             />
           )}
 

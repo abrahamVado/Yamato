@@ -9,11 +9,12 @@ import { ModeToggle } from "@/components/mode-toggle"
 /** Only the links that appear on the public navbar. */
 export function PublicNavLinks({
   includeLogin = true,
-  className = "nav-links flex items-center gap-4",
+  className = "flex items-center gap-4 text-sm",
 }: {
   includeLogin?: boolean
   className?: string
 }) {
+  //1.- Mirror the landing header link cluster using pure Tailwind utilities.
   return (
     <nav className={className}>
       <NavLink href="/docs">Docs</NavLink>
@@ -29,6 +30,7 @@ export function PublicNavToggles({
 }: {
   className?: string
 }) {
+  //2.- Keep the toggles aligned with the landing header while staying framework-native.
   return (
     <div className={className}>
       <LanguageToggle />
@@ -45,6 +47,7 @@ export function PublicNavRight({
   includeLogin?: boolean
   className?: string
 }) {
+  //3.- Bundle the links and toggles exactly like the landing page does for reuse in the admin shell.
   return (
     <div className={className}>
       <PublicNavLinks includeLogin={includeLogin} />

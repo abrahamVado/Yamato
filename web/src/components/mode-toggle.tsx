@@ -7,6 +7,7 @@ import { Tooltip, TooltipContent, TooltipTrigger, TooltipProvider } from "@/comp
 
 export function ModeToggle() {
   const { theme, resolvedTheme, setTheme } = useTheme()
+  //1.- Derive the effective theme so we can flip between the active and opposite modes.
   const current = (theme === "system" ? resolvedTheme : theme) ?? "light"
   const next = current === "dark" ? "light" : "dark"
 
@@ -18,12 +19,17 @@ export function ModeToggle() {
             variant="outline"
             size="icon"
             onClick={() => setTheme(next)}
-            className="relative mr-2 h-8 w-8 rounded-full bg-background text-icon"
+            //2.- Style the toggle with inline Tailwind utilities so we can drop the custom icon classes.
+            className="relative mr-2 h-8 w-8 rounded-full bg-background text-[hsl(var(--icon))]"
             aria-label="Switch theme"     // static
             title="Switch theme"          // static (prevents mismatch)
           >
-            <SunIcon  className="h-[1.2rem] w-[1.2rem] text-icon-sun rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-            <MoonIcon className="absolute h-[1.2rem] w-[1.2rem] text-icon-moon rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+            <SunIcon
+              className="h-[1.2rem] w-[1.2rem] text-[hsl(var(--icon-sun))] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0"
+            />
+            <MoonIcon
+              className="absolute h-[1.2rem] w-[1.2rem] text-[hsl(var(--icon-moon))] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100"
+            />
             <span className="sr-only">Switch theme</span>
           </Button>
         </TooltipTrigger>

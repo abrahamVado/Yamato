@@ -1,9 +1,6 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@import "@/styles/topbar.css";
-
-
 @layer components {
   /* //1.- Bring in the CodePen-inspired neumorphic shell with layered highlights and shadows. */
   .neumorphic-card {
@@ -203,12 +200,6 @@
   .container { @apply mx-auto px-4; }
 }
 
-/* Optional tiny utilities for icons */
-@layer utilities {
-  .text-icon { color: hsl(var(--icon)); }
-  .text-icon-sun { color: hsl(var(--icon-sun)); }
-  .text-icon-moon { color: hsl(var(--icon-moon)); }
-}
 /* Hide everything beneath the overlay to avoid any flash */
 html.overlay-active body > *:not(#page-loader-overlay) {
   visibility: hidden !important;

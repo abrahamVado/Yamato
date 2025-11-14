@@ -12,7 +12,8 @@ export function NavLink({ href, children }: { href: string; children: React.Reac
     <Link
       href={href}
       aria-current={active ? "page" : undefined}
-      className={`nav-link ${active ? "nav-link-active" : ""}`}
+      //1.- Lean solely on Tailwind transitions so we can drop the bespoke nav-link styles.
+      className={`transition-colors hover:text-primary ${active ? "text-primary font-medium" : ""}`}
     >
       {children}
     </Link>

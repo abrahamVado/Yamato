@@ -26,7 +26,10 @@ export type LoginCopy = {
   common: { email: string; password: string; sign_up: string }
 }
 
-export type LoginShowcaseProps = React.ComponentProps<"div"> & {
+export type LoginShowcaseProps = Omit<
+  React.ComponentProps<"div">,
+  "onSubmit" | "onSubmitCapture"
+> & {
   dict: LoginCopy
   email: string
   password: string
@@ -34,7 +37,7 @@ export type LoginShowcaseProps = React.ComponentProps<"div"> & {
   onEmailChange: (value: string) => void
   onPasswordChange: (value: string) => void
   onRememberChange: (value: boolean) => void
-  onSubmit: (event: React.FormEvent<HTMLFormElement>) => void
+  onSubmit: (event: React.FormEvent<HTMLFormElement>) => void | Promise<void>
   errorMessage: string | null
   isSubmitting: boolean
 }

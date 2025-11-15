@@ -134,3 +134,8 @@ The container launches the production server on port 3000 using the same npm scr
 ## Additional resources
 - Component providers such as `ThemeProvider` and the i18n system ensure consistent UX across the application shell.【F:web/src/app/layout.tsx†L1-L47】【F:web/src/app/providers/I18nProvider.tsx†L1-L124】
 - Explore `web/src/components/` for reusable admin panels, loaders, gameplay showcases, and shared UI primitives ready for composition across routes.【F:web/src/components/AppShell.tsx†L1-L47】【F:web/src/components/LoaderGuard.tsx†L1-L125】
+
+
+# in the Next.js repo (yamato)
+docker compose build next
+docker compose up -d next edge

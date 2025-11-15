@@ -24,7 +24,7 @@ type Dict = {
   common: { email: string; password: string; sign_up: string }
 }
 
-type LoginFormProps = React.ComponentProps<"div"> & {
+export type LoginFormProps = React.ComponentProps<"div"> & {
   dict: Dict
   email: string
   password: string
@@ -34,7 +34,7 @@ type LoginFormProps = React.ComponentProps<"div"> & {
   onEmailChange: (value: string) => void
   onPasswordChange: (value: string) => void
   onRememberChange: (value: boolean) => void
-  onSubmit: (e: React.FormEvent<HTMLFormElement>) => void
+  onSubmit: (e: React.FormEvent<HTMLFormElement>) => void | Promise<void>
 }
 
 export function LoginForm({
@@ -51,10 +51,12 @@ export function LoginForm({
   onSubmit,
   ...props
 }: LoginFormProps) {
+  //1.- Merge layout classes with incoming props so the showcase stays composable.
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card className="overflow-hidden p-0">
         <CardContent className="grid p-0 md:grid-cols-2">
+          {/* //2.- Orchestrate the login form controls alongside their localized copy. */}
           <form className="p-6 md:p-8 space-y-4" onSubmit={onSubmit}>
             <FieldGroup>
               <div className="flex flex-col items-center gap-2 text-center">
